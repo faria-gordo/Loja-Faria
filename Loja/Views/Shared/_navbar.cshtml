@@ -1,0 +1,40 @@
+﻿<div class="text-center">LOJA FARIA</div>
+<div class="nav navbar" style="margin-top: 50px;">
+    <div class="nav-justified">
+        <div class="navbar-collapse">
+            <div class="container container-fluid">
+                <div class="row" style="height: 30px; border-top: 0.8px dashed brown; border-bottom: 0.8px dashed brown; padding-left: 0px;">
+                    <div class="nav-itens">
+                        <div class="col-md-3 text-center">
+                            <div class="item">
+                                @Html.ActionLink("Início", "Index", null, new { @style = "text-decoration: none; color: black;" })
+                                <!--Controllers action links-->
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="item">
+                                @Html.ActionLink("Artigos", "Store", null, new { @style = "text-decoration: none; color: black;" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="item">
+                                @Html.ActionLink("Contactos", "Contact", null, new { @style = "text-decoration: none; color: black;" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="item">
+                                @Html.ActionLink("Sobre Nós", "Us", null, new { @style = "text-decoration: none; color: black;" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p style="margin-bottom: 70px;"></p>
+<style>
+    .nav-itens {
+        margin-top: 5px;
+    }
+</style>
