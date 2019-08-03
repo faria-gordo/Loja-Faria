@@ -22,8 +22,15 @@ namespace Loja.Controllers
         {
             return View();
         }
-        public ActionResult Store()
+        public ActionResult Store(string productType)
         {
+            if(productType == "")//Um dos tipos de artigos
+            {
+                //Conectar blob storage, retirar imagens
+                List<string> imagesPaths = new List<string>();
+                ViewBag.ProductName = productType.Trim().ToLower();
+                ViewBag.ImagesPaths = imagesPaths;
+            }
             return View();
         }
     }

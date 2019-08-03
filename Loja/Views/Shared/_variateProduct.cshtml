@@ -1,0 +1,7 @@
+﻿<div class="row">
+    @foreach(string path in ViewBag.ImagesPaths)
+    {
+        //Check for unusual paths;
+        <img href="@path" width="200" height="100"/>
+    }
+</div>
