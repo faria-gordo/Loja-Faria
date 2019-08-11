@@ -22,8 +22,10 @@ namespace Loja.Controllers
         {
             return View();
         }
-        public ActionResult Store()
+        public ActionResult Store(string productType)
         {
+            ViewBag.ProductType = productType;
+            //Colar productType a viewBag e na view() por partials
             return View();
         }
     }
