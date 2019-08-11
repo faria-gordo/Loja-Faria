@@ -24,6 +24,7 @@ namespace Loja.Controllers
         }
         public ActionResult Store(string productType)
         {
+<<<<<<< HEAD
             if(productType == "")//Um dos tipos de artigos
             {
                 //Conectar blob storage, retirar imagens
@@ -31,6 +32,10 @@ namespace Loja.Controllers
                 ViewBag.ProductName = productType.Trim().ToLower();
                 ViewBag.ImagesPaths = imagesPaths;
             }
+=======
+            ViewBag.ProductType = productType;
+            //Colar productType a viewBag e na view() por partials
+>>>>>>> bruna-html
             return View();
         }
     }

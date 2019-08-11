@@ -180,7 +180,14 @@
     <Content Include="Views\Home\Us.cshtml" />
     <Content Include="Views\Home\Store.cshtml" />
     <Content Include="Views\Shared\_navbar.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Shared\_variateProduct.cshtml" />
+=======
+    <Content Include="Views\Shared\_storeBijutaria.cshtml" />
+    <Content Include="Views\Shared\_storeLembrancas.cshtml" />
+    <Content Include="Views\Shared\_storeReligiosos.cshtml" />
+    <Content Include="Views\Shared\_storeDiversos.cshtml" />
+>>>>>>> bruna-html
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
