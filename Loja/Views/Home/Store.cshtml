@@ -1,5 +1,4 @@
-﻿<h2>Loja</h2>
-<section>
+﻿<section>
     <!--Partial do tipo de artigo-->
     <div>
         @switch (ViewBag.ProductType)
@@ -20,13 +19,37 @@
                 Html.Partial("_storeDiversos");
                 break;
 
-            default:
-                Html.Partial("_error");
-                break;
+                //default:
+                //    Html.Partial("_error");
+                //    break;
         }
     </div>
-    <article class="panel">
-        <p>Aqui estão apresentados todos os artigos disponíveis na nossa loja online, esperamos que encontre o que sedeja</p>
-    </article>
+
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-sm-2" style="position:center; border-bottom:groove;border-top:groove; border-right:groove; border-left:groove">
+                <h4>Filtrar por: </h4>
+
+                <input type="checkbox" name="vehicle1" value="Bike"> Pulseiras<br>
+                <input type="checkbox" name="vehicle2" value="Car"> Fios <br>
+                <input type="checkbox" name="vehicle3" value="Boat"> Aneis<br>
+            </div>
+
+            <div class="col-sm-offset-1 col-sm-3">
+                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+            </div>
+            <div class="col-sm-3">
+                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+            </div>
+            <div class="col-sm-3">
+                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+            </div>
+        </div>
+
+    </div>
+
 </section>
 
