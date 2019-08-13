@@ -1,4 +1,32 @@
-﻿<section>
+﻿<style>
+    .overlay {
+        position: absolute;
+        bottom: 0;
+        background: rgb(0, 0, 0);
+        background: rgba(0, 0, 0, 0.5); /* Black see-through */
+        color: #f1f1f1;
+        width: 100%;
+        transition: .5s ease;
+        opacity: 0;
+        color: white;
+        font-size: 20px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .img1 {
+        position: relative;
+        width: 100%;
+    }
+
+
+        .img1:hover .overlay {
+            opacity: 1;
+        }
+</style>
+
+<section>
+
     <!--Partial do tipo de artigo-->
     <div>
         @switch (ViewBag.ProductType)
@@ -25,13 +53,12 @@
         }
     </div>
 
-
     <div class="container">
 
         <div class="row">
 
             <div class="col-sm-2" style="position:center; border-bottom:groove;border-top:groove; border-right:groove; border-left:groove">
-                <h4>Filtrar por: </h4>
+                <h4> Filtrar por: </h4>
 
                 <input type="checkbox" name="vehicle1" value="Bike"> Pulseiras<br>
                 <input type="checkbox" name="vehicle2" value="Car"> Fios <br>
@@ -39,15 +66,76 @@
             </div>
 
             <div class="col-sm-offset-1 col-sm-3">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                <div class="img1">
+                    <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                    <div class="overlay">3.50€</div>
+
+                </div>
+
             </div>
             <div class="col-sm-3">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                <div class="img1">
+                    <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                    <div class="overlay">4.50€</div>
+                </div>
             </div>
             <div class="col-sm-3">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                <div class="img1">
+                    <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                    <div class="overlay">5.50€</div>
+
+                </div>
             </div>
         </div>
+        &nbsp;
+        <div class="row">
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-offset-1 col-sm-3">
+                <div class="img1">
+                    <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                    <div class="overlay">4.50€</div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="img1">
+                    <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                    <div class="overlay">4.50€</div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="img1">
+                    <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                    <div class="overlay">4.50€</div>
+                </div>
+            </div>
+        </div>
+        &nbsp;
+        <div class="row">
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-offset-1 col-sm-3">
+                <div class="img1">
+                    <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                    <div class="overlay">4.50€</div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="img1">
+                    <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                    <div class="overlay">4.50€</div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="img1">
+                    <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
+                    <div class="overlay">4.50€</div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
