@@ -1,7 +1,15 @@
 ﻿<div class="row">
-    @foreach(string path in ViewBag.ImagesPaths)
-    {
-        //Check for unusual paths;
-        <img href="@path" width="200" height="100"/>
+    @{
+        if (ViewBag.ProductName == "bijutaria")
+        {
+            if (ViewBag.ImagesPaths != null)
+            {
+                foreach (string path in ViewBag.ImagesPaths)
+                {
+                    //Mostrar imagens da lista vinda do blob storage 
+                    <img href="@path" width="200" height="100" />
+                }
+            }
+        }
     }
 </div>

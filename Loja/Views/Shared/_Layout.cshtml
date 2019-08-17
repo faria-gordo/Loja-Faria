@@ -7,6 +7,19 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script>
+        $("div a").click(function () {
+            var Url = "http://localhost:54841/Home/Store";
+            var formData = $(this).data('product');
+            console.log(formData);
+            $.ajax({
+                type: 'POST',
+                url: Url,
+                data: 'productType=' + formData
+            })
+        })
+    </script>
 </head>
 <body>
     <!--Partial View com navbar(toda)-->

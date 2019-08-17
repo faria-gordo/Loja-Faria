@@ -1,37 +1,30 @@
 ﻿<h2>Loja</h2>
 <section>
     <!--Partial do tipo de artigo-->
+        <p>Aqui estão apresentados todos os artigos disponíveis na nossa loja online, esperamos que encontre o que deseja</p>
     <div>
-        @switch (ViewBag.ProductType)
+        @switch (ViewBag.ProductName)
         {
             case "bijutaria":
-                Html.Partial("_storeBijutaria");
+                Html.RenderPartial("_storeBijutaria");
                 break;
 
             case "lembrancas":
-                Html.Partial("_storeLembrancas");
+                Html.RenderPartial("_storeLembrancas");
                 break;
 
             case "religiosos":
-                Html.Partial("_storeReligiosos");
+                Html.RenderPartial("_storeReligiosos");
                 break;
 
             case "diversos":
-                Html.Partial("_storeDiversos");
+                Html.RenderPartial("_storeDiversos");
                 break;
 
             default:
-                Html.Partial("_error");
+                Html.RenderPartial("_error");
                 break;
         }
+        
     </div>
-    <article class="panel">
-        <p>Aqui estão apresentados todos os artigos disponíveis na nossa loja online, esperamos que encontre o que deseja</p>
-    </article>
 </section>
-<div class="container">
-    <div class="container-fluid">
-            @Html.Partial("_variateProduct")
-    </div>
-</div>
-
