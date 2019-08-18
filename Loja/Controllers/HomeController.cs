@@ -37,7 +37,6 @@ namespace Loja.Controllers
                     ViewBag.ProductName = product.ToLower();
                     ViewBag.ImagesPaths = imagesPaths;
                 }
-                
             }
             return View();
         }
