@@ -1,123 +1,36 @@
 ﻿<style>
-    .quantity .minus, .quantity .plus {
-        padding-left: .5em;
-        padding-right: .5em;
-    }
-    .quantity input[type="number"] {
-    max-width: 2.5em;
-    width: 2.5em;
-    text-align: center;
-    border-radius: 0 !important;
-    -webkit-appearance: textfield;
-    -moz-appearance: textfield;
-    appearance: textfield;
-    font-size: 1em;
-}
-
-in
-
-    .quantity input {
-        padding-left: 0;
-        padding-right: 0;
-        display: inline-block;
-        vertical-align: top;
-        margin: 0;
-    }
-
-    .button, input[type='submit'], input[type='submit'].button, input[type='reset'].button, input[type='button'].button {
-        color: #fff;
-        background-color: #446084;
-        background-color: var(--primary-color);
-        border-color: rgba(0,0,0,0.05);
-    }
-
-    .button, button, input[type='submit'], input[type='reset'], input[type='button'] {
-        position: relative;
-        display: inline-block;
-        background-color: transparent;
-        text-transform: uppercase;
-        font-size: .97em;
-        letter-spacing: .03em;
-        -ms-touch-action: none;
-        touch-action: none;
-        cursor: pointer;
-        font-weight: bolder;
+    .but1 {
+        width: 28px;
+        height: 45px;
+        background: white;
         text-align: center;
-        color: currentColor;
-        text-decoration: none;
-        border: 1px solid transparent;
-        vertical-align: middle;
-        border-radius: 0;
-        margin-top: 0;
-        margin-right: 1em;
-        text-shadow: none;
-        line-height: 2.4em;
-        min-height: 2.5em;
-        padding: 0 1.2em;
-        max-width: 100%;
-        transition: transform .3s,border .3s,background .3s,box-shadow .3s,opacity .3s,color .3s;
-        text-rendering: optimizeLegibility;
-        box-sizing: border-box;
+        border: 1px solid lightgrey;
+        margin: -1px;
     }
 
-        .is-form, button.is-form, input[type='submit'].is-form, input[type='reset'].is-form, input[type='button'].is-form {
-            overflow: hidden;
-            position: relative;
-            background-color: #f9f9f9;
-            text-shadow: 1px 1px 1px #fff;
-            color: #666;
-            border: 1px solid #ddd;
-            text-transform: none;
-            font-weight: normal;
-        }
-
-        input[type='button'].is-form {
-            background-color: #FFF;
-            text-shadow: none;
-        }
-
-    #wrapper .quantity .minus {
-        border-right: 0 !important;
-        border-top-right-radius: 0 !important;
-        border-bottom-right-radius: 0 !important;
+    .minus:hover {
+        background: antiquewhite
     }
 
-    input[type="button" i] {
-        -webkit-appearance: push-button;
-        user-select: none;
-        white-space: pre;
-        align-items: flex-start;
-        text-align: center;
-        cursor: default;
-        color: buttontext;
-        background-color: buttonface;
-        box-sizing: border-box;
-        padding: 1px 6px;
-        border-width: 2px;
-        border-style: outset;
-        border-color: buttonface;
-        border-image: initial;
-    }
-
-    .text-center .quantity, .quantity {
-        opacity: 1;
-        display: inline-block;
-        display: -ms-inline-flexbox;
-        display: inline-flex;
-        margin-right: 1em;
-        white-space: nowrap;
-        vertical-align: top;
-    }
-
-    .button.is-form:hover {
-        color: #fff;
-        background-color: #000000;
+    .plus:hover {
+        background: antiquewhite
     }
 </style>
+
+<script>
+    $("#pl").click(function () {
+        document.getElementById("num").innerHTML = $("#num").text(num) + 1;
+    });
+
+    $("#min").click(function () {
+        num = num - 1;
+        $("#num").text(num);
+    });
+
+</script>
 @{
     ViewBag.Title = "Index";
 }
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <div class="container">
     <div class="row">
         <div class="col-md-offset-6 col-md-6">
@@ -136,11 +49,7 @@ in
             <h6> Aço inoxidável, com peças de ouro.</h6>
             &nbsp;
             <h3>13.00€</h3>
-            <div class="quantity buttons_added">
-                <input type="button" value="-" class="minus button is-form ">
-                <input type="number" id="quantity_5d5af6a089100" class="input-text qty text" step="1" min="1" max="9999" name="quantity" value="1" title="Qtd" size="4" pattern="[0-9]*" inputmode="numeric" aria-labelledby="Quantidade de Pulseira aço Pisa">
-                <input type="button" value="+" class="plus button is-form ">
-            </div>
+            <input type="button" id="min" value="-" class="but1 minus" /><input type="button" id="num" value="1" class="but1" /><input type="button" id="pl" value="+" class="but1 plus" />
         </div>
     </div>
     &nbsp;
