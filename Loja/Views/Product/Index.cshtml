@@ -1,4 +1,5 @@
-﻿<style>
+﻿<script src="~/Scripts/jquery-3.3.1.js"></script>
+<style>
     .but1 {
         width: 28px;
         height: 45px;
@@ -16,18 +17,6 @@
         background: antiquewhite
     }
 </style>
-
-<script>
-    $("#pl").click(function () {
-        document.getElementById("num").innerHTML = $("#num").text(num) + 1;
-    });
-
-    $("#min").click(function () {
-        num = num - 1;
-        $("#num").text(num);
-    });
-
-</script>
 @{
     ViewBag.Title = "Index";
 }
@@ -44,12 +33,15 @@
         <div class="col-md-offset-2 col-md-6" style="padding-top:0px">
             &nbsp;
             &nbsp;
-
+            <!--Gosto muito do trabalho, so uma coisa, quando metes id's e class's em elementos tenta mete los primeiro, é mais organizado :)-->
             <h4>Descrição</h4>
             <h6> Aço inoxidável, com peças de ouro.</h6>
             &nbsp;
             <h3>13.00€</h3>
-            <input type="button" id="min" value="-" class="but1 minus" /><input type="button" id="num" value="1" class="but1" /><input type="button" id="pl" value="+" class="but1 plus" />
+            <!--Mudar o primeiro e ultimo inputs para buttons-->
+            <input id="min" class="but1 minus" type="button" value="-" />
+            <input id="num" class="but1" type="button" value="1" />
+            <input id="pl" class="but1 plus" type="button" value="+" />
         </div>
     </div>
     &nbsp;
@@ -66,3 +58,27 @@
 
     </div>
 </div>
+<script>
+    $("#min").click(function () {
+        var contador = $("#num").attr('value');
+        if (contador >= 1) {
+            var newContador = contador - 1;
+            $("#num").removeAttr('value');
+            var val = document.createAttribute('value');
+            val.value = newContador;
+            $("#num").attr('value', val.value);
+        }
+        else {alert("Erro nao pode pedir negativos Este aviso é temporario")}
+    })
+    $("#pl").click(function () {
+        var contador = $("#num").attr('value');
+        if (contador <= 5) {
+            var newContador = +contador + +1;
+            $("#num").removeAttr('value');
+            var val = document.createAttribute('value');
+            val.value = newContador;
+            $("#num").attr('value', val.value);
+        }
+        else {alert("Erro nao pode pedir mais que 6 Este aviso é temporario")}
+    })
+</script>
