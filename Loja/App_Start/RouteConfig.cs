@@ -15,8 +15,8 @@ namespace Loja
 
             routes.MapRoute(
                 name: "Store",
-                url: "Home/Store/{productType}",
-                defaults: new { controller = "Home", action = "Store", productType = UrlParameter.Optional }
+                url: "Home/Store",
+                defaults: new { controller = "Home", action = "Store", productType = "bijutaria" }
             );
 
             routes.MapRoute(
