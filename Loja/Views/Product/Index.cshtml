@@ -6,7 +6,7 @@
         background: white;
         text-align: center;
         border: 1px solid lightgrey;
-        margin: -1px;
+        margin: -3px;
     }
 
     .minus:hover {
@@ -16,6 +16,18 @@
     .plus:hover {
         background: antiquewhite
     }
+
+    .but2 {
+        width: 120px;
+        height: 45px;
+        background: white;
+        text-align: center;
+        border: 3px solid grey;
+    }
+
+        .but2:hover {
+            background: antiquewhite
+        }
 </style>
 @{
     ViewBag.Title = "Index";
@@ -39,9 +51,14 @@
             &nbsp;
             <h3>13.00€</h3>
             <!--Mudar o primeiro e ultimo inputs para buttons-->
-            <input id="min" class="but1 minus" type="button" value="-" />
+            <button id="min" class="but1 minus"> - </button>
             <input id="num" class="but1" type="button" value="1" />
-            <input id="pl" class="but1 plus" type="button" value="+" />
+            <button id="pl" class="but1 plus" > + </button>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <input id="add" class="but2" type="button" value="Adicionar" />
         </div>
     </div>
     &nbsp;
@@ -50,6 +67,8 @@
             <img src="~/Content/img1.jpg" style="width:50px" />
 
             <img src="~/Content/img2.jpg" style="width:50px" />
+
+
         </div>
     </div>
 </div>
@@ -68,7 +87,7 @@
             val.value = newContador;
             $("#num").attr('value', val.value);
         }
-        else {alert("Erro nao pode pedir negativos Este aviso é temporario")}
+        else { alert("Erro nao pode pedir negativos Este aviso é temporario") }
     })
     $("#pl").click(function () {
         var contador = $("#num").attr('value');
@@ -79,6 +98,10 @@
             val.value = newContador;
             $("#num").attr('value', val.value);
         }
-        else {alert("Erro nao pode pedir mais que 6 Este aviso é temporario")}
+        else { alert("Erro nao pode pedir mais que 6 Este aviso é temporario") }
+    })
+
+    $("#add").click(function () {
+        alert("Foi adicionado ao carrinho")
     })
 </script>
