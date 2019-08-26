@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Loja.Models
+namespace Loja.Modelos
 {
     public class Produto
     {
-        [Key]
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Tipo { get; set; }
         public DateTime DataDeAdquiricao { get; set; }
-        public DateTime DataDeVenda{ get; set; }
+        public DateTime DataDeVenda { get; set; }
     }
 }
