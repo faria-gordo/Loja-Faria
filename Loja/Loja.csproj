@@ -133,7 +133,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+<<<<<<< HEAD
     <Compile Include="Controllers\ShopController.cs" />
+=======
+    <Compile Include="Controllers\ProductController.cs" />
+>>>>>>> bruna-html
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -144,6 +148,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img1.jpg" />
+    <Content Include="Content\img2.jpg" />
     <Content Include="Content\kit-3x-adesivo-terco-nossa-senhora-religioso-fe-12cm-a117-D_NQ_NP_920411-MLB20545168461_012016-F.jpg" />
     <Content Include="Content\orquídea %281%29.png" />
     <Content Include="Content\ricardo.png" />
@@ -182,14 +188,18 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Us.cshtml" />
     <Content Include="Views\Home\Store.cshtml" />
-    <Content Include="Views\Shared\_navbar.cshtml" />
     <Content Include="Views\Shared\_storeBijutaria.cshtml" />
     <Content Include="Views\Shared\_storeLembrancas.cshtml" />
     <Content Include="Views\Shared\_storeReligiosos.cshtml" />
     <Content Include="Views\Shared\_storeDiversos.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Shared\_error.cshtml" />
     <Content Include="Views\Shared\_variateProduct.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
+=======
+    <Content Include="Views\Shared\_navbar.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+>>>>>>> bruna-html
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
