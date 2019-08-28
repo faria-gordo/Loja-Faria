@@ -73,31 +73,13 @@ namespace Loja.Controllers
             }
             return View();
         }
-        public void Importer()
+        public ActionResult DataTable()
         {
-                string filePath = @"Url do excel";
-                if (System.IO.File.Exists(filePath))
-                {
-                    using (var reader = new StreamReader(System.IO.File.OpenRead(filePath)))
-                    {
-                        List<string> searchList = new List<string>();
-                        while (!reader.EndOfStream)
-                        {
-                            string line = reader.ReadLine();
-                            if (line.Split(';')[2] == "FN")
-                            {
-                                if (line.Split(';')[7].Contains('/') == false)
-                                {
-                                    searchList.Add(line);
-                                }
-                            }
-                            else
-                            {
-                                searchList.Add(line);
-                            }
-                        }
-                    };
-                }
+            //Read excel and display table in the view
+            string filePath = "";
+            string fileName = "";
+            using(var reader = new StreamReader(System.IO.File.OpenRead(filePath + fileName)))
+            return View();
         }
     }
 }
