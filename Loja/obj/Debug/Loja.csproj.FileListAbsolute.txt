@@ -250,3 +250,7 @@ C:\Users\User\Desktop\Loja-Faria-master\Loja\obj\Debug\Loja.csproj.CoreCompileIn
 C:\Users\User\Desktop\Loja-Faria-master\Loja\obj\Debug\Loja.csproj.CopyComplete
 C:\Users\User\Desktop\Loja-Faria-master\Loja\obj\Debug\Loja.dll
 C:\Users\User\Desktop\Loja-Faria-master\Loja\obj\Debug\Loja.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Loja.Data.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Loja.Modelos.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Loja.Data.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Loja.Modelos.pdb
