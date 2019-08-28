@@ -133,11 +133,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-<<<<<<< HEAD
     <Compile Include="Controllers\ShopController.cs" />
-=======
     <Compile Include="Controllers\ProductController.cs" />
->>>>>>> bruna-html
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -192,14 +189,11 @@
     <Content Include="Views\Shared\_storeLembrancas.cshtml" />
     <Content Include="Views\Shared\_storeReligiosos.cshtml" />
     <Content Include="Views\Shared\_storeDiversos.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Shared\_error.cshtml" />
     <Content Include="Views\Shared\_variateProduct.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
-=======
     <Content Include="Views\Shared\_navbar.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
->>>>>>> bruna-html
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

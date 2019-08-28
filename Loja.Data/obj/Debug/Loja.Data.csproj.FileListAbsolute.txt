@@ -1,0 +1,9 @@
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Loja.Data.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Loja.Data.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Loja.Modelos.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Loja.Modelos.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\obj\Debug\Loja.Data.csprojAssemblyReference.cache
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\obj\Debug\Loja.Data.csproj.CoreCompileInputs.cache
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\obj\Debug\Loja.Data.csproj.CopyComplete
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\obj\Debug\Loja.Data.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\obj\Debug\Loja.Data.pdb
