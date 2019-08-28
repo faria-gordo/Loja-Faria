@@ -1,34 +1,4 @@
-﻿<section>
-
-    <!--Partial do tipo de artigo-->
-        <p>Aqui estão apresentados todos os artigos disponíveis na nossa loja online, esperamos que encontre o que deseja</p>
-    <div>
-        @switch (ViewBag.ProductName)
-        {
-            case "bijutaria":
-                Html.RenderPartial("_storeBijutaria");
-                break;
-
-            case "lembrancas":
-                Html.RenderPartial("_storeLembrancas");
-                break;
-
-            case "religiosos":
-                Html.RenderPartial("_storeReligiosos");
-                break;
-
-            case "diversos":
-                Html.RenderPartial("_storeDiversos");
-                break;
-        }
-        
-    </div>
-<<<<<<< HEAD
-</section>
-=======
-
-</section>
-<style>
+﻿<style>
     .overlay {
         position: absolute;
         bottom: 0;
@@ -54,92 +24,26 @@
             opacity: 1;
         }
 </style>
+<!--Partial do tipo de artigo-->
+<p>Aqui estão apresentados todos os artigos disponíveis na nossa loja online, esperamos que encontre o que deseja</p>
+<div>
+    @switch (ViewBag.ProductName)
+    {
+        case "bijutaria":
+            Html.RenderPartial("_storeBijutaria");
+            break;
 
+        case "lembrancas":
+            Html.RenderPartial("_storeLembrancas");
+            break;
 
-<div class="container">
+        case "religiosos":
+            Html.RenderPartial("_storeReligiosos");
+            break;
 
-    <div class="row">
-
-        <div class="col-sm-2" style="position:center; border-bottom:groove;border-top:groove; border-right:groove; border-left:groove">
-            <h4> Filtrar por: </h4>
-
-            <input type="checkbox" name="vehicle1" value="Bike"> Pulseiras<br>
-            <input type="checkbox" name="vehicle2" value="Car"> Fios <br>
-            <input type="checkbox" name="vehicle3" value="Boat"> Aneis<br>
-        </div>
-
-        <div class="col-sm-offset-1 col-sm-3">
-            <div class="img1">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
-                <div class="overlay">3.50€</div>
-
-            </div>
-
-        </div>
-        <div class="col-sm-3">
-            <div class="img1">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
-                <div class="overlay">4.50€</div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="img1">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
-                <div class="overlay">5.50€</div>
-
-            </div>
-        </div>
-    </div>
-    &nbsp;
-    <div class="row">
-        <div class="col-sm-2">
-
-        </div>
-        <div class="col-sm-offset-1 col-sm-3">
-            <div class="img1">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
-                <div class="overlay">4.50€</div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="img1">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
-                <div class="overlay">4.50€</div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="img1">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
-                <div class="overlay">4.50€</div>
-            </div>
-        </div>
-    </div>
-    &nbsp;
-    <div class="row">
-        <div class="col-sm-2">
-
-        </div>
-        <div class="col-sm-offset-1 col-sm-3">
-            <div class="img1">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
-                <div class="overlay">4.50€</div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="img1">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
-                <div class="overlay">4.50€</div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="img1">
-                <img src="~/Content/stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" style="width:100%" />
-                <div class="overlay">4.50€</div>
-            </div>
-        </div>
-    </div>
-
-
+        case "diversos":
+            Html.RenderPartial("_storeDiversos");
+            break;
+    }
 </div>
 
->>>>>>> bruna-html
