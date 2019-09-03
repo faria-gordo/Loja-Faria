@@ -7,3 +7,10 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\obj\Debug\Loja.Data
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\obj\Debug\Loja.Data.csproj.CopyComplete
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\obj\Debug\Loja.Data.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\obj\Debug\Loja.Data.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Microsoft.Azure.KeyVault.Core.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Microsoft.WindowsAzure.Storage.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Microsoft.Azure.KeyVault.Core.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Microsoft.WindowsAzure.Storage.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Microsoft.WindowsAzure.Storage.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Newtonsoft.Json.xml

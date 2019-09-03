@@ -254,3 +254,8 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Loja.Data.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Loja.Modelos.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Loja.Data.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Loja.Modelos.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Microsoft.WindowsAzure.Storage.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Microsoft.Azure.KeyVault.Core.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Microsoft.WindowsAzure.Storage.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Microsoft.WindowsAzure.Storage.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja\bin\Microsoft.Azure.KeyVault.Core.xml

@@ -5,34 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title Loja</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Styles/Site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script>
-        $("div a").click(function () {
-            var Url = "http://localhost:54841/Home/Store";
-            var formData = $(this).data('product');
-            console.log(formData);
-            $.ajax({
-                type: 'POST',
-                url: Url,
-                data: 'productType=' + formData
-            })
-        })
-    </script>
 </head>
 <body>
-    <!--Partial View com navbar(toda)-->
     @Html.Partial("_navbar");
     <div class="container body-content" style="width:100%;">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year Loja</p>
-        </footer>
+        @Html.Partial("_footer")
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>

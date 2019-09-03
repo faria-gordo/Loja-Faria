@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using Loja.Modelos;
+using Loja.Data;
 
 namespace Loja.Importer
 {
@@ -12,7 +13,8 @@ namespace Loja.Importer
     {
         public void Importer()
         {
-            string filePath = @"Url do excel";
+            Data.Data manager = new Data.Data();
+            string filePath = @"Url do excel"; //URL MISSING
             if (File.Exists(filePath))
             {
                 using (var reader = new StreamReader(File.OpenRead(filePath)))
@@ -33,14 +35,13 @@ namespace Loja.Importer
                         produto.Nome = substrings[1];
                         produto.Preco = Convert.ToDecimal(substrings[2]);
                         produto.Tipo = substrings[3];
-                        produto.DataDeAdquiricao = DateTime.Parse(substrings[4]);
+                        produto.DataDeAquisicao = DateTime.Parse(substrings[4]);
                         produto.DataDeVenda = DateTime.Parse(substrings[5]);
                         produtos.Add(produto);
                     }
-                    //Call method down and add the list of products
+                    manager.Adicionar(produtos);
                 }
             }
         }
-        //Create method that connects to table storage
     }
 }

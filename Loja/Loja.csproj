@@ -141,35 +141,34 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\img1.jpg" />
-    <Content Include="Content\img2.jpg" />
-    <Content Include="Content\kit-3x-adesivo-terco-nossa-senhora-religioso-fe-12cm-a117-D_NQ_NP_920411-MLB20545168461_012016-F.jpg" />
-    <Content Include="Content\orquídea %281%29.png" />
-    <Content Include="Content\ricardo.png" />
-    <Content Include="Content\sg.png" />
-    <Content Include="Content\stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" />
-    <Content Include="Content\Transferência.jpg" />
+    <Content Include="Content\Styles\bootstrap-theme.css" />
+    <Content Include="Content\Styles\bootstrap-theme.min.css" />
+    <Content Include="Content\Styles\bootstrap.css" />
+    <Content Include="Content\Styles\bootstrap.min.css" />
+    <Content Include="Content\Styles\img1.jpg" />
+    <Content Include="Content\Styles\img2.jpg" />
+    <Content Include="Content\Styles\kit-3x-adesivo-terco-nossa-senhora-religioso-fe-12cm-a117-D_NQ_NP_920411-MLB20545168461_012016-F.jpg" />
+    <Content Include="Content\Styles\orquídea %281%29.png" />
+    <Content Include="Content\Styles\ricardo.png" />
+    <Content Include="Content\Styles\sg.png" />
+    <Content Include="Content\Styles\stephanie-harvey-_Bh3FpwBIIQ-unsplash.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\jquery-3.3.1.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Content\Styles\Site.css" />
+    <Content Include="Content\Scripts\bootstrap.js" />
+    <Content Include="Content\Scripts\bootstrap.min.js" />
+    <None Include="Content\Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Content\Scripts\jquery-3.3.1.js" />
+    <Content Include="Content\Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Content\Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Content\Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Content\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Content\Scripts\jquery.validate.js" />
+    <Content Include="Content\Scripts\jquery.validate.min.js" />
+    <Content Include="Content\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -195,6 +194,9 @@
     <Content Include="Views\Shared\_navbar.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Home\DataTable.cshtml" />
+    <Content Include="Views\Shared\_footer.cshtml" />
+    <Content Include="Views\Shared\_navtop.cshtml" />
+    <Content Include="Views\Shared\_navbottom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -205,13 +207,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\Styles\bootstrap.min.css.map" />
+    <Content Include="Content\Styles\bootstrap.css.map" />
+    <Content Include="Content\Styles\bootstrap-theme.min.css.map" />
+    <Content Include="Content\Styles\bootstrap-theme.css.map" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Content\Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Content\Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Loja.Data\Loja.Data.csproj">

@@ -12,7 +12,9 @@ namespace Loja.Modelos
         public string Nome { get; set; }
         public string Tipo { get; set; }
         public decimal Preco { get; set; }
-        public DateTime DataDeAdquiricao { get; set; }
+        public DateTime DataDeAquisicao { get; set; }
         public DateTime DataDeVenda { get; set; }
+        public string Seccao { get; set; }
+        public string Url { get; set; }
     }
 }

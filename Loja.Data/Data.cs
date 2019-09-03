@@ -1,4 +1,6 @@
 ﻿using Loja.Modelos;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,35 +10,131 @@ using System.Threading.Tasks;
 namespace Loja.Data
 {
     /// <summary>
+    ///
+    /// TODO: por connectionstring na app.config
     /// 
+    /// Adicionar varios tipos Select(), com varios tipos de argumentos
     /// 
     /// </summary>
     public class Data
     {
-        private string StorageAccountKey = "";
-        private string StorageAccountName = "";
-        //Ou por na app config
+        private string ConnectionString = "";
+        readonly CloudStorageAccount storageAccount;
+        readonly CloudTableClient tableClient;
+        readonly CloudTable table;
         public Data()
         {
-            //Connection string e codigo para preparar chamada para cloud storage
+            storageAccount = CloudStorageAccount.Parse(ConnectionString);
+            table = tableClient.GetTableReference("LojaFaria");
+            table.CreateIfNotExists();
         }
-        //PK: Nome;Tipo RK: Id
-        //Recebe a lista de produtos caso queira mais que um produto diferente, retirar elemento da bd mesmo. BdCount = BdCount - 1 !! Quantidades de produtos sempre atualizada, atualizar apartir da aqui 
-        // a tabela da bd do website de imediato
         public List<Produto> Selecionar(List<Produto> produtos)
         {
             return null;
         }
-        public List<Produto> Apagar(List<Produto> produtos)
+        public List<Produto> Selecionar(string partitionKey)
+        {
+            List<Produto> produtos = new List<Produto>();
+            try
+            {
+                TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
+                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                foreach (var produto in resultado)
+                {
+                    produtos.Add(ModelTableToModel(produto));
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return produtos;
+        }
+        public List<Produto> Selecionar(string seccao, string tipo)
+        {
+            if(seccao == null || tipo == null)
+            {
+                //TODO
+
+                //Tipo: pulseiras, braceletes, roupa, colares, brincos, joias, santos, etc...
+            }
+            List<Produto> produtos = new List<Produto>();
+            string partitionKey = seccao + "-" + tipo;
+            try
+            {
+                TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
+                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                foreach (var produto in resultado)
+                {
+                    produtos.Add(ModelTableToModel(produto));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return produtos;
+        }
+        public bool Apagar(List<Produto> produtos)
         {
             //Pegar em todos os id presentes em produtos e apaga los da bd [QUE NAO PASSAM PELO CARRINHO DE COMPRAS] sera feito pela tabelda da bd do website
-            return null;
+            try
+            {
+                foreach(Produto prod in produtos)
+                {
+                    table.Execute(TableOperation.Delete(ModelToModelTable(prod)));
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return true;
         }
-        public List<Produto> Adicionar(List<Produto> produto)
+        public bool Adicionar(List<Produto> produto)
         {
-            //Ira haver uma secçao para modificar a bd diretamente do web site. Caso queira adicionar registo de produtos na bd, sera feita por aqui
-            //Caso cliente desejar entregar produto e ja estaja no carrinho, chamar este metodo
-            return null;
+            try
+            {
+                foreach (Produto prod in produto)
+                {
+                    table.Execute(TableOperation.Insert(ModelToModelTable(prod)));
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return true;
+        }
+        public Produto ModelTableToModel(ModeloTable modeloTable)
+        {
+            Produto produto = new Produto()
+            {
+                Nome = modeloTable.Nome,
+                Id = Int32.Parse(modeloTable.RowKey),
+                Tipo = modeloTable.Tipo,
+                Preco = modeloTable.Preco,
+                Seccao = modeloTable.Seccao,
+                DataDeAquisicao = modeloTable.DataDeAquisicao,
+                DataDeVenda = modeloTable.DataDeVenda,
+                Url = modeloTable.Url
+            };
+            return produto;
+        }
+        public ModeloTable ModelToModelTable(Produto prod)
+        {
+            ModeloTable modelo = new ModeloTable()
+            {
+                PartitionKey = prod.Seccao,
+                RowKey = prod.Id.ToString(),
+                Nome = prod.Nome,
+                Tipo = prod.Tipo,
+                Preco = prod.Preco,
+                DataDeAquisicao = prod.DataDeAquisicao,
+                DataDeVenda = prod.DataDeVenda,
+                Url = prod.Url
+            };
+            return modelo;
         }
     }
 }

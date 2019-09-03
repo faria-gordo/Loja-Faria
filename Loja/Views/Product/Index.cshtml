@@ -1,35 +1,4 @@
-﻿<script src="~/Scripts/jquery-3.3.1.js"></script>
-<style>
-    .but1 {
-        width: 28px;
-        height: 45px;
-        background: white;
-        text-align: center;
-        border: 1px solid lightgrey;
-        margin: -3px;
-    }
-
-    .minus:hover {
-        background: antiquewhite
-    }
-
-    .plus:hover {
-        background: antiquewhite
-    }
-
-    .but2 {
-        width: 120px;
-        height: 45px;
-        background: white;
-        text-align: center;
-        border: 3px solid grey;
-    }
-
-        .but2:hover {
-            background: antiquewhite
-        }
-</style>
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 <div class="container">
@@ -39,8 +8,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4" style="text-align:center">
-            <img src="~/Content/img2.jpg" style="width:250px" />
+        <div class="col-md-4 " style="text-align:center">
+            <img class="imgbig" src="~/Content/img1.jpg" style="width:250px" />
         </div>
         <div class="col-md-offset-2 col-md-6" style="padding-top:0px">
             &nbsp;
@@ -52,8 +21,9 @@
             <h3>13.00€</h3>
             <!--Mudar o primeiro e ultimo inputs para buttons-->
             <button id="min" class="but1 minus"> - </button>
-            <input id="num" class="but1" type="button" value="1" />
-            <button id="pl" class="but1 plus" > + </button>
+            <input id="num" class="but1" type="text" value="1" />
+            <button id="pl" class="but1 plus"> + </button>
+            <!-- nao usar tantos &nbsp, tens que usar mesmo margin ou cols, pede me ajuda se quiseres-->
             &nbsp;
             &nbsp;
             &nbsp;
@@ -64,11 +34,8 @@
     &nbsp;
     <div class="row">
         <div class="col-md-4" style="text-align:center">
-            <img src="~/Content/img1.jpg" style="width:50px" />
-
-            <img src="~/Content/img2.jpg" style="width:50px" />
-
-
+            <a data-nsda="blaa"><img src="~/Content/img1.jpg" style="width:50px" /></a>
+            <a><img src="~/Content/img2.jpg" style="width:50px" /></a>
         </div>
     </div>
 </div>
@@ -77,31 +44,45 @@
 
     </div>
 </div>
-<script>
-    $("#min").click(function () {
-        var contador = $("#num").attr('value');
-        if (contador >= 1) {
-            var newContador = contador - 1;
-            $("#num").removeAttr('value');
-            var val = document.createAttribute('value');
-            val.value = newContador;
-            $("#num").attr('value', val.value);
-        }
-        else { alert("Erro nao pode pedir negativos Este aviso é temporario") }
-    })
-    $("#pl").click(function () {
-        var contador = $("#num").attr('value');
-        if (contador <= 5) {
-            var newContador = +contador + +1;
-            $("#num").removeAttr('value');
-            var val = document.createAttribute('value');
-            val.value = newContador;
-            $("#num").attr('value', val.value);
-        }
-        else { alert("Erro nao pode pedir mais que 6 Este aviso é temporario") }
-    })
+@section scripts
+    {
+    <script>
+        $("#min").click(function () {
+            var contador = $("#num").attr('value');
+            if (contador >= 1) {
+                var newContador = contador - 1;
+                $("#num").removeAttr('value');
+                var val = document.createAttribute('value');
+                val.value = newContador;
+                $("#num").attr('value', val.value);
+            }
+            else { alert("Erro nao pode pedir negativos Este aviso é temporario") }
+        })
+        $("#pl").click(function () {
+            var contador = $("#num").attr('value');
+            if (contador <= 5) {
+                var newContador = +contador + +1;
+                $("#num").removeAttr('value');
+                var val = document.createAttribute('value');
+                val.value = newContador;
+                $("#num").attr('value', val.value);
+            }
+            else { alert("Erro nao pode pedir mais que 6 Este aviso é temporario") }
+        })
 
-    $("#add").click(function () {
-        alert("Foi adicionado ao carrinho")
-    })
-</script>
+        $("#add").click(function () {
+            alert("Foi adicionado ao carrinho")
+        })
+    </script>
+    <script>
+        $("a").click(function (event) {
+            //Apagar foto em cima
+            $(".imgbig").html("");
+            //Buscar outra foto
+            var img = $(event.relatedTarget).children();
+            console.log(img.attr('src'));
+            //por foto no lugar da outra
+
+        })
+    </script>
+}
