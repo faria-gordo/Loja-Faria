@@ -20,9 +20,10 @@ namespace Loja.Controllers
     /// </summary>
     public class HomeController : Controller
     {
+        string seccoes = "Bijutaria;Lembrancas;Religiosos;Diversos";
         public ActionResult Index()
         {
-            ViewBag.Seccoes = "Bijutaria;Lembrancas;Religiosos;Diversos";
+            ViewBag.Seccoes = seccoes;
             return View();
         }
         public ActionResult Contact()
@@ -45,7 +46,6 @@ namespace Loja.Controllers
         }
         public ActionResult DataTable()
         {
-            string seccoes = "Bijutaria;Lembrancas;Religiosos;Diversos";
             List<Produto> produtosAllType = new List<Produto>();
             Data.Data manager = new Data.Data();
             foreach (string seccao in seccoes.Split(';'))
