@@ -38,8 +38,8 @@ namespace Loja.Controllers
         {
             string[] urlParams = HttpContext.Request.Url.ToString().Split('/');
             Data.Data manager = new Data.Data();
-            List<Produto> produtos = manager.Selecionar(urlParams[6].ToLower());
-            ViewBag.Seccao = urlParams[6]; 
+            List<Produto> produtos = manager.Selecionar(urlParams[5].ToLower());
+            ViewBag.Seccao = urlParams[5]; 
             ViewBag.Produtos = produtos;
             return View();
         }

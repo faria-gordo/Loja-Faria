@@ -34,25 +34,52 @@ namespace Loja.Data
         }
         public List<Produto> Selecionar(string partitionKey)
         {
-            List<Produto> produtos = new List<Produto>();
-            try
+            if (partitionKey.Split('-')[1] != null)
             {
-                TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
-                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
-                foreach (var produto in resultado)
+                List<Produto> produtos = new List<Produto>();
+                try
                 {
-                    produtos.Add(ModelTableToModel(produto));
+                    TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
+                    List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                    foreach (var produto in resultado)
+                    {
+                        produtos.Add(ModelTableToModel(produto));
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                return produtos;
             }
-            catch(Exception ex)
+            else
             {
-                Console.WriteLine(ex.Message);
+                string tipoDeProduto = "P;C;D";
+                List<Produto> produtos = new List<Produto>();
+                foreach (string tipo in tipoDeProduto.Split(';'))
+                {
+                    partitionKey = partitionKey + "-" + tipo;
+                    try
+                    {
+                        TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
+                        List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                        foreach (var produto in resultado)
+                        {
+                            produtos.Add(ModelTableToModel(produto));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                return produtos;
             }
-            return produtos;
+
         }
         public List<Produto> Selecionar(string seccao, string tipo)
         {
-            if(seccao == null || tipo == null)
+            if (seccao == null || tipo == null)
             {
                 //TODO
 
@@ -80,12 +107,12 @@ namespace Loja.Data
             //Pegar em todos os id presentes em produtos e apaga los da bd [QUE NAO PASSAM PELO CARRINHO DE COMPRAS] sera feito pela tabelda da bd do website
             try
             {
-                foreach(Produto prod in produtos)
+                foreach (Produto prod in produtos)
                 {
                     table.Execute(TableOperation.Delete(ModelToModelTable(prod)));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -100,7 +127,7 @@ namespace Loja.Data
                     table.Execute(TableOperation.Insert(ModelToModelTable(prod)));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -125,7 +152,7 @@ namespace Loja.Data
         {
             ModeloTable modelo = new ModeloTable()
             {
-                PartitionKey = prod.Seccao,
+                PartitionKey = prod.Seccao + "-" + prod.Tipo,
                 RowKey = prod.Id.ToString(),
                 Nome = prod.Nome,
                 Tipo = prod.Tipo,
