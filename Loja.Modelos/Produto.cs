@@ -11,6 +11,7 @@ namespace Loja.Modelos
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Tipo { get; set; }
+        public string Descricao { get; set; }
         public decimal Preco { get; set; }
         public DateTime DataDeAquisicao { get; set; }
         public DateTime DataDeVenda { get; set; }

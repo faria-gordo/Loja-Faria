@@ -18,15 +18,47 @@ namespace Loja.Data
     /// </summary>
     public class Data
     {
-        private string ConnectionString = "";
         readonly CloudStorageAccount storageAccount;
         readonly CloudTableClient tableClient;
         readonly CloudTable table;
         public Data()
         {
+            string ConnectionString = "DefaultEndpointsProtocol=https;AccountName=lojafariastorage;AccountKey=1pklN/RCeL6Fw2gTk30FNWJ3W+DOwPmucKrWFRb9ZCc1cfkJj1f7AOcZ68PsqIQ03QQikGtjOkkdZTw3vll6fg==;EndpointSuffix=core.windows.net";
             storageAccount = CloudStorageAccount.Parse(ConnectionString);
+            tableClient = storageAccount.CreateCloudTableClient();
             table = tableClient.GetTableReference("LojaFaria");
             table.CreateIfNotExists();
+        }
+        public bool Adicionar(List<Produto> produto)
+        {
+            try
+            {
+                foreach (Produto prod in produto)
+                {
+                    table.Execute(TableOperation.Insert(ModelToModelTable(prod)));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return true;
+        }
+        public bool Apagar(List<Produto> produtos)
+        {
+            //Pegar em todos os id presentes em produtos e apaga los da bd [QUE NAO PASSAM PELO CARRINHO DE COMPRAS] sera feito pela tabelda da bd do website
+            try
+            {
+                foreach (Produto prod in produtos)
+                {
+                    table.Execute(TableOperation.Delete(ModelToModelTable(prod)));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return true;
         }
         public List<Produto> Selecionar(List<Produto> produtos)
         {
@@ -34,7 +66,7 @@ namespace Loja.Data
         }
         public List<Produto> Selecionar(string partitionKey)
         {
-            if (partitionKey.Split('-')[1] != null)
+            if (partitionKey.Split('-')[1] != " ")
             {
                 List<Produto> produtos = new List<Produto>();
                 try
@@ -101,37 +133,6 @@ namespace Loja.Data
                 Console.WriteLine(ex.Message);
             }
             return produtos;
-        }
-        public bool Apagar(List<Produto> produtos)
-        {
-            //Pegar em todos os id presentes em produtos e apaga los da bd [QUE NAO PASSAM PELO CARRINHO DE COMPRAS] sera feito pela tabelda da bd do website
-            try
-            {
-                foreach (Produto prod in produtos)
-                {
-                    table.Execute(TableOperation.Delete(ModelToModelTable(prod)));
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return true;
-        }
-        public bool Adicionar(List<Produto> produto)
-        {
-            try
-            {
-                foreach (Produto prod in produto)
-                {
-                    table.Execute(TableOperation.Insert(ModelToModelTable(prod)));
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return true;
         }
         public Produto ModelTableToModel(ModeloTable modeloTable)
         {

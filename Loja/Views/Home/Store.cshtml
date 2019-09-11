@@ -1,13 +1,13 @@
 ﻿<p>Aqui estão apresentados todos os artigos disponíveis na nossa loja online, esperamos que encontre o que deseja</p>
 <div>
-    @switch (ViewBag.Seccao)
+    @switch (ViewBag.Seccao.ToLower())
     {
         case "bijutaria":
             Html.RenderPartial("_storeBijutaria");
             break;
 
-        case "lembrancas":
-            Html.RenderPartial("_storeLembrancas");
+        case "accessoriosbebe":
+            Html.RenderPartial("_storeAccessoriosBebe");
             break;
 
         case "religiosos":

@@ -10,13 +10,14 @@ namespace Loja.Modelos
     public class ModeloTable : TableEntity
     {
         public ModeloTable() { }
-        public ModeloTable(string partitionKey, string rowKey, string nome, string tipo,string seccao ,decimal preco, DateTime dataDeAquisicao, DateTime dataDeVenda, string url)
+        public ModeloTable(string partitionKey, string rowKey, string nome, string tipo,string seccao,string descricao ,decimal preco, DateTime dataDeAquisicao, DateTime dataDeVenda, string url)
         {
             PartitionKey = partitionKey;
             RowKey = rowKey;
             Nome = nome;
             Tipo = tipo;
             Seccao = seccao;
+            Descricao = descricao;
             Preco = preco;
             DataDeAquisicao = dataDeAquisicao;
             DataDeVenda = dataDeVenda;
@@ -27,6 +28,7 @@ namespace Loja.Modelos
         public string Nome { get; set; }
         public string Tipo { get; set; }
         public string Seccao { get; set; }
+        public string Descricao { get; set; }
         public decimal Preco { get; set; }
         public DateTime DataDeAquisicao { get; set; }
         public DateTime DataDeVenda { get; set; }
