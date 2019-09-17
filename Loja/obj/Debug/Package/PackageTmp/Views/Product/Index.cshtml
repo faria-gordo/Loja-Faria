@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-6 col-md-6">
+            <h2>Product Name</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 " style="text-align:center">
+            <img class="imgbig" src="~/Content/img1.jpg" style="width:250px" />
+        </div>
+        <div class="col-md-offset-2 col-md-6" style="padding-top:0px">
+            &nbsp;
+            &nbsp;
+            <!--Gosto muito do trabalho, so uma coisa, quando metes id's e class's em elementos tenta mete los primeiro, é mais organizado :)-->
+            <h4>Descrição</h4>
+            <h6> Aço inoxidável, com peças de ouro.</h6>
+            &nbsp;
+            <h3>13.00€</h3>
+            <!--Mudar o primeiro e ultimo inputs para buttons-->
+            <button id="min" class="but1 minus"> - </button>
+            <input id="num" class="but1" type="text" value="1" />
+            <button id="pl" class="but1 plus"> + </button>
+            <!-- nao usar tantos &nbsp, tens que usar mesmo margin ou cols, pede me ajuda se quiseres-->
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <input id="add" class="but2" type="button" value="Adicionar" />
+        </div>
+    </div>
+    &nbsp;
+    <div class="row">
+        <div class="col-md-4" style="text-align:center">
+            <a data-nsda="blaa"><img src="~/Content/img1.jpg" style="width:50px" /></a>
+            <a><img src="~/Content/img2.jpg" style="width:50px" /></a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+
+    </div>
+</div>
+@section scripts
+    {
+    <script>
+        $("#min").click(function () {
+            var contador = $("#num").attr('value');
+            if (contador >= 1) {
+                var newContador = contador - 1;
+                $("#num").removeAttr('value');
+                var val = document.createAttribute('value');
+                val.value = newContador;
+                $("#num").attr('value', val.value);
+            }
+            else { alert("Erro nao pode pedir negativos Este aviso é temporario") }
+        })
+        $("#pl").click(function () {
+            var contador = $("#num").attr('value');
+            if (contador <= 5) {
+                var newContador = +contador + +1;
+                $("#num").removeAttr('value');
+                var val = document.createAttribute('value');
+                val.value = newContador;
+                $("#num").attr('value', val.value);
+            }
+            else { alert("Erro nao pode pedir mais que 6 Este aviso é temporario") }
+        })
+
+        $("#add").click(function () {
+            alert("Foi adicionado ao carrinho")
+        })
+    </script>
+    <script>
+        $("a").click(function (event) {
+            //Apagar foto em cima
+            $(".imgbig").html("");
+            //Buscar outra foto
+            var img = $(event.relatedTarget).children();
+            console.log(img.attr('src'));
+            //por foto no lugar da outra
+
+        })
+    </script>
+}

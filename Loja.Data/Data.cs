@@ -23,7 +23,7 @@ namespace Loja.Data
         readonly CloudTable table;
         public Data()
         {
-            string ConnectionString = "DefaultEndpointsProtocol=https;AccountName=lojafariastorage;AccountKey=1pklN/RCeL6Fw2gTk30FNWJ3W+DOwPmucKrWFRb9ZCc1cfkJj1f7AOcZ68PsqIQ03QQikGtjOkkdZTw3vll6fg==;EndpointSuffix=core.windows.net";
+            string ConnectionString = "DefaultEndpointsProtocol=https;AccountName=lojafariastorage;AccountKey=RzxcaNCnheT4HKh7ym8KaML3J1FSXKXUS0HaIHvw7diyood7Ekk9D8ki7szjnfO6X9drbGaZIE6gHlbcXQUWaA==;EndpointSuffix=core.windows.net";
             storageAccount = CloudStorageAccount.Parse(ConnectionString);
             tableClient = storageAccount.CreateCloudTableClient();
             table = tableClient.GetTableReference("LojaFaria");
@@ -86,14 +86,14 @@ namespace Loja.Data
             }
             else
             {
-                string tipoDeProduto = "P;C;D";
+                string tipoDeProduto = "Pul;Col;Ter";
                 List<Produto> produtos = new List<Produto>();
                 foreach (string tipo in tipoDeProduto.Split(';'))
                 {
-                    partitionKey = partitionKey + "-" + tipo;
+                    var PartitionKey = partitionKey.Trim() + tipo.Trim();
                     try
                     {
-                        TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
+                        TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, PartitionKey));
                         List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
                         foreach (var produto in resultado)
                         {
@@ -139,12 +139,11 @@ namespace Loja.Data
             Produto produto = new Produto()
             {
                 Nome = modeloTable.Nome,
-                Id = Int32.Parse(modeloTable.RowKey),
+                Id = modeloTable.RowKey,
+                Descricao = modeloTable.Descricao,
                 Tipo = modeloTable.Tipo,
                 Preco = modeloTable.Preco,
                 Seccao = modeloTable.Seccao,
-                DataDeAquisicao = modeloTable.DataDeAquisicao,
-                DataDeVenda = modeloTable.DataDeVenda,
                 Url = modeloTable.Url
             };
             return produto;
@@ -154,12 +153,11 @@ namespace Loja.Data
             ModeloTable modelo = new ModeloTable()
             {
                 PartitionKey = prod.Seccao + "-" + prod.Tipo,
-                RowKey = prod.Id.ToString(),
+                RowKey = prod.Id,
                 Nome = prod.Nome,
                 Tipo = prod.Tipo,
                 Preco = prod.Preco,
-                DataDeAquisicao = prod.DataDeAquisicao,
-                DataDeVenda = prod.DataDeVenda,
+                Descricao = prod.Descricao,
                 Url = prod.Url
             };
             return modelo;

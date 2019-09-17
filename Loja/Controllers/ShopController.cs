@@ -10,7 +10,7 @@ namespace Loja.Controllers
     public class ShopController : Controller
     {
         // GET: Shop
-        public ActionResult Index(List<Produto> produtos)
+        public ActionResult Index(List<Produto> produtos, int quantidade)
         {
             //Criar varias partials views para criar a pagina de carrinho
             //Uma terá um iterador para a lista produtos

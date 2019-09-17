@@ -1,0 +1,2 @@
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Importer\obj\Debug\Loja.Importer.csprojAssemblyReference.cache
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Importer\obj\Debug\Loja.Importer.csproj.CoreCompileInputs.cache

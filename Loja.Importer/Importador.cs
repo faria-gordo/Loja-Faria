@@ -31,7 +31,7 @@ namespace Loja.Importer
                     {
                         Produto produto = new Produto();
                         var substrings = product.Split(';');
-                        produto.Id = Int32.Parse(substrings[0]);
+                        produto.Id = substrings[0];
                         produto.Nome = substrings[1];
                         produto.Preco = Convert.ToDecimal(substrings[2]);
                         produto.Tipo = substrings[3];
