@@ -22,8 +22,24 @@
     <script src="~/Content/Scripts/jquery-3.3.1.js"></script>
     <script src="~/Content/Scripts/bootstrap.min.js"></script>
     <script src="~/Content/Scripts/jquery-3.3.1.slim.min.js"></script>
-    <script src="~/Content/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Content/Scripts/jquery.validate.js"></script>
     <script src="~/Content/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Content/Scripts/modernizr-2.8.3.js"></script>
+    <script>
+        $(".img div a").on("click", function () {
+            var nomeProduto = $(this).data("produto-nome");
+            var precoProduto = $(this).data("produto-preco");
+            var idProduto = $(this).data("produto-id");
+            var tipoProduto = $(this).data("produto-tipo");
+            var seccaoProduto = $(this).data("produto-seccao");
+            var descricaoProduto = $(this).data("produto-descricao");
+            var urlProduto = $(this).data("produto-url");
+            $.ajax({
+                url: "Loja/Product/Index",
+                type: "post",
+                data: "produto.Nome=" + nomeProduto + "&produto.Preco=" + precoProduto + "&produto.Id=" + idProduto + "&produto.Tipo=" + tipoProduto + "&produto.Seccao=" + seccaoProduto + "&produto.Url=" + urlProduto + "&produto.Descricao=" + descricaoProduto
+            });
+        });
+    </script>
 </body>
 </html>

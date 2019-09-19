@@ -9,13 +9,7 @@ using System.Web.Mvc;
 namespace Loja.Controllers
 {
     /// <summary>
-    /// 
-    /// Criar projeto para Modelos
-    /// Criar projeto para fazer ligacao a base de dados e criar helpers (select, update, delete, etc) e por todas as conn strings
-    /// 
     /// Criar js para adicionar/retirar/trocar ao carrinho atraves de ajax, recolhendo form no ProductController
-    /// Criar js para modificar quantidade
-    /// 
     /// 
     /// </summary>
     public class HomeController : Controller

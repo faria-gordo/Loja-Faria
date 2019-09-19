@@ -109,31 +109,31 @@ namespace Loja.Data
             }
 
         }
-        public List<Produto> Selecionar(string seccao, string tipo)
-        {
-            if (seccao == null || tipo == null)
-            {
-                //TODO
+        //public List<Produto> Selecionar(string seccao, string tipo)
+        //{
+        //    if (seccao == null || tipo == null)
+        //    {
+        //        //TODO
 
-                //Tipo: pulseiras, braceletes, roupa, colares, brincos, joias, santos, etc...
-            }
-            List<Produto> produtos = new List<Produto>();
-            string partitionKey = seccao + "-" + tipo;
-            try
-            {
-                TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
-                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
-                foreach (var produto in resultado)
-                {
-                    produtos.Add(ModelTableToModel(produto));
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return produtos;
-        }
+        //        //Tipo: pulseiras, braceletes, roupa, colares, brincos, joias, santos, etc...
+        //    }
+        //    List<Produto> produtos = new List<Produto>();
+        //    string partitionKey = seccao + "-" + tipo;
+        //    try
+        //    {
+        //        TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
+        //        List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+        //        foreach (var produto in resultado)
+        //        {
+        //            produtos.Add(ModelTableToModel(produto));
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //    return produtos;
+        //}
         public Produto ModelTableToModel(ModeloTable modeloTable)
         {
             Produto produto = new Produto()
