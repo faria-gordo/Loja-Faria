@@ -12,8 +12,9 @@ namespace Loja.Controllers
         //Em vez de string ira haver o modelo de product com url, descricao, todos os campos do excel
         [HttpGet]
         public ActionResult Index(string nomeProduto)
-        {
+         {
             Data.Data dataManager = new Data.Data();
+            //Validation on nomeProduto
             string partitionKey = nomeProduto.Split('-')[0].Replace("_","-");
             List<Produto> produtos = dataManager.Selecionar(partitionKey);
             Produto produto = (from p in produtos
