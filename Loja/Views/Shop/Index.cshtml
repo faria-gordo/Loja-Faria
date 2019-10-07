@@ -1,7 +1,38 @@
-﻿@{
+﻿@using Loja.Modelos;
+@{
     ViewBag.Title = "Index";
 }
-<h1>Carrinho de Compras</h1>
+<!--Ficha de visualizacao de dados, do carrinho!!-->
+<h2>Carrinho de Compras</h2>
+<div class="panel">
+    <div class="panel-heading">
+        <div class="panel-collapse">
+            <h3>Tem no seu carrinho:</h3>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel-body">
+                    @foreach (Produto produto in ViewBag.Produtos)
+                    {
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <div class="list-group-item-heading"><img alt="@produto.Descricao" src="@produto.Url" height="100" width="80" /></div>
+                                <div class="list-group-item-info">@produto.Nome</div><div class="list-group-item-success">@produto.Preco</div><div class="list-group-item-text">@ViewBag.Quantidade</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="panel-footer">
+                    <div class="text-warning">Limpar carrinho:</div>
+                    <button type="button"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 
 
