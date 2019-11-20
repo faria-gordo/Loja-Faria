@@ -1,4 +1,4 @@
-﻿using Loja.Modelos;
+﻿using Loja.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 namespace Loja.Data
 {
     /// <summary>
-    ///
-    /// TODO: por connectionstring na app.config
     /// 
-    /// Adicionar varios tipos Select(), com varios tipos de argumentos
+    /// Sumário serve para expor informação adicional aos comentários ou para informar todos os bugs na aplicação em causa.
+    /// 
+    /// TODO:      
     /// 
     /// </summary>
     public class Data
     {
-        readonly CloudStorageAccount storageAccount;
-        readonly CloudTableClient tableClient;
-        readonly CloudTable table;
+        private readonly CloudStorageAccount storageAccount;
+        private readonly CloudTableClient tableClient;
+        private readonly CloudTable table;
         public Data()
         {
             string ConnectionString = "DefaultEndpointsProtocol=https;AccountName=lojafariastorage;AccountKey=RzxcaNCnheT4HKh7ym8KaML3J1FSXKXUS0HaIHvw7diyood7Ekk9D8ki7szjnfO6X9drbGaZIE6gHlbcXQUWaA==;EndpointSuffix=core.windows.net";
@@ -29,11 +29,29 @@ namespace Loja.Data
             table = tableClient.GetTableReference("LojaFaria");
             table.CreateIfNotExists();
         }
-        public bool Adicionar(List<Produto> produto)
+        //Devolve mensagem de feedback de um helper existente   
+        //Array de quantidaes(int) é respetivamente com a lista de produtos
+
+        //ADICIONAR
+        public string AdicionarProduto(Produto produto)
         {
             try
             {
-                foreach (Produto prod in produto)
+                table.Execute(TableOperation.Insert(ModelToModelTable(produto)));
+                //Chamar ação de update que existe(ou ira existir) em Home da Loja para avisar á loja que foi adicionado um produto, caso já exista o produto, é so adicionado
+                // o numero da quantia de produtos, se for um produto que nao exista na loja, é criado um produto novo chamando uma ação ainda por existir em Home da Loja.
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return "Mensagem do helper";
+        }
+        public string AdicionarProdutos(List<Produto> produtos)
+        {
+            try
+            {
+                foreach (Produto prod in produtos)
                 {
                     table.Execute(TableOperation.Insert(ModelToModelTable(prod)));
                 }
@@ -42,9 +60,36 @@ namespace Loja.Data
             {
                 Console.WriteLine(ex.Message);
             }
-            return true;
+            return "Mensagem do helper";
         }
-        public bool Apagar(List<Produto> produtos)
+
+        //RETIRAR
+        public string RetirarProduto(Produto produto)
+        {
+            //Pegar em todos os id presentes em produtos e apaga los da bd [QUE NAO PASSAM PELO CARRINHO DE COMPRAS] sera feito pela tabelda da bd do website
+            try
+            {
+                table.Execute(TableOperation.Delete(ModelToModelTable(produto)));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return "";
+        }
+        public string RetirarProdutoPorRowKey(string rowKey)
+        {
+            return "";
+        }
+        public string RetirarProdutoPorPartitionKey(string partitionKey)
+        {
+            return "";
+        }
+        public string RetirarProdutoPorNome(string nome)
+        {
+            return "";
+        }
+        public string RetirarProdutos(List<Produto> produtos)
         {
             //Pegar em todos os id presentes em produtos e apaga los da bd [QUE NAO PASSAM PELO CARRINHO DE COMPRAS] sera feito pela tabelda da bd do website
             try
@@ -58,13 +103,38 @@ namespace Loja.Data
             {
                 Console.WriteLine(ex.Message);
             }
-            return true;
+            return "Mensagem do helper";
         }
-        public List<Produto> Selecionar(List<Produto> produtos)
+        public string RetirarProdutosPorPartitionKey(string[] partitionKey)
+        {
+            return "";
+        }
+
+        //SELECIONAR
+        public Produto SelecionarProduto(Produto produto)
+        {
+
+            return null;
+        }
+        public Produto SelecionarProdutoPorRowKey(string rowkey)
+        {
+
+            return null;
+        }
+        public Produto SelecionarProdutoPorPartitionKey(string partitionKey)
         {
             return null;
         }
-        public List<Produto> Selecionar(string partitionKey)
+        public Produto SelecionarProdutoPorNome(string nome)
+        {
+
+            return null;
+        }
+        public List<Produto> SelecionarProdutos(List<Produto> produtos)
+        {
+            return null;
+        }
+        public List<Produto> SelecionarProdutosPorPartitionKey(string partitionKey)
         {
             if (partitionKey.Split('-')[1] != " ")
             {
@@ -109,31 +179,36 @@ namespace Loja.Data
             }
 
         }
-        //public List<Produto> Selecionar(string seccao, string tipo)
-        //{
-        //    if (seccao == null || tipo == null)
-        //    {
-        //        //TODO
 
-        //        //Tipo: pulseiras, braceletes, roupa, colares, brincos, joias, santos, etc...
-        //    }
-        //    List<Produto> produtos = new List<Produto>();
-        //    string partitionKey = seccao + "-" + tipo;
-        //    try
-        //    {
-        //        TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
-        //        List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
-        //        foreach (var produto in resultado)
-        //        {
-        //            produtos.Add(ModelTableToModel(produto));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //    }
-        //    return produtos;
-        //}
+        //ATUALIZAR
+        public Produto AtualizarProduto(Produto produto)
+        {
+            return null;
+        }
+        public Produto AtualizarProdutoPorRowKey(string rowkey)
+        {
+
+            return null;
+        }
+        public Produto AtualizarProdutoPorPartitionKey(string partitionKey)
+        {
+            return null;
+        }
+        public Produto AtualizarProdutoPorNome(string nome)
+        {
+
+            return null;
+        }
+        public List<Produto> AtualizarProdutos(List<Produto> produtos)
+        {
+            return null;
+        }
+        public List<Produto> AtualizarProdutosPorPartitionKey(string partitionKey)
+        {
+            return null;
+        }
+
+        //MAPPINGS
         public Produto ModelTableToModel(ModeloTable modeloTable)
         {
             Produto produto = new Produto()

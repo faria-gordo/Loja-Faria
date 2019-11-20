@@ -1,0 +1,27 @@
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\bin\Debug\Loja.Modelos.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\bin\Debug\Loja.Modelos.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\obj\Debug\Loja.Modelos.csprojAssemblyReference.cache
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\obj\Debug\Loja.Modelos.csproj.CoreCompileInputs.cache
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\obj\Debug\Loja.Modelos.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\obj\Debug\Loja.Modelos.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\bin\Debug\Microsoft.Azure.KeyVault.Core.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\bin\Debug\Microsoft.WindowsAzure.Storage.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\bin\Debug\Microsoft.Azure.KeyVault.Core.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\bin\Debug\Microsoft.WindowsAzure.Storage.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\bin\Debug\Microsoft.WindowsAzure.Storage.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Modelos\obj\Debug\Loja.Modelos.csproj.CopyComplete
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\bin\Debug\Loja.Modelos.dll
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\bin\Debug\Loja.Modelos.pdb
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\bin\Debug\Microsoft.Azure.KeyVault.Core.dll
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\bin\Debug\Microsoft.WindowsAzure.Storage.dll
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\bin\Debug\Microsoft.Azure.KeyVault.Core.xml
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\bin\Debug\Microsoft.WindowsAzure.Storage.pdb
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\bin\Debug\Microsoft.WindowsAzure.Storage.xml
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\obj\Debug\Loja.Modelos.csprojAssemblyReference.cache
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\obj\Debug\Loja.Modelos.csproj.CopyComplete
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\obj\Debug\Loja.Modelos.dll
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Modelos\obj\Debug\Loja.Modelos.pdb

@@ -58,9 +58,9 @@
       <Project>{fadd0fbb-6790-4c01-8543-fd1bbadee759}</Project>
       <Name>Loja.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Loja.Modelos\Loja.Modelos.csproj">
+    <ProjectReference Include="..\Loja.Models\Loja.Models.csproj">
       <Project>{97BE256C-05EC-4836-946E-9BAFC582DF1F}</Project>
-      <Name>Loja.Modelos</Name>
+      <Name>Loja.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

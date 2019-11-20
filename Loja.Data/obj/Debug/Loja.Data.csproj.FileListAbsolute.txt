@@ -14,3 +14,18 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Microsoft
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Microsoft.WindowsAzure.Storage.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Microsoft.WindowsAzure.Storage.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja\Loja.Data\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\bin\Debug\Loja.Data.dll
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\bin\Debug\Loja.Data.pdb
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\bin\Debug\Loja.Modelos.dll
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\bin\Debug\Microsoft.Azure.KeyVault.Core.dll
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\bin\Debug\Microsoft.WindowsAzure.Storage.dll
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\bin\Debug\Loja.Modelos.pdb
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\bin\Debug\Microsoft.Azure.KeyVault.Core.xml
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\bin\Debug\Microsoft.WindowsAzure.Storage.pdb
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\bin\Debug\Microsoft.WindowsAzure.Storage.xml
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\obj\Debug\Loja.Data.csprojAssemblyReference.cache
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\obj\Debug\Loja.Data.csproj.CopyComplete
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\obj\Debug\Loja.Data.dll
+C:\Users\Squad\Desktop\COLAB\Solu\Loja.Data\obj\Debug\Loja.Data.pdb

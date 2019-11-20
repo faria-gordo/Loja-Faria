@@ -1,8 +1,9 @@
-﻿@model Loja.Modelos.Produto
-@using Loja.Modelos
+﻿@model Loja.Models.Produto
+@using Loja.Models
 @{
     ViewBag.Title = "Index";
 }
+<!--Usar sections!!-->
 <style>
     .inputbutton {
         width: 120px;
@@ -52,10 +53,7 @@
                         <h3>@Model.Preco€</h3>
                         <!--Mudar o primeiro e ultimo inputs para buttons-->
                         <div class="panel-footer">
-                            <form action="/Shop/Index" method="post" id="productShop">
-                                <button id="min" type="button" class="regbutton minus"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-                                <input id="num" name="quantity" class="regbutton" style="width: 60px" type="text" width="200" maxlength="7" />
-                                <button id="pl" type="button" class="regbutton plus"><span class="glyphicon glyphicon-plus"></span></button>
+                            <form action="Shop/Index" method="post" id="productShop" name="productShop">
                                 <input id="productName" name="productName" class="regbutton" style="width: 80px; display:none;" type="text" value="@Model.Nome-@Model.Seccao-@Model.Tipo"/>
                                 <input id="add" class="inputbutton" type="submit" value="Adicionar" style="margin-left: 20px;" />
                             </form>
@@ -108,4 +106,15 @@
 
         })
     </script>
+    @*<script>
+        $("#productShop").submit(function () {
+            var nomeProduto = $(".productName").attr("value");
+            var quantidade = $(".num").attr("value");
+            $.ajax({
+                    data: "productName=" + nomeProduto + "&quantity=" + quantidade,
+                    type: "POST",
+                    url: "http://localhost:54841/Shop/Index"
+            });
+        });
+    </script>*@
 }

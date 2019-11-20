@@ -55,13 +55,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Loja.Modelos\Loja.Modelos.csproj">
-      <Project>{97be256c-05ec-4836-946e-9bafc582df1f}</Project>
-      <Name>Loja.Modelos</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Loja.Models\Loja.Models.csproj">
+      <Project>{97BE256C-05EC-4836-946E-9BAFC582DF1F}</Project>
+      <Name>Loja.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

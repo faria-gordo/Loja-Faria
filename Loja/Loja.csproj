@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +44,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -55,12 +57,18 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -158,6 +166,7 @@
     <Content Include="Content\Styles\Site.css" />
     <Content Include="Content\Scripts\bootstrap.js" />
     <Content Include="Content\Scripts\bootstrap.min.js" />
+    <Content Include=".editorconfig" />
     <None Include="Content\Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Content\Scripts\jquery-3.3.1.js" />
     <Content Include="Content\Scripts\jquery-3.3.1.min.js" />
@@ -190,7 +199,6 @@
     <Content Include="Views\Shared\_storeDiversos.cshtml" />
     <Content Include="Views\Shared\_error.cshtml" />
     <Content Include="Views\Shared\_variateProduct.cshtml" />
-    <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Shared\_navbar.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Home\DataTable.cshtml" />
@@ -198,6 +206,8 @@
     <Content Include="Views\Shared\_navtop.cshtml" />
     <Content Include="Views\Shared\_navbottom.cshtml" />
     <None Include="Properties\PublishProfiles\Loja20190913023230 - Web Deploy.pubxml" />
+    <Content Include="Views\Shared\_shoppingCart.cshtml" />
+    <Content Include="Views\Shop\GetShoppingCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -221,9 +231,13 @@
       <Project>{fadd0fbb-6790-4c01-8543-fd1bbadee759}</Project>
       <Name>Loja.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Loja.Modelos\Loja.Modelos.csproj">
+    <ProjectReference Include="..\Loja.Models\Loja.Models.csproj">
       <Project>{97be256c-05ec-4836-946e-9bafc582df1f}</Project>
-      <Name>Loja.Modelos</Name>
+      <Name>Loja.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Loja.Services\Loja.Services.csproj">
+      <Project>{b52519ef-ff61-4fef-bbe5-6c086cf88f5c}</Project>
+      <Name>Loja.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
