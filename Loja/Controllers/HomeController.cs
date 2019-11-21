@@ -15,8 +15,6 @@ namespace Loja.Controllers
     /// 
     /// TODO:
     /// 
-    ///     
-    /// 
     /// </summary>
     public class HomeController : Controller
     {
