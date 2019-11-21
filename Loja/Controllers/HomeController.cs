@@ -1,11 +1,12 @@
 ﻿using Loja.Models;
+using Loja.Library;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Loja.Services.Controllers;
+using System.Net.Http;
 
 namespace Loja.Controllers
 {
@@ -15,10 +16,12 @@ namespace Loja.Controllers
     /// 
     /// TODO:
     /// 
+    ///     -Criar helper para sumariar os servicos que o web api tem e dispolos aqui.
+    /// 
     /// </summary>
     public class HomeController : Controller
     {
-        private readonly WebController webService = new WebController();
+        readonly private Shared webShared = new Shared();
         const string seccoes = "Bijutaria;Lembrancas;Religiosos;Diversos";
         public ActionResult Index()
         {
@@ -37,7 +40,7 @@ namespace Loja.Controllers
         public ActionResult Store()
         {
             string[] urlParams = HttpContext.Request.Url.ToString().Split('/');
-            List<Produto> produtos = webService.GetProductsByPartitionKey(urlParams[5].ToUpper().First() + "-" + " ");
+            List<Produto> produtos = webShared.CallWebService("GetProductsByPartitionKey",urlParams[5].ToUpper().First() + "-" + " ");
             ViewBag.Seccao = urlParams[5]; 
             ViewBag.Produtos = produtos;
             return View();

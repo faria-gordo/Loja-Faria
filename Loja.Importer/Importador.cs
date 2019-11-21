@@ -44,7 +44,7 @@ namespace Loja.Importer
                         produto.DataDeVenda = DateTime.Parse(substrings[5]);
                         produtos.Add(produto);
                     }
-                    manager.Adicionar(produtos);
+                    manager.AdicionarProdutos(produtos);
                 }
             }
         }

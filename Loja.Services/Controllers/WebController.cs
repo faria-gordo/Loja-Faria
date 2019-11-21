@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Loja.Data;
 using Loja.Models;
+using Newtonsoft.Json;
 
 namespace Loja.Services.Controllers
 {
@@ -16,62 +17,53 @@ namespace Loja.Services.Controllers
     /// 
     /// TODO:
     ///           
+    ///         -Haver'a dois metodos para cada Tipo de acao.
+    ///         -So ira poder receber identifiers. Fazer um metodo para criar identifiers 'string especifica que contem o rk/pk ou nome
     /// 
     /// </summary>
     public class WebController : ApiController
-    {
+    {   
         private readonly Data.Data manager = new Data.Data();
-        private List<Produto> produtos;
-        public string GetProduct(Produto Produto)
+        [HttpGet]
+        public string GetProducts()
         {
-            return "";
+            return "All products";
         }
-        public Produto GetProductByPartitionKey(string pk)
+        [HttpGet]
+        public string GetProduct(string identifier)
         {
+            //verificar identifier, saber se é PK ou RK ou Nome
+            return "Specific Product";
+        }
 
-
-            return new Produto();
-        }
-        public string GetProductByRowKey(string rk)
-        {
-            manager.SelecionarProdutoPorRowKey(rk);
-            return "value";
-        }
-        public Produto GetProductByName(string name)
-        {
-            return new Produto();
-        }
-        public string GetProducts(List<Produto> produtos)
-        {
-            return null;
-        }
-        public List<Produto> GetProductsByPartitionKey(string pk)
-        {
-            produtos = manager.SelecionarProdutosPorPartitionKey(pk);
-            return produtos;
-        }
         //Update
-        public string UpdateProduct(Produto produto, int quantidade)
+        [HttpPut]
+        public string PutProduct(Produto produto, int quantidade)
         {
             return "";
         }
-        public string UpdateProductByPartitionKey(string partitionKey, int quantidade)
+        [HttpPut]
+        public string PutProductByPartitionKey(string partitionKey, int quantidade)
         {
             return "";
         }
-        public string UpdateProductByRowKey(string rowKey, int quantidade)
+        [HttpPut]
+        public string PutProductByRowKey(string rowKey, int quantidade)
         {
             return "";
         }
-        public string UpdateProductByName(string name, int quantidade)
+        [HttpPut]
+        public string PutProductByName(string name, int quantidade)
         {
             return "";
         }
-        public string UpdateProducts(List<Produto> produtos, int[] quantidades)
+        [HttpPut]
+        public string PutProducts(List<Produto> produtos, int[] quantidades)
         {
             return "";
         }
-        public string UpdateProductsByPartitionKey(string pk, int[] quantidades)
+        [HttpPut]
+        public string PutProductsByPartitionKey(string pk, int[] quantidades)
         {
             return "";
         }
@@ -82,17 +74,18 @@ namespace Loja.Services.Controllers
 
         //Create
         [HttpPost]
-        public void AddProduct([FromBody]Produto produto)
+        public void PostProduct([FromBody]Produto produto)
         {
             //Chamar Loja um método que adicione estes produtos á loja para disposição.
             manager.AdicionarProduto(produto);
         }
         [HttpPost]
-        public void AddProducts([FromBody]List<Produto> produtos)
+        public void PostProducts([FromBody]List<Produto> produtos)
         {
             manager.AdicionarProdutos(produtos);
         }
         //Method only used when the admin deletes the product from the bd using the dashboard
+        [HttpDelete]
         public void Delete(int id)
         {
         }

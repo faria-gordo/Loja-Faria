@@ -147,6 +147,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Styles\bootstrap-theme.css" />
@@ -231,13 +232,13 @@
       <Project>{fadd0fbb-6790-4c01-8543-fd1bbadee759}</Project>
       <Name>Loja.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Loja.Library\Loja.Library.csproj">
+      <Project>{e2a544fb-6bfe-4249-8800-b89ff4a2a543}</Project>
+      <Name>Loja.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Loja.Models\Loja.Models.csproj">
       <Project>{97be256c-05ec-4836-946e-9bafc582df1f}</Project>
       <Name>Loja.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Loja.Services\Loja.Services.csproj">
-      <Project>{b52519ef-ff61-4fef-bbe5-6c086cf88f5c}</Project>
-      <Name>Loja.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

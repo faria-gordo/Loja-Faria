@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Loja.Models;
-using Loja.Services.Controllers;
 
 namespace Loja.Controllers
 {
@@ -17,7 +16,7 @@ namespace Loja.Controllers
     /// </summary>
     public class ProductController : Controller
     {
-        private readonly WebController webService = new WebController();
+        readonly private Shared webShared = new Shared();
         [HttpGet]
         public ActionResult Index(string nomeProduto, string? message)
          {
@@ -26,7 +25,7 @@ namespace Loja.Controllers
             {
                 //Validation on nomeProduto
                 string partitionKey = nomeProduto.Split('-')[0].Replace("_","-");
-                List<Produto> produtos = webService.GetProductsByPartitionKey(partitionKey);
+                List<Produto> produtos = webShared.CallWebService("GetProductsByPartitionKey",partitionKey);
                 produto = (from p in produtos
                                    where p.Nome == nomeProduto.Split('-')[1].Replace("_", " ")
                                    select p).First();
@@ -34,7 +33,7 @@ namespace Loja.Controllers
             else
             {
                 //Validation on nomeProduto
-                List<Produto> produtos = webService.GetProductsByPartitionKey(PartitionKeyFormatter(nomeProduto));
+                List<Produto> produtos = webShared.CallWebService("GetProductsByPartitionKey",PartitionKeyFormatter(nomeProduto));
                 produto = (from p in produtos
                            where p.Nome == nomeProduto.Split('-')[0].Replace("_", " ")
                            select p).First();

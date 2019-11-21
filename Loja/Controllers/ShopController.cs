@@ -1,5 +1,4 @@
 ﻿using Loja.Models;
-using Loja.Services.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace Loja.Controllers
     /// </summary>
     public class ShopController : Controller
     {
-        private readonly WebController webService = new WebController();
+        readonly private Shared webShared = new Shared();
         // GET: Shop
         [HttpPost]
         public ActionResult Index(string productName)
@@ -26,7 +25,7 @@ namespace Loja.Controllers
             string partitionKey = PartitionKeyFormatter(productName);
             Loja.Data.Data manager = new Loja.Data.Data();
 
-            Produto prod = (from s in webService.GetProductsByPartitionKey(partitionKey)
+            Produto prod = (from s in webShared.CallWebService("GetProductsByPartitionKey",partitionKey)
                                    where s.Nome == productName.Split('-')[0]
                                    select s).FirstOrDefault();
             List<Produto> produtosNoCarrinho = new List<Produto>();
