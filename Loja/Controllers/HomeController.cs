@@ -21,7 +21,7 @@ namespace Loja.Controllers
     /// </summary>
     public class HomeController : Controller
     {
-        readonly private Shared webShared = new Shared();
+        readonly private WebServiceRequest webShared = new WebServiceRequest();
         const string seccoes = "Bijutaria;Lembrancas;Religiosos;Diversos";
         public ActionResult Index()
         {
@@ -40,7 +40,8 @@ namespace Loja.Controllers
         public ActionResult Store()
         {
             string[] urlParams = HttpContext.Request.Url.ToString().Split('/');
-            List<Produto> produtos = webShared.CallWebService("GetProductsByPartitionKey",urlParams[5].ToUpper().First() + "-" + " ");
+            string extraInfo = urlParams[5].ToUpper().First() + "-" + " ";
+            List<Produto> produtos = webShared.CallWebService("GetProduct", extraInfo);
             ViewBag.Seccao = urlParams[5]; 
             ViewBag.Produtos = produtos;
             return View();

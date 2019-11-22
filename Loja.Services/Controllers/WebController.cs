@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Loja.Data;
 using Loja.Models;
+using Loja.Library;
 using Newtonsoft.Json;
 
 namespace Loja.Services.Controllers
@@ -24,70 +25,67 @@ namespace Loja.Services.Controllers
     public class WebController : ApiController
     {   
         private readonly Data.Data manager = new Data.Data();
+        private readonly Shared lib = new Shared();
         [HttpGet]
-        public string GetProducts()
+        public IHttpActionResult GetProducts()
         {
-            return "All products";
+            return Ok();
         }
         [HttpGet]
-        public string GetProduct(string identifier)
+        public IHttpActionResult GetProduct(string data)
         {
-            //verificar identifier, saber se é PK ou RK ou Nome
-            return "Specific Product";
+            // 1 verificar pelo qual se quer obter o produto (RK/PK/Nome)
+            // 2 verificar identifier, saber se é PK ou RK ou Nome
+            string response = lib.WebServiceRequestFormatData(data);
+            Produto produto = new Produto();
+            switch (response.Split('-')[0].ToLower())
+            {
+                case "partitionkey":
+                    produto = manager.SelecionarProdutoPorPartitionKey(response.Split('-')[1]);
+                    break;
+                case "rowkey":
+                    produto = manager.SelecionarProdutoPorRowKey(response.Split('-')[1]);
+                    break;
+                case "name":
+                    produto = manager.SelecionarProdutoPorNome(response.Split('-')[1]);
+                    break;
+                default:
+                    return NotFound();
+            }
+            return Ok(produto);
         }
 
         //Update
         [HttpPut]
-        public string PutProduct(Produto produto, int quantidade)
+        public IHttpActionResult PutProduct(string data)
         {
-            return "";
+            //Get specific product and upload it
+            return Ok();
         }
-        [HttpPut]
-        public string PutProductByPartitionKey(string partitionKey, int quantidade)
-        {
-            return "";
-        }
-        [HttpPut]
-        public string PutProductByRowKey(string rowKey, int quantidade)
-        {
-            return "";
-        }
-        [HttpPut]
-        public string PutProductByName(string name, int quantidade)
-        {
-            return "";
-        }
-        [HttpPut]
-        public string PutProducts(List<Produto> produtos, int[] quantidades)
-        {
-            return "";
-        }
-        [HttpPut]
-        public string PutProductsByPartitionKey(string pk, int[] quantidades)
-        {
-            return "";
-        }
-
-
-
         //ONLY USING THE DASHBOARD (use authentication)
 
         //Create
         [HttpPost]
-        public void PostProduct([FromBody]Produto produto)
+        public IHttpActionResult PostProduct(string data)
         {
             //Chamar Loja um método que adicione estes produtos á loja para disposição.
-            manager.AdicionarProduto(produto);
+            return Ok();
         }
         [HttpPost]
-        public void PostProducts([FromBody]List<Produto> produtos)
+        public IHttpActionResult PostProducts(string data)
         {
-            manager.AdicionarProdutos(produtos);
+            return Ok();
         }
         //Method only used when the admin deletes the product from the bd using the dashboard
         [HttpDelete]
-        public void Delete(int id)
+        public IHttpActionResult DeleteProduct(string data)
         {
+            return Ok();
+        }
+        [HttpDelete]
+        public IHttpActionResult DeleteProducts(string data)
+        {
+            return Ok();
         }
     }
 }

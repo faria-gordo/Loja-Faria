@@ -178,3 +178,5 @@ C:\Users\Squad\Desktop\COLAB\Projects\Loja-Faria\Loja.Services\obj\Debug\Loja.Se
 C:\Users\Squad\Desktop\COLAB\Projects\Loja-Faria\Loja.Services\obj\Debug\Loja.Services.csproj.CopyComplete
 C:\Users\Squad\Desktop\COLAB\Projects\Loja-Faria\Loja.Services\obj\Debug\Loja.Services.dll
 C:\Users\Squad\Desktop\COLAB\Projects\Loja-Faria\Loja.Services\obj\Debug\Loja.Services.pdb
+C:\Users\Squad\Desktop\COLAB\Projects\Loja-Faria\Loja.Services\bin\Loja.Library.dll
+C:\Users\Squad\Desktop\COLAB\Projects\Loja-Faria\Loja.Services\bin\Loja.Library.pdb

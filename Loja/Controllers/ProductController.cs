@@ -16,7 +16,7 @@ namespace Loja.Controllers
     /// </summary>
     public class ProductController : Controller
     {
-        readonly private Shared webShared = new Shared();
+        readonly private WebServiceRequest webShared = new WebServiceRequest();
         [HttpGet]
         public ActionResult Index(string nomeProduto, string? message)
          {

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Loja
 {
-    public class Shared
+    public class WebServiceRequest
     {
         public List<Produto> CallWebService(string method, string identifier)
         {

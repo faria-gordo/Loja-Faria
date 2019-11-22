@@ -16,7 +16,7 @@ namespace Loja.Services
 
             config.Routes.MapHttpRoute(
                 name: "Web",
-                routeTemplate: "{controller}/{action}/{identifier}",
+                routeTemplate: "{controller}/{action}/{data}",
                 defaults: new { identifier = RouteParameter.Optional }
             );
         }
