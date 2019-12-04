@@ -18,7 +18,7 @@ namespace Loja.Controllers
     {
         readonly private WebServiceRequest webShared = new WebServiceRequest();
         [HttpGet]
-        public ActionResult Index(string nomeProduto, string? message)
+        public ActionResult Index(string nomeProduto, string message)
          {
             Produto produto;
             if (message == null)
