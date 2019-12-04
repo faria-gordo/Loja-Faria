@@ -15,18 +15,20 @@ namespace Loja.Data
     /// 
     /// TODO:      
     /// 
+    ///     -Com nova tabela tem que se criar um sistema para cada metodo aceitar o nome da tabela em causa.
+    ///     -Ter em atencao o nome dos metodos, rever todos os caminhos possiveis
     /// </summary>
     public class Data
     {
         private readonly CloudStorageAccount storageAccount;
         private readonly CloudTableClient tableClient;
         private readonly CloudTable table;
-        public Data()
+        public Data(string nomeTabela)
         {
             string ConnectionString = "DefaultEndpointsProtocol=https;AccountName=lojafariastorage;AccountKey=RzxcaNCnheT4HKh7ym8KaML3J1FSXKXUS0HaIHvw7diyood7Ekk9D8ki7szjnfO6X9drbGaZIE6gHlbcXQUWaA==;EndpointSuffix=core.windows.net";
             storageAccount = CloudStorageAccount.Parse(ConnectionString);
             tableClient = storageAccount.CreateCloudTableClient();
-            table = tableClient.GetTableReference("LojaFaria");
+            table = tableClient.GetTableReference(nomeTabela);
             table.CreateIfNotExists();
         }
         //Devolve mensagem de feedback de um helper existente   
@@ -185,9 +187,16 @@ namespace Loja.Data
                 return produtos;
             }
         }
-        public List<Produto> SelecionarProdutos(List<Produto> produtos)
+        public List<Produto> SelecionarProdutos()
         {
-            return null;
+
+            List<ModeloTable> modelos = table.ExecuteQuery(new TableQuery<ModeloTable>()).ToList();
+            List<Produto> produtos = new List<Produto>();
+            foreach(ModeloTable modelo in modelos)
+            {
+                produtos.Add(ModelTableToModel(modelo));
+            }
+            return produtos;
         }
         public List<Produto> SelecionarProdutosPorPartitionKey(string partitionKey)
         {

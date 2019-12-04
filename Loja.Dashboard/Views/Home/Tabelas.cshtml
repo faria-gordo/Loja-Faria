@@ -1,9 +1,42 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Tabelas";
 }
 
 <h3>Tabelas</h3>
+
+<table class="table table-hover">
+    <!--No futuro, 'Tabela dos {Nome da tabela por ViewBag}-->
+    <thead> Tabela dos Produtos
+        <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Preco</th>
+            <th scope="col">Descrição</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--Chamar servico e export produtos que existem na bd-->
+        @{
+            if (ViewBag.Produtos != null)
+            {
+                foreach (var produto in ViewBag.Produtos)
+                {
+                    <tr>
+                        <td scope="row">@produto.Nome</td>
+                        <td>@produto.Preco</td>
+                        <td>@produto.Descricao</td>
+                        <td></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>Não existem produtos na tabela Carrinho</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
 
 
 

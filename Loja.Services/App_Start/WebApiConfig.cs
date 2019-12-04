@@ -17,7 +17,12 @@ namespace Loja.Services
             config.Routes.MapHttpRoute(
                 name: "Web",
                 routeTemplate: "{controller}/{action}/{data}",
-                defaults: new { identifier = RouteParameter.Optional }
+                defaults: new { data= RouteParameter.Optional }
+            );
+            config.Routes.MapHttpRoute(
+                name: "Dash",
+                routeTemplate: "{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional }
             );
         }
     }

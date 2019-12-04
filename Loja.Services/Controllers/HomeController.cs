@@ -12,6 +12,10 @@ namespace Loja.Services.Controllers
         /// 
         /// Sumário serve para expor informação adicional aos comentários ou para informar todos os bugs na aplicação em causa.
         /// 
+        /// Todo:
+        /// 
+        ///     - Mudar nome do Controller
+        ///     - Melhorar Ui/ux do web api
         /// </summary>
         public ActionResult Index()
         {

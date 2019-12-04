@@ -22,11 +22,11 @@ namespace Loja.Services.Controllers
     ///           
     ///         -Haver'a dois metodos para cada Tipo de acao.
     ///         -So ira poder receber identifiers. Fazer um metodo para criar identifiers 'string especifica que contem o rk/pk ou nome
-    /// 
+    ///         - Mete se aqui o nome da tabela? esta tabela nao ira mudar aqui e vai ser necessario chamar a tabela Carrinho!!!
     /// </summary>
     public class WebController : ApiController
     {   
-        private readonly Data.Data manager = new Data.Data();
+        private readonly Data.Data manager = new Data.Data("LojaFaria");
         private readonly Shared lib = new Shared();
         [HttpGet]
         public IHttpActionResult GetProducts()
@@ -56,6 +56,8 @@ namespace Loja.Services.Controllers
                 default:
                     return NotFound();
             }
+            //chamar servico para informar dashboard
+
             return Ok(produtos);
         }
 

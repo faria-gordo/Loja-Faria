@@ -23,9 +23,9 @@ namespace Loja.Controllers
         public ActionResult Index(string productName)
         {
             string partitionKey = PartitionKeyFormatter(productName);
-            Loja.Data.Data manager = new Loja.Data.Data();
+            Loja.Data.Data manager = new Loja.Data.Data("LojaFaria");
 
-            Produto prod = (from s in webShared.CallWebService("GetProduct",partitionKey)
+            Produto prod = (from s in webShared.CallWebService("web","GetProduct",partitionKey, true)
                                    where s.Nome == productName.Split('-')[0]
                                    select s).FirstOrDefault();
             List<Produto> produtosNoCarrinho = new List<Produto>();

@@ -16,8 +16,9 @@ namespace Loja.Controllers
     /// 
     /// TODO:
     /// 
-    ///     -Criar helper para sumariar os servicos que o web api tem e dispolos aqui.
-    /// 
+    ///     -Criar helper para sumariar os servicos que o web api tem e expolos aqui.
+    ///     - Criar helper para sumariar os WebApi controller que  o web api tem.
+    ///     - Validar data enviada para web service.
     /// </summary>
     public class HomeController : Controller
     {
@@ -41,7 +42,7 @@ namespace Loja.Controllers
         {
             string[] urlParams = HttpContext.Request.Url.ToString().Split('/');
             string extraInfo = urlParams[5].ToUpper().First() + "-" + " ";
-            List<Produto> produtos = webShared.CallWebService("GetProduct", extraInfo);
+            List<Produto> produtos = webShared.CallWebService("web","GetProduct", extraInfo,false);
             ViewBag.Seccao = urlParams[5]; 
             ViewBag.Produtos = produtos;
             return View();

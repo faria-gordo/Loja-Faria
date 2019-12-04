@@ -18,7 +18,7 @@ namespace Loja.Importer
     {
         public void Importer()
         {
-            Data.Data manager = new Data.Data();
+            Data.Data manager = new Data.Data("LojaFaria");
             string filePath = @"Url do excel"; //URL MISSING
             if (File.Exists(filePath))
             {
