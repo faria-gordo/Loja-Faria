@@ -111,24 +111,79 @@ namespace Loja.Data
         }
 
         //SELECIONAR
-        public Produto SelecionarProduto(Produto produto)
+        public List<Produto> SelecionarProduto(Produto produto)
         {
 
             return null;
         }
-        public Produto SelecionarProdutoPorRowKey(string rowkey)
+        public List<Produto> SelecionarProdutoPorRowKey(string rowkey)
         {
 
             return null;
         }
-        public Produto SelecionarProdutoPorPartitionKey(string partitionKey)
+        public List<Produto> SelecionarProdutoPorPartitionKey(string partitionKey)
         {
-            return null;
+            List<Produto> produtos = new List<Produto>();
+            try
+            {
+                TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
+                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                foreach (var produto in resultado)
+                {
+                    produtos.Add(ModelTableToModel(produto));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return produtos;
         }
-        public Produto SelecionarProdutoPorNome(string nome)
+        public List<Produto> SelecionarProdutoPorNome(string name)
         {
+            string nome = name + "-";
 
-            return null;
+            if (nome.Split('-')[1] != "")
+            {
+                List<Produto> produtos = new List<Produto>();
+                try
+                {
+                    TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, nome));
+                    List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                    foreach (var produto in resultado)
+                    {
+                        produtos.Add(ModelTableToModel(produto));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                return produtos;
+            }
+            else
+            {
+                string tipoDeProduto = "Pul;Col;Ter";
+                List<Produto> produtos = new List<Produto>();
+                foreach (string tipo in tipoDeProduto.Split(';'))
+                {
+                    var PartitionKey = nome.Trim() + tipo.Trim();
+                    try
+                    {
+                        TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, PartitionKey));
+                        List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                        foreach (var produto in resultado)
+                        {
+                            produtos.Add(ModelTableToModel(produto));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                return produtos;
+            }
         }
         public List<Produto> SelecionarProdutos(List<Produto> produtos)
         {

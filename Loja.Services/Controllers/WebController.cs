@@ -8,6 +8,8 @@ using Loja.Data;
 using Loja.Models;
 using Loja.Library;
 using Newtonsoft.Json;
+using System.Web.Services;
+using System.Web.Script.Services;
 
 namespace Loja.Services.Controllers
 {
@@ -32,27 +34,29 @@ namespace Loja.Services.Controllers
             return Ok();
         }
         [HttpGet]
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public IHttpActionResult GetProduct(string data)
         {
             // 1 verificar pelo qual se quer obter o produto (RK/PK/Nome)
             // 2 verificar identifier, saber se é PK ou RK ou Nome
             string response = lib.WebServiceRequestFormatData(data);
-            Produto produto = new Produto();
+            List<Produto> produtos = new List<Produto>();
             switch (response.Split('-')[0].ToLower())
             {
                 case "partitionkey":
-                    produto = manager.SelecionarProdutoPorPartitionKey(response.Split('-')[1]);
+                    produtos = manager.SelecionarProdutoPorPartitionKey(response.Split('-')[1] + "-" + response.Split('-')[2]);
                     break;
                 case "rowkey":
-                    produto = manager.SelecionarProdutoPorRowKey(response.Split('-')[1]);
+                    produtos = manager.SelecionarProdutoPorRowKey(response.Split('-')[1]);
                     break;
                 case "name":
-                    produto = manager.SelecionarProdutoPorNome(response.Split('-')[1]);
+                    produtos = manager.SelecionarProdutoPorNome(response.Split('-')[1]);
                     break;
                 default:
                     return NotFound();
             }
-            return Ok(produto);
+            return Ok(produtos);
         }
 
         //Update

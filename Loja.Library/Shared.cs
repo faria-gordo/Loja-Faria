@@ -16,6 +16,9 @@ namespace Loja.Library
     ///         - Por aqui o metodo PartitionKeyFormatter
     ///         - Adicionar metodo WebServiceRequestMessage
     ///         
+    /// 
+    /// Erro: 
+    ///         - Caso inicial onde é só dado parte da PK, considera-se PK ou vai para o nome? como proceder neste caso?
     /// </summary>
     public class Shared
     {
@@ -26,16 +29,20 @@ namespace Loja.Library
             string response;
             if (CompareToAllRowKeys(rawData))
             {
-                response = RetrieveRowKey(rawData);
+                response = rawData;
             }
             else if(CompareToAllPrimaryKeys(rawData))
             {
-                response = "PartitionKey-" + RetrievePartitionKey(rawData);
+                response = "PartitionKey-" + rawData;
             }
             //Errado, podem pesquisar por um produto que nao existe nem RK ou PK ou nome
-            else
+            else if(rawData.Length > 0)
             {
                 response = "Name-" + RetrieveName(rawData);
+            }
+            else
+            {
+                return "";
             }
             return response;
         }

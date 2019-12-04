@@ -25,7 +25,7 @@ namespace Loja.Controllers
             {
                 //Validation on nomeProduto
                 string partitionKey = nomeProduto.Split('-')[0].Replace("_","-");
-                List<Produto> produtos = webShared.CallWebService("GetProductsByPartitionKey",partitionKey);
+                List<Produto> produtos = webShared.CallWebService("GetProduct",partitionKey);
                 produto = (from p in produtos
                                    where p.Nome == nomeProduto.Split('-')[1].Replace("_", " ")
                                    select p).First();
@@ -33,7 +33,7 @@ namespace Loja.Controllers
             else
             {
                 //Validation on nomeProduto
-                List<Produto> produtos = webShared.CallWebService("GetProductsByPartitionKey",PartitionKeyFormatter(nomeProduto));
+                List<Produto> produtos = webShared.CallWebService("GetProduct",PartitionKeyFormatter(nomeProduto));
                 produto = (from p in produtos
                            where p.Nome == nomeProduto.Split('-')[0].Replace("_", " ")
                            select p).First();
