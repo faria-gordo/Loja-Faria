@@ -89,31 +89,3 @@ a:hover {
     display: block;
     position: center
 }
-.but1 {
-    width: 28px;
-    height: 45px;
-    background: white;
-    text-align: center;
-    border: 1px solid lightgrey;
-    margin: -3px;
-}
-
-.minus:hover {
-    background: antiquewhite
-}
-
-.plus:hover {
-    background: antiquewhite
-}
-
-.but2 {
-    width: 120px;
-    height: 45px;
-    background: white;
-    text-align: center;
-    border: 3px solid grey;
-}
-
-    .but2:hover {
-        background: antiquewhite
-    }

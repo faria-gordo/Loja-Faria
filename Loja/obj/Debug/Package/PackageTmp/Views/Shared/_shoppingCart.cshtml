@@ -1,0 +1,48 @@
+﻿@using Loja.Models;
+<!--Orientar ultima coluna que diz valor total do carrinho de compras. (col1)
+    Tal e qual a coluna do preco de cada produto e a sua quantidade (col2)-->
+<div class="container">
+    <div class="row">
+        @{
+            if (ViewBag.Produtos != null)
+            {
+                foreach (Produto produto in ViewBag.Produtos)
+                {
+                    <div class="col-md-8">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <div class="list-group-item-heading"><img alt="@produto.Descricao" src="@produto.Url" height="100" width="80" /></div>
+                                            <a href="@Url.Action("RemoveShoppingProduct","Shop", new { id = produto.Id })" class="remove"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+                                            <div class="list-group-item-info">@produto.Nome</div>
+                                            <div id="productPreco" class="list-group-item-success">@produto.Preco</div>
+                                            <button id="min" type="button" class="regbutton minus"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                                            <input id="num" name="quantity" class="regbutton" style="width: 60px" type="text" width="200" maxlength="7" />
+                                            <button id="pl" type="button" class="regbutton plus"><span class="glyphicon glyphicon-plus"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="list-group-item">valor do campo 'Preco unitario' * valor do campo 'Quantidade'</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+    <div class="col-md-offset-1 col-md-1">
+        <div class="panel-body">
+            <div class="row">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <p id="productFullPrice">sadsa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

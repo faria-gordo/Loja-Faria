@@ -1,0 +1,14 @@
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Release\Loja.Modelos.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Release\Loja.Modelos.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Release\Microsoft.Azure.KeyVault.Core.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Release\Microsoft.WindowsAzure.Storage.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Release\Newtonsoft.Json.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Release\Microsoft.Azure.KeyVault.Core.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Release\Microsoft.WindowsAzure.Storage.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Release\Microsoft.WindowsAzure.Storage.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Release\Newtonsoft.Json.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\obj\Release\Loja.Models.csprojAssemblyReference.cache
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\obj\Release\Loja.Models.csproj.CoreCompileInputs.cache
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\obj\Release\Loja.Models.csproj.CopyComplete
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\obj\Release\Loja.Modelos.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\obj\Release\Loja.Modelos.pdb
