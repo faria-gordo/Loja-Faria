@@ -38,12 +38,6 @@ namespace Loja.Controllers
             }
             return View(produto);
         }
-        //public void AddProductToCart(FormCollection form)
-        //{
-        //    string nomePorduto = form["productName"];
-        //    int quantidade = Int32.Parse(form["num"]);
-            
-        //}
         private string PartitionKeyFormatter(string uneditedPK)
         {
             string editedPK = uneditedPK.Split('-')[1].First() + "-" + uneditedPK.Split('-')[2].Substring(0, 3);

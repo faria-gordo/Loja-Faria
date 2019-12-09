@@ -28,7 +28,7 @@ namespace Loja.Dashboard.Controllers
         public ActionResult Tabelas()
         {
             List<Produto> produtos = webShared.CallWebService("dash","GetProducts","");
-            ViewBag.Produtos = produtos;
+            ViewBag.AllProducts = produtos;
             return View();
         }
         public ActionResult Graficos()

@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Loja.Modelos
+namespace Loja.Models
 {
     /// <summary>
     /// 
     /// Todo:
     ///     -Modificar apos criacao das propriedades do modelo Carrinho
     /// </summary>
-    class ModeloTableCarrinho: TableEntity
+    public class ModeloTableCarrinho: TableEntity
     {
         public ModeloTableCarrinho() { }
-        public ModeloTableCarrinho(string partitionKey, string rowKey, string nome, string tipo, string seccao, string descricao, double preco, DateTime dataDeAquisicao, DateTime dataDeVenda, string url)
+        public ModeloTableCarrinho(string partitionKey, string rowKey, string nome, string tipo, string seccao, string descricao, double preco,int quantidade, DateTime dataDeCompra, string url)
         {
             PartitionKey = partitionKey;
             RowKey = rowKey;
@@ -24,19 +24,19 @@ namespace Loja.Modelos
             Seccao = seccao;
             Descricao = descricao;
             Preco = preco;
-            DataDeAquisicao = dataDeAquisicao;
-            DataDeVenda = dataDeVenda;
+            Quantidade = quantidade;
+            DataDeCompra = dataDeCompra;
             Url = url;
         }
-        public string SeccaoTipo => PartitionKey;
-        public string Id => RowKey;
+        public string Email => PartitionKey;
+        public string IdCompra => RowKey;
         public string Nome { get; set; }
         public string Tipo { get; set; }
         public string Seccao { get; set; }
         public string Descricao { get; set; }
         public double Preco { get; set; }
-        public DateTime DataDeAquisicao { get; set; }
-        public DateTime DataDeVenda { get; set; }
+        public int Quantidade { get; set; }
+        public DateTime DataDeCompra { get; set; }
         public string Url { get; set; }
     }
 }

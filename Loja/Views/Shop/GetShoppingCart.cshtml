@@ -1,4 +1,6 @@
-﻿@{
+﻿<!--Adicionar validacao se existem produtos no carrinho de compras-->
+@using Loja.Models;
+@{
     ViewBag.Title = "GetCartingShop";
 }
 <!--Extender coluna do produto. Criar colunas para preco e quantidade no carrinho, modal para descricao, adicionar feedback em janelas-->
@@ -13,14 +15,61 @@
                 </div>
                 <div class="col-md-offset-2 col-md-4">
                     <div class="h4">
-                        Limpar Carrinho      <a class="btn btn-danger" href="~/Shop/CleanShoppingCart"><span class="fa fa-trash"></span></a>
+                        Limpar Carrinho
+                        <a class="btn btn-danger" href="~/Shop/CleanShoppingCart"><span class="fa fa-trash"></span></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--Adicionar validacao se existem produtos no carrinho de compras-->
-    @Html.Partial("_shoppingCart")
+    <!--Orientar ultima coluna que diz valor total do carrinho de compras. (col1)
+        Tal e qual a coluna do preco de cada produto e a sua quantidade (col2)-->
+    <div class="container">
+        <div class="row">
+            @{
+                if (ViewBag.Produtos != null)
+                {
+                    foreach (Produto produto in ViewBag.Produtos)
+                    {
+                        <div class="col-md-8">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="list-group">
+                                            <div class="list-group-item">
+                                                <div class="list-group-item-heading"><img alt="@produto.Descricao" src="@produto.Url" height="100" width="80" /></div>
+                                                <a href="@Url.Action("RemoveShoppingProduct","Shop", new { id = produto.Id })" class="remove"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
+                                                <div class="list-group-item-info">@produto.Nome</div>
+                                                <div id="productPreco" class="list-group-item-success">@produto.Preco</div>
+                                                <!--Export produto.Quantidade-->
+                                                <div class="list-group-item list-group-item-info">@produto.Quantidade</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="list-group-item">valor do campo 'Preco unitario' * valor do campo 'Quantidade'</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <a href="@Url.Action("AddShoppingCart","Shop",ViewBag.Produtos)"></a>
+                }
+
+            }
+        </div>
+        <div class="col-md-offset-1 col-md-1">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <p id="productFullPrice">sadsa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @section scripts{
     <script>

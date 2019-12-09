@@ -34,6 +34,8 @@ namespace Loja.Data
         //Devolve mensagem de feedback de um helper existente   
         //Array de quantidaes(int) é respetivamente com a lista de produtos
 
+        /// <param name="produto"></param>
+
         //ADICIONAR
         public string AdicionarProduto(Produto produto)
         {
@@ -63,6 +65,18 @@ namespace Loja.Data
                 Console.WriteLine(ex.Message);
             }
             return "Mensagem do helper";
+        }
+        public string AdicionarCarrinho(Carrinho carrinho)
+        {
+            try
+            {
+                    table.Execute(TableOperation.Insert(CarrinhoToModelTable(carrinho)));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return "Mensagem do helper Carrinho adicionado!!";
         }
 
         //RETIRAR
@@ -243,6 +257,16 @@ namespace Loja.Data
             }
 
         }
+        public List<Carrinho> SelecionarCarrinhos()
+        {
+            List<ModeloTableCarrinho> modelos = table.ExecuteQuery(new TableQuery<ModeloTableCarrinho>()).ToList();
+            List<Carrinho> produtos = new List<Carrinho>();
+            foreach (ModeloTableCarrinho modelo in modelos)
+            {
+                produtos.Add(ModelTableToCarrinho(modelo));
+            }
+            return produtos;
+        }
 
         //ATUALIZAR
         public Produto AtualizarProduto(Produto produto)
@@ -272,7 +296,9 @@ namespace Loja.Data
             return null;
         }
 
+
         //MAPPINGS
+            //TableEntity to Entity
         public Produto ModelTableToModel(ModeloTable modeloTable)
         {
             Produto produto = new Produto()
@@ -287,6 +313,25 @@ namespace Loja.Data
             };
             return produto;
         }
+        public Carrinho ModelTableToCarrinho(ModeloTableCarrinho modeloCarrinho)
+        {
+            Carrinho carrinho = new Carrinho()
+            {
+                IdCompra = modeloCarrinho.IdCompra,
+                Nome = modeloCarrinho.Nome,
+                Email = modeloCarrinho.PartitionKey,
+                Tipo = modeloCarrinho.Tipo,
+                Seccao = modeloCarrinho.Seccao,
+                Descricao = modeloCarrinho.Descricao,
+                Preco = modeloCarrinho.Preco,
+                Quantidade = modeloCarrinho.Quantidade,
+                DataDeCompra = modeloCarrinho.DataDeCompra,
+                Url = modeloCarrinho.Url
+            };
+            return carrinho;
+        }
+
+            //Entity to TableEntity
         public ModeloTable ModelToModelTable(Produto prod)
         {
             ModeloTable modelo = new ModeloTable()
@@ -298,6 +343,21 @@ namespace Loja.Data
                 Preco = prod.Preco,
                 Descricao = prod.Descricao,
                 Url = prod.Url
+            };
+            return modelo;
+        }
+        public ModeloTableCarrinho CarrinhoToModelTable(Carrinho carrinho)
+        {
+            ModeloTableCarrinho modelo = new ModeloTableCarrinho()
+            {
+                PartitionKey = carrinho.Email,
+                RowKey = carrinho.IdCompra,
+                Nome = carrinho.Nome,
+                Tipo = carrinho.Tipo,
+                Preco = carrinho.Preco,
+                Quantidade = carrinho.Quantidade,
+                DataDeCompra = carrinho.DataDeCompra,
+                Url = carrinho.Url
             };
             return modelo;
         }

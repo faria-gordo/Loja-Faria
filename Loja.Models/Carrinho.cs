@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Loja.Modelos
+namespace Loja.Models
 {
     /// <summary>
     /// 
@@ -12,16 +12,17 @@ namespace Loja.Modelos
     /// 
     ///     -Criar as propriedades do modelo Carrinho para por na nova tabela Carrinho
     /// </summary>
-    class Carrinho
+    public class Carrinho
     {
-        public string Id { get; set; }
+        public string IdCompra { get; set; }
         public string Nome { get; set; }
+        public string Email { get; set; }
         public string Tipo { get; set; }
         public string Seccao { get; set; }
         public string Descricao { get; set; }
         public double Preco { get; set; }
-        public DateTime DataDeAquisicao { get; set; }
-        public DateTime DataDeVenda { get; set; }
+        public int Quantidade { get; set; }
+        public DateTime DataDeCompra { get; set; }
         public string Url { get; set; }
     }
 }

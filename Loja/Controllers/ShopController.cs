@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System;
 
 namespace Loja.Controllers
 {
@@ -18,14 +19,15 @@ namespace Loja.Controllers
         readonly private WebServiceRequest webShared = new WebServiceRequest();
         // GET: Shop
         [HttpPost]
-        public ActionResult Index(string productName)
+        public ActionResult Index(string product)
         {
-            string partitionKey = PartitionKeyFormatter(productName);
+            string partitionKey = PartitionKeyFormatter(product);
             Loja.Data.Data manager = new Loja.Data.Data("LojaFaria");
 
             Produto prod = (from s in webShared.CallWebService("web","GetProduct",partitionKey, true)
-                                   where s.Nome == productName.Split('-')[0]
+                                   where s.Nome == product.Split('-')[0]
                                    select s).FirstOrDefault();
+            prod.Quantidade = Int32.Parse(product.Split('-')[3]);
             List<Produto> produtosNoCarrinho = new List<Produto>();
             if(Session["Produtos"] == null)
             {
@@ -41,7 +43,7 @@ namespace Loja.Controllers
                 }
             }
             Session["Produtos"] = produtosNoCarrinho;
-            return RedirectToAction("Index","Product", new { nomeProduto = productName, message = "Este artigo foi adicionado ao carrinho" });
+            return RedirectToAction("Index","Product", new { nomeProduto = product, message = "Este artigo foi adicionado ao carrinho" });
         }
         [HttpGet]
         public ActionResult GetShoppingCart()
@@ -83,9 +85,20 @@ namespace Loja.Controllers
             return RedirectToAction("GetShoppingCart");
         }
         [HttpPost]
+        public ActionResult AddShoppingCart(List<Produto> produtosCarrinho)
+        {
+            List<string> prod = new List<string>();
+            foreach(Produto produto in produtosCarrinho)
+            {
+                prod.Add($"{produto.Id} +");
+            }
+            webShared.CallWebService("Cart", "AddCarrinho",produtosCarrinho.ToString(),true);
+            return null;
+        }
+        [HttpPost]
         public ActionResult PayShoppingCart(FormCollection carrinho)
         {
-            //chamar servico externo de Loja.Services
+            //chamar servico externo de Loja.Services chamado Cart
             return RedirectToAction("");
         }
         private string PartitionKeyFormatter(string uneditedPK)
