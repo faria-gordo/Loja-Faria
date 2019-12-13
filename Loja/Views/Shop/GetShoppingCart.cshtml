@@ -1,10 +1,12 @@
 ﻿<!--Adicionar validacao se existem produtos no carrinho de compras-->
 @using Loja.Models;
+@using Newtonsoft.Json;
 @{
     ViewBag.Title = "GetCartingShop";
 }
 <!--Extender coluna do produto. Criar colunas para preco e quantidade no carrinho, modal para descricao, adicionar feedback em janelas-->
 <!--Ficha de visualizacao de dados, do carrinho!!-->
+<!--Por produtos numa tabela, para ir buscalos link .. https://www.aspsnippets.com/Articles/Pass-Send-List-of-objects-from-View-to-Controller-using-jQuery-AJAX-in-ASPNet-MVC.aspx-->
 <h3>Carrinho de Compras</h3>
 <div class="panel">
     <div class="panel-heading">
@@ -41,7 +43,6 @@
                                                 <a href="@Url.Action("RemoveShoppingProduct","Shop", new { id = produto.Id })" class="remove"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
                                                 <div class="list-group-item-info">@produto.Nome</div>
                                                 <div id="productPreco" class="list-group-item-success">@produto.Preco</div>
-                                                <!--Export produto.Quantidade-->
                                                 <div class="list-group-item list-group-item-info">@produto.Quantidade</div>
                                             </div>
                                         </div>
@@ -53,7 +54,6 @@
                             </div>
                         </div>
                     }
-                    <a href="@Url.Action("AddShoppingCart","Shop",ViewBag.Produtos)"></a>
                 }
 
             }
@@ -63,7 +63,8 @@
                 <div class="row">
                     <div class="list-group">
                         <div class="list-group-item">
-                            <p id="productFullPrice">sadsa</p>
+                            <p id="productFullPrice">Comprar</p>
+                            <button id="shopCart" class="btn btn-block btn-default col-md-2">Comprar</button>
                         </div>
                     </div>
                 </div>
@@ -93,6 +94,26 @@
                 return precoTotal;
             });
         });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#shopCart").click(function () {
+                alert("Carregaste no butao");
+                var dat = JSON.stringify(@ViewBag.Produtos)
+                console.log(dat);
+                $.ajax({
+                    url: "http://localhost:54841/Shop/AddShoppingCart/",
+                    type: "GET",
+                    traditional: true,
+                    data: dat,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function () {
+                        alert("Carrinho enviado");
+                    }
+                })
+            });
+        })
     </script>
 }
 
