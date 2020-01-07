@@ -60,14 +60,15 @@
         </div>
         <div class="col-md-offset-1 col-md-1">
             <div class="panel-body">
-                <div class="row">
+                @*<div class="row">
                     <div class="list-group">
                         <div class="list-group-item">
                             <p id="productFullPrice">Comprar</p>
-                            <button id="shopCart" class="btn btn-block btn-default col-md-2">Comprar</button>
+
                         </div>
                     </div>
-                </div>
+                </div>*@
+                <button id="shopCart" class="btn btn-block btn-default" onclick="buyCart()">Comprar</button>
             </div>
         </div>
     </div>
@@ -96,8 +97,7 @@
         });
     </script>
     <script>
-        $(document).ready(function () {
-            $("#shopCart").click(function () {
+            function buyCart() {
                 alert("Carregaste no butao");
                 var dat = JSON.stringify(@ViewBag.Produtos)
                 console.log(dat);
@@ -112,8 +112,6 @@
                         alert("Carrinho enviado");
                     }
                 })
-            });
-        })
     </script>
 }
 
