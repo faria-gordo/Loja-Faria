@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using System;
 
 namespace Loja.Controllers
 {
@@ -18,16 +20,37 @@ namespace Loja.Controllers
         readonly private WebServiceRequest webShared = new WebServiceRequest();
         // GET: Shop
         [HttpPost]
-        public ActionResult Index(string productName)
+        public ActionResult Index(string product)
         {
-            string partitionKey = PartitionKeyFormatter(productName);
+            string productName = null;
+            string partitionKey = null;
+            int? quantity = null;
+            if (product == null)
+            {
+                productName = Request.Form["productName"].Split('-')[0];
+                partitionKey = PartitionKeyFormatter(Request.Form["productName"]);
+                quantity = Int32.Parse(Request.Form["quantity"]);
+            }
+            else
+            {
+                partitionKey = PartitionKeyFormatter(product);
+                productName = product.Split('-')[0];
+            }
             Loja.Data.Data manager = new Loja.Data.Data("LojaFaria");
 
-            Produto prod = (from s in webShared.CallWebService("web","GetProduct",partitionKey, true)
-                                   where s.Nome == productName.Split('-')[0]
-                                   select s).FirstOrDefault();
+            Produto prod = (from s in webShared.CallWebService("web", "GetProduct", partitionKey, true)
+                            where s.Nome == productName.Split('-')[0]
+                            select s).FirstOrDefault();
+            if (product != null)
+            {
+                prod.Quantidade = Int32.Parse(product.Split('-')[3]);
+            }
+            else
+            {
+                prod.Quantidade = quantity.GetValueOrDefault(1);
+            }
             List<Produto> produtosNoCarrinho = new List<Produto>();
-            if(Session["Produtos"] == null)
+            if (Session["Produtos"] == null)
             {
                 produtosNoCarrinho = new List<Produto>();
                 produtosNoCarrinho.Add(prod);
@@ -41,12 +64,12 @@ namespace Loja.Controllers
                 }
             }
             Session["Produtos"] = produtosNoCarrinho;
-            return RedirectToAction("Index","Product", new { nomeProduto = productName, message = "Este artigo foi adicionado ao carrinho" });
+            return RedirectToAction("Index", "Product", new { nomeProduto = productName, message = "Este artigo foi adicionado ao carrinho" });
         }
         [HttpGet]
         public ActionResult GetShoppingCart()
         {
-            if(Session["Produtos"] != null)
+            if (Session["Produtos"] != null)
             {
                 ViewBag.Produtos = Session["Produtos"] as List<Produto>;
             }
@@ -60,9 +83,9 @@ namespace Loja.Controllers
             ///verificao se session produtos tem mais que um produto, se nao, nao mostrar nada.
             List<Produto> lista = Session["Produtos"] as List<Produto>;
             Produto prodRemover = new Produto();
-            foreach(Produto prod in lista)
+            foreach (Produto prod in lista)
             {
-                if(prod.Id == urlParams[5])
+                if (prod.Id == urlParams[5])
                 {
                     prodRemover = prod;
                 }
@@ -75,17 +98,31 @@ namespace Loja.Controllers
         public ActionResult CleanShoppingCart()
         {
             List<Produto> carrinho = Session["Produtos"] as List<Produto>;
-            if(carrinho != null)
+            if (carrinho != null)
             {
                 carrinho.RemoveAll(x => x.Id != null);
                 Session["Produtos"] = carrinho;
             }
             return RedirectToAction("GetShoppingCart");
         }
+        [HttpGet]
+        public ActionResult AddShoppingCart(List<Produto> products)
+        {
+            //string products = HttpContext.Request.RawUrl;
+            List<string> prod = new List<string>();
+            //List<Produto> carrinho = JsonConvert.DeserializeObject<List<Produto>>(products);
+            List<Produto> carrinho = null;
+            foreach (Produto produto in carrinho)
+            {
+                prod.Add($"{produto.Id} +");
+            }
+            webShared.CallWebService("Cart", "PutCarrinho", products.ToString(),true);
+            return null;
+        }
         [HttpPost]
         public ActionResult PayShoppingCart(FormCollection carrinho)
         {
-            //chamar servico externo de Loja.Services
+            //chamar servico externo de Loja.Services chamado Cart
             return RedirectToAction("");
         }
         private string PartitionKeyFormatter(string uneditedPK)

@@ -17,6 +17,9 @@ namespace Loja.Data
     /// 
     ///     -Com nova tabela tem que se criar um sistema para cada metodo aceitar o nome da tabela em causa.
     ///     -Ter em atencao o nome dos metodos, rever todos os caminhos possiveis
+    ///     
+    ///     -Em relacao a procura por nome, experimentar por secao (Primeira parte do PK) e depois por Tipo (segunda parte do PK)
+    ///     - Criar sistema helper para definir tipos e seccoes que existem na loja
     /// </summary>
     public class Data
     {
@@ -33,6 +36,8 @@ namespace Loja.Data
         }
         //Devolve mensagem de feedback de um helper existente   
         //Array de quantidaes(int) é respetivamente com a lista de produtos
+
+        /// <param name="produto"></param>
 
         //ADICIONAR
         public string AdicionarProduto(Produto produto)
@@ -63,6 +68,18 @@ namespace Loja.Data
                 Console.WriteLine(ex.Message);
             }
             return "Mensagem do helper";
+        }
+        public string AdicionarCarrinho(Carrinho carrinho)
+        {
+            try
+            {
+                table.Execute(TableOperation.Insert(CarrinhoToModelTable(carrinho)));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return "Mensagem do helper Carrinho adicionado!!";
         }
 
         //RETIRAR
@@ -165,23 +182,50 @@ namespace Loja.Data
             }
             else
             {
-                string tipoDeProduto = "Pul;Col;Ter";
                 List<Produto> produtos = new List<Produto>();
-                foreach (string tipo in tipoDeProduto.Split(';'))
+                string tipoDeProduto = "Pul;Col;Ter";
+                if (name.Length > 2)
                 {
-                    var PartitionKey = nome.Trim() + tipo.Trim();
-                    try
+                    string seccaoDeProduto = "B,D,R";
+                    foreach (string secao in seccaoDeProduto.Split(','))
                     {
-                        TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, PartitionKey));
-                        List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
-                        foreach (var produto in resultado)
+                        foreach (string tipo in tipoDeProduto.Split(';'))
                         {
-                            produtos.Add(ModelTableToModel(produto));
+                            var PartitionKey = secao.Trim() + '-' + tipo.Trim();
+                            try
+                            {
+                                TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, PartitionKey));
+                                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                                foreach (var produto in resultado)
+                                {
+                                    produtos.Add(ModelTableToModel(produto));
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
                         }
                     }
-                    catch (Exception ex)
+                }
+                else
+                {
+                    foreach (string tipo in tipoDeProduto.Split(';'))
                     {
-                        Console.WriteLine(ex.Message);
+                        var PartitionKey = nome.Trim() + tipo.Trim();
+                        try
+                        {
+                            TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, PartitionKey));
+                            List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                            foreach (var produto in resultado)
+                            {
+                                produtos.Add(ModelTableToModel(produto));
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                     }
                 }
                 return produtos;
@@ -192,7 +236,7 @@ namespace Loja.Data
 
             List<ModeloTable> modelos = table.ExecuteQuery(new TableQuery<ModeloTable>()).ToList();
             List<Produto> produtos = new List<Produto>();
-            foreach(ModeloTable modelo in modelos)
+            foreach (ModeloTable modelo in modelos)
             {
                 produtos.Add(ModelTableToModel(modelo));
             }
@@ -243,6 +287,16 @@ namespace Loja.Data
             }
 
         }
+        public List<Carrinho> SelecionarCarrinhos()
+        {
+            List<ModeloTableCarrinho> modelos = table.ExecuteQuery(new TableQuery<ModeloTableCarrinho>()).ToList();
+            List<Carrinho> produtos = new List<Carrinho>();
+            foreach (ModeloTableCarrinho modelo in modelos)
+            {
+                produtos.Add(ModelTableToCarrinho(modelo));
+            }
+            return produtos;
+        }
 
         //ATUALIZAR
         public Produto AtualizarProduto(Produto produto)
@@ -272,7 +326,9 @@ namespace Loja.Data
             return null;
         }
 
+
         //MAPPINGS
+        //TableEntity to Entity
         public Produto ModelTableToModel(ModeloTable modeloTable)
         {
             Produto produto = new Produto()
@@ -287,6 +343,25 @@ namespace Loja.Data
             };
             return produto;
         }
+        public Carrinho ModelTableToCarrinho(ModeloTableCarrinho modeloCarrinho)
+        {
+            Carrinho carrinho = new Carrinho()
+            {
+                IdCompra = modeloCarrinho.IdCompra,
+                Nome = modeloCarrinho.Nome,
+                Email = modeloCarrinho.PartitionKey,
+                Tipo = modeloCarrinho.Tipo,
+                Seccao = modeloCarrinho.Seccao,
+                Descricao = modeloCarrinho.Descricao,
+                Preco = modeloCarrinho.Preco,
+                Quantidade = modeloCarrinho.Quantidade,
+                DataDeCompra = modeloCarrinho.DataDeCompra,
+                Url = modeloCarrinho.Url
+            };
+            return carrinho;
+        }
+
+        //Entity to TableEntity
         public ModeloTable ModelToModelTable(Produto prod)
         {
             ModeloTable modelo = new ModeloTable()
@@ -298,6 +373,21 @@ namespace Loja.Data
                 Preco = prod.Preco,
                 Descricao = prod.Descricao,
                 Url = prod.Url
+            };
+            return modelo;
+        }
+        public ModeloTableCarrinho CarrinhoToModelTable(Carrinho carrinho)
+        {
+            ModeloTableCarrinho modelo = new ModeloTableCarrinho()
+            {
+                PartitionKey = carrinho.Email,
+                RowKey = carrinho.IdCompra,
+                Nome = carrinho.Nome,
+                Tipo = carrinho.Tipo,
+                Preco = carrinho.Preco,
+                Quantidade = carrinho.Quantidade,
+                DataDeCompra = carrinho.DataDeCompra,
+                Url = carrinho.Url
             };
             return modelo;
         }

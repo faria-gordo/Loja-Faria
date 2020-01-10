@@ -23,6 +23,7 @@ namespace Loja.Services.Controllers
     ///         -Haver'a dois metodos para cada Tipo de acao.
     ///         -So ira poder receber identifiers. Fazer um metodo para criar identifiers 'string especifica que contem o rk/pk ou nome
     ///         - Mete se aqui o nome da tabela? esta tabela nao ira mudar aqui e vai ser necessario chamar a tabela Carrinho!!!
+    ///         - Por cada IHttpActionResult, usar um try e apanhar qualquer erro que haja.
     /// </summary>
     public class WebController : ApiController
     {   

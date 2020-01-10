@@ -16,6 +16,7 @@ namespace Loja.Models
         public DateTime DataDeAquisicao { get; set; }
         public DateTime DataDeVenda { get; set; }
         public string Seccao { get; set; }
+        public int Quantidade { get; set; }
         public string Url { get; set; }
     }
 }

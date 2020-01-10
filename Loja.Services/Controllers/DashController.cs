@@ -54,7 +54,7 @@ namespace Loja.Services.Controllers
         }
         public IHttpActionResult PutProduct(string id)
         {
-
+            //Dashboard
             return Ok();
         }
     }
