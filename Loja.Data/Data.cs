@@ -15,11 +15,6 @@ namespace Loja.Data
     /// 
     /// TODO:      
     /// 
-    ///     -Com nova tabela tem que se criar um sistema para cada metodo aceitar o nome da tabela em causa.
-    ///     -Ter em atencao o nome dos metodos, rever todos os caminhos possiveis
-    ///     
-    ///     -Em relacao a procura por nome, experimentar por secao (Primeira parte do PK) e depois por Tipo (segunda parte do PK)
-    ///     - Criar sistema helper para definir tipos e seccoes que existem na loja
     /// </summary>
     public class Data
     {
@@ -34,10 +29,6 @@ namespace Loja.Data
             table = tableClient.GetTableReference(nomeTabela);
             table.CreateIfNotExists();
         }
-        //Devolve mensagem de feedback de um helper existente   
-        //Array de quantidaes(int) é respetivamente com a lista de produtos
-
-        /// <param name="produto"></param>
 
         //ADICIONAR
         public string AdicionarProduto(Produto produto)
@@ -79,7 +70,7 @@ namespace Loja.Data
             {
                 Console.WriteLine(ex.Message);
             }
-            return "Mensagem do helper Carrinho adicionado!!";
+            return "Mensagem do helper Carrinho adicionado!! ";
         }
 
         //RETIRAR
@@ -135,10 +126,23 @@ namespace Loja.Data
 
             return null;
         }
-        public List<Produto> SelecionarProdutoPorRowKey(string rowkey)
+        public Produto SelecionarProdutoPorRowKey(string rowkey)
         {
-
-            return null;
+            Produto produto = new Produto();
+            try
+            {
+                TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowkey));
+                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                foreach (var prod in resultado)
+                {
+                    produto = ModelTableToModel(prod);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return produto;
         }
         public List<Produto> SelecionarProdutoPorPartitionKey(string partitionKey)
         {
@@ -355,7 +359,7 @@ namespace Loja.Data
                 Descricao = modeloCarrinho.Descricao,
                 Preco = modeloCarrinho.Preco,
                 Quantidade = modeloCarrinho.Quantidade,
-                DataDeCompra = modeloCarrinho.DataDeCompra,
+                //DataDeCompra = modeloCarrinho.DataDeCompra,
                 Url = modeloCarrinho.Url
             };
             return carrinho;
@@ -384,12 +388,49 @@ namespace Loja.Data
                 RowKey = carrinho.IdCompra,
                 Nome = carrinho.Nome,
                 Tipo = carrinho.Tipo,
+                Seccao = carrinho.Seccao,
+                Descricao = carrinho.Descricao,
                 Preco = carrinho.Preco,
                 Quantidade = carrinho.Quantidade,
-                DataDeCompra = carrinho.DataDeCompra,
+                //DataDeCompra = carrinho.DataDeCompra,
                 Url = carrinho.Url
             };
             return modelo;
+        }
+        public Carrinho ProdutoToCarrinho(Produto produto)
+        {
+            Carrinho carrinho = new Carrinho()
+            {
+                IdCompra = Guid.NewGuid().ToString(), //Rk
+                Email = "test@gmail.com", //PK
+                Nome = "asd",
+                Tipo = produto.Tipo,
+                Seccao = produto.Seccao,
+                Descricao = produto.Descricao,
+                Preco = produto.Preco,
+                Quantidade = produto.Quantidade,
+                //DataDeCompra = produto.DataDeVenda,
+                Url = produto.Url
+            };
+            return carrinho;
+        }
+        public Produto CarrinhoToProduto(Carrinho carrinho)
+        {
+            Guid id = new Guid();
+            Produto produto = new Produto()
+            {
+                Id = "",
+                Nome = carrinho.Nome,
+                //Email = "",
+                Tipo = carrinho.Tipo,
+                Seccao = carrinho.Seccao,
+                Descricao = carrinho.Descricao,
+                Preco = carrinho.Preco,
+                Quantidade = carrinho.Quantidade,
+                //DataDeVenda = carrinho.DataDeCompra,
+                Url = carrinho.Url
+            };
+            return produto;
         }
     }
 }

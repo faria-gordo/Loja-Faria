@@ -11,15 +11,14 @@ namespace Loja.Services.Controllers
 {
     /// <summary>
     /// 
+    /// Sumário serve para expor informação adicional aos comentários ou para informar todos os bugs na aplicação em causa.
+    /// 
     /// TODO: 
-    ///     -Apos criacao da tabela, aceder a essa tabela e criar um formater para a PK e RK. 
-    ///     -Adicionar no Loja.Models o modelo do carrinho
-    ///     - Por o metodo WebServiceRequest no Shared
-    ///     - Nome da tabela deve ser encaminhado no controller mvc nao aqui. Enviar como parametro em identifier
     /// </summary>
     public class DashController : ApiController
     {
         private readonly Data.Data manager = new Data.Data("LojaFaria");
+        private readonly Data.Data carrinhoManager = new Data.Data("Carrinho");
         private readonly Shared lib = new Shared();
         public IHttpActionResult GetProducts()
         {
@@ -40,7 +39,7 @@ namespace Loja.Services.Controllers
                     produtos = manager.SelecionarProdutoPorPartitionKey(response.Split('-')[1] + "-" + response.Split('-')[2]);
                     break;
                 case "rowkey":
-                    produtos = manager.SelecionarProdutoPorRowKey(response.Split('-')[1]);
+                    produtos.Add(manager.SelecionarProdutoPorRowKey(response.Split('-')[1]));
                     break;
                 case "name":
                     produtos = manager.SelecionarProdutoPorNome(response.Split('-')[1]);

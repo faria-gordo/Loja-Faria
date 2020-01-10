@@ -12,11 +12,6 @@ namespace Loja.Dashboard.Controllers
     /// Sumário serve para expor informação adicional aos comentários ou para informar todos os bugs na aplicação em causa.
     /// 
     /// TODO: 
-    ///     - Mudar nome do controller
-    ///     - Validar informação a recebe e enviar.
-    ///     - Modificar logica para integrar nova tabela para carrinhos de compras.
-    ///     - Adicionar nome da tabela em Viewbag
-    ///     - Melhorar UI/ux
     /// </summary>
     public class HomeController : Controller
     {
@@ -27,8 +22,8 @@ namespace Loja.Dashboard.Controllers
         }
         public ActionResult Tabelas()
         {
-            List<Produto> produtos = webShared.CallWebService("dash","GetProducts","");
-            ViewBag.AllProducts = produtos;
+            List<Carrinho> carrinhos = webShared.CallWebService("Cart","GetCarrinhos","");
+            ViewBag.AllCarts = carrinhos;
             return View();
         }
         public ActionResult Graficos()

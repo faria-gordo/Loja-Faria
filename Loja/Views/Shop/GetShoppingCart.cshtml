@@ -1,12 +1,8 @@
-﻿<!--Adicionar validacao se existem produtos no carrinho de compras-->
-@using Loja.Models;
+﻿@using Loja.Models;
 @using Newtonsoft.Json;
 @{
     ViewBag.Title = "GetCartingShop";
 }
-<!--Extender coluna do produto. Criar colunas para preco e quantidade no carrinho, modal para descricao, adicionar feedback em janelas-->
-<!--Ficha de visualizacao de dados, do carrinho!!-->
-<!--Por produtos numa tabela, para ir buscalos link .. https://www.aspsnippets.com/Articles/Pass-Send-List-of-objects-from-View-to-Controller-using-jQuery-AJAX-in-ASPNet-MVC.aspx-->
 <h3>Carrinho de Compras</h3>
 <div class="panel">
     <div class="panel-heading">
@@ -24,8 +20,6 @@
             </div>
         </div>
     </div>
-    <!--Orientar ultima coluna que diz valor total do carrinho de compras. (col1)
-        Tal e qual a coluna do preco de cada produto e a sua quantidade (col2)-->
     <div class="container">
         <div class="row">
             @{
@@ -55,20 +49,11 @@
                         </div>
                     }
                 }
-
             }
         </div>
         <div class="col-md-offset-1 col-md-1">
             <div class="panel-body">
-                @*<div class="row">
-                        <div class="list-group">
-                            <div class="list-group-item">
-                                <p id="productFullPrice">Comprar</p>
-
-                            </div>
-                        </div>
-                    </div>*@
-                <button class="btn btn-block btn-default shopCart">Comprar</button>
+                <a href="@Url.Action("AddShoppingCart","Shop")" class="btn btn-block btn-default shopCart">Comprar</a>
             </div>
         </div>
     </div>
@@ -88,7 +73,6 @@
         });
     </script>
     <script>
-        //calcula preco total do carrinho em relacao ao produto e a quantidade
         $("button").on("click", function () {
             $("#productFullPrice").html(function () {
                 var quantidade = $("#num").val();

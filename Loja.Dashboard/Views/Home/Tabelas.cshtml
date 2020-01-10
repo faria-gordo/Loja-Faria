@@ -24,7 +24,6 @@
                         <td scope="row">@produto.Nome</td>
                         <td>@produto.Preco</td>
                         <td>@produto.Descricao</td>
-                        <td></td>
                     </tr>
                 }
             }
@@ -45,20 +44,27 @@
             <th scope="col">Nome</th>
             <th scope="col">Preco</th>
             <th scope="col">Descrição</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Secção</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Imagem</th>
         </tr>
     </thead>
     <tbody>
         <!--Chamar servico e export produtos que existem na bd-->
         @{
-            if (ViewBag.AllProducts != null)
+            if (ViewBag.AllCarts != null)
             {
-                foreach (var produto in ViewBag.AllProducts)
+                foreach (var produto in ViewBag.AllCarts)
                 {
                     <tr>
                         <td scope="row">@produto.Nome</td>
-                        <td>@produto.Preco</td>
+                        <td class="text-center">@produto.Preco</td>
                         <td>@produto.Descricao</td>
-                        <td></td>
+                        <td class="text-center">@produto.Quantidade</td>
+                        <td>@produto.Seccao</td>
+                        <td>@produto.Tipo</td>
+                        <td><a><img height="10" width="10" src="@produto.Url" /></a></td>
                     </tr>
                 }
             }

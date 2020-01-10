@@ -38,7 +38,7 @@ namespace Loja.Controllers
             }
             Loja.Data.Data manager = new Loja.Data.Data("LojaFaria");
 
-            Produto prod = (from s in webShared.CallWebService("web", "GetProduct", partitionKey, true)
+            Produto prod = (from s in webShared.CallWebService("web", "GetProduct", partitionKey, false)
                             where s.Nome == productName.Split('-')[0]
                             select s).FirstOrDefault();
             if (product != null)
@@ -106,19 +106,15 @@ namespace Loja.Controllers
             return RedirectToAction("GetShoppingCart");
         }
         [HttpGet]
-        public ActionResult AddShoppingCart(List<Produto> products)
+        public ActionResult AddShoppingCart()
         {
-            //string products = HttpContext.Request.RawUrl;
-            List<string> prod = new List<string>();
-            //List<Produto> carrinho = JsonConvert.DeserializeObject<List<Produto>>(products);
-            List<Produto> carrinho = null;
-            foreach (Produto produto in carrinho)
-            {
-                prod.Add($"{produto.Id} +");
-            }
-            webShared.CallWebService("Cart", "PutCarrinho", products.ToString(),true);
-            return null;
+            List<Produto> carrinho = Session["Produtos"] as List<Produto>;
+            //Call payment service
+            webShared.CallWebService("Cart", "PutCarrinho", JsonConvert.SerializeObject(carrinho), true);
+            Session["Produtos"] = null;
+            return RedirectToAction("GetShoppingCart","Shop",null);
         }
+        // Ainda por desenvolver
         [HttpPost]
         public ActionResult PayShoppingCart(FormCollection carrinho)
         {

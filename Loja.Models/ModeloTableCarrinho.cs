@@ -7,11 +7,6 @@ using System.Threading.Tasks;
 
 namespace Loja.Models
 {
-    /// <summary>
-    /// 
-    /// Todo:
-    ///     -Modificar apos criacao das propriedades do modelo Carrinho
-    /// </summary>
     public class ModeloTableCarrinho: TableEntity
     {
         public ModeloTableCarrinho() { }
@@ -25,7 +20,7 @@ namespace Loja.Models
             Descricao = descricao;
             Preco = preco;
             Quantidade = quantidade;
-            DataDeCompra = dataDeCompra;
+            //DataDeCompra = dataDeCompra;
             Url = url;
         }
         public string Email => PartitionKey;
@@ -36,7 +31,7 @@ namespace Loja.Models
         public string Descricao { get; set; }
         public double Preco { get; set; }
         public int Quantidade { get; set; }
-        public DateTime DataDeCompra { get; set; }
+        //public DateTime DataDeCompra { get; set; }
         public string Url { get; set; }
     }
 }

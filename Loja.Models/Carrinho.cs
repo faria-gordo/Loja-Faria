@@ -6,12 +6,6 @@ using System.Threading.Tasks;
 
 namespace Loja.Models
 {
-    /// <summary>
-    /// 
-    /// todo:
-    /// 
-    ///     -Criar as propriedades do modelo Carrinho para por na nova tabela Carrinho
-    /// </summary>
     public class Carrinho
     {
         public string IdCompra { get; set; }
@@ -22,7 +16,7 @@ namespace Loja.Models
         public string Descricao { get; set; }
         public double Preco { get; set; }
         public int Quantidade { get; set; }
-        public DateTime DataDeCompra { get; set; }
+        //public DateTime DataDeCompra { get; set; }
         public string Url { get; set; }
     }
 }

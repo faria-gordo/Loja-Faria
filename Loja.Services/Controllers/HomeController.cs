@@ -14,8 +14,6 @@ namespace Loja.Services.Controllers
         /// 
         /// Todo:
         /// 
-        ///     - Mudar nome do Controller
-        ///     - Melhorar Ui/ux do web api
         /// </summary>
         public ActionResult Index()
         {

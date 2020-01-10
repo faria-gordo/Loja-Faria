@@ -13,12 +13,7 @@ namespace Loja.Library
     /// Sumário serve para expor informação adicional aos comentários ou para informar todos os bugs na aplicação em causa.
     /// 
     /// TODO:
-    ///         - Por aqui o metodo PartitionKeyFormatter
-    ///         - Adicionar metodo WebServiceRequestMessage
-    ///         - Rever flow, se toda a informação é validade e filtrada corretamente.
-    ///         
-    /// Erro: 
-    ///         - Caso inicial onde é só dado parte da PK, considera-se PK ou vai para o nome? como proceder neste caso?
+    ///
     /// </summary>
     public class Shared
     {

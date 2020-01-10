@@ -8,15 +8,15 @@ using System.Web;
 namespace Loja.Dashboard
 {
     /// <summary>
-    ///  todo:
-    ///  
-    ///     - Por no shared!
+    /// 
+    /// Sumário serve para expor informação adicional aos comentários ou para informar todos os bugs na aplicação em causa.
+    /// 
     /// </summary>
     public class WebServiceRequest
     {
-        public List<Produto> CallWebService(string controller, string method, string identifier)
+        public List<Carrinho> CallWebService(string controller, string method, string identifier)
         {
-            List<Produto> produtos = null;
+            List<Carrinho> carrinho = null;
 
             using (var client = new HttpClient())
             {
@@ -26,13 +26,13 @@ namespace Loja.Dashboard
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
-                    var readTask = result.Content.ReadAsAsync<List<Produto>>();
+                    var readTask = result.Content.ReadAsAsync<List<Carrinho>>();
                     readTask.Wait();
 
-                    produtos = readTask.Result;
+                    carrinho = readTask.Result;
                 }
             }
-            return produtos;
+            return carrinho;
         }
     }
 }

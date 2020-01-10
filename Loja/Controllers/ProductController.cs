@@ -31,7 +31,7 @@ namespace Loja.Controllers
             else
             {
                 //Validation on nomeProduto
-                List<Produto> produtos = webShared.CallWebService("web","GetProduct",partitionKey,true);
+                List<Produto> produtos = webShared.CallWebService("web","GetProduct",partitionKey,false);
                 produto = (from p in produtos
                            where p.Nome == nomeProduto.Split('-')[0].Replace("_", " ")
                            select p).First();

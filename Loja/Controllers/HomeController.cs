@@ -11,9 +11,7 @@ namespace Loja.Controllers
     /// 
     /// TODO:
     /// 
-    ///     -Criar helper para sumariar os servicos que o web api tem e expolos aqui.
-    ///     - Criar helper para sumariar os WebApi controller que  o web api tem.
-    ///     - Validar data enviada para web service.
+    ///     
     /// </summary>
     public class HomeController : Controller
     {

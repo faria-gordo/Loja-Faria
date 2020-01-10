@@ -9,20 +9,22 @@ namespace Loja.Services
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-
-            // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "Web",
                 routeTemplate: "{controller}/{action}/{data}",
-                defaults: new { data= RouteParameter.Optional }
+                defaults: new { data = RouteParameter.Optional }
             );
             config.Routes.MapHttpRoute(
                 name: "Dash",
                 routeTemplate: "{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
+            );
+            config.Routes.MapHttpRoute(
+                name: "Cart",
+                routeTemplate: "{controller}/{action}/{identifier}",
+                defaults: new { identifier = RouteParameter.Optional }
             );
         }
     }
