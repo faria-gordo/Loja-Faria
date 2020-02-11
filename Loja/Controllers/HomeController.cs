@@ -33,6 +33,7 @@ namespace Loja.Controllers
         }
         public ActionResult Store()
         {
+            //Fix this, not usual to use HttpContext to retrieve sent info, grab it in the arg of this action, change the route, or use the right arg name
             string[] urlParams = HttpContext.Request.Url.ToString().Split('/');
             string extraInfo = urlParams[5].ToUpper().First() + "-" + " ";
             List<Produto> produtos = webShared.CallWebService("web","GetProduct", extraInfo,false);

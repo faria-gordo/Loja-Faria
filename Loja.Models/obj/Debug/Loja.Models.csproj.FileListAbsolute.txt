@@ -34,7 +34,6 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Debug\M
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Debug\Microsoft.WindowsAzure.Storage.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\obj\Debug\Loja.Models.csprojAssemblyReference.cache
-C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\obj\Debug\Loja.Models.csproj.CoreCompileInputs.cache
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\obj\Debug\Loja.Models.csproj.CopyComplete
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\obj\Debug\Loja.Modelos.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Models\obj\Debug\Loja.Modelos.pdb

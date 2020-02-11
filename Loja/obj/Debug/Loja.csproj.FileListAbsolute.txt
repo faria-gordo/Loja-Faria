@@ -553,7 +553,6 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Microsoft.Wind
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Microsoft.WindowsAzure.Storage.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Microsoft.Azure.KeyVault.Core.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\obj\Debug\Loja.csprojAssemblyReference.cache
-C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\obj\Debug\Loja.csproj.CoreCompileInputs.cache
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\obj\Debug\Loja.csproj.CopyComplete
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\obj\Debug\Loja.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\obj\Debug\Loja.pdb

@@ -238,7 +238,6 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\Micr
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\Microsoft.WindowsAzure.Storage.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\Microsoft.Azure.KeyVault.Core.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\obj\Debug\Loja.Dashboard.csprojAssemblyReference.cache
-C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\obj\Debug\Loja.Dashboard.csproj.CoreCompileInputs.cache
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\obj\Debug\Loja.Dashboard.csproj.CopyComplete
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\obj\Debug\Loja.Dashboard.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\obj\Debug\Loja.Dashboard.pdb

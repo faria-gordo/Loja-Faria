@@ -48,6 +48,7 @@
             <th scope="col">Secção</th>
             <th scope="col">Tipo</th>
             <th scope="col">Imagem</th>
+            <th scope="col" style="text-align:center;">Data</th>
         </tr>
     </thead>
     <tbody>
@@ -55,16 +56,17 @@
         @{
             if (ViewBag.AllCarts != null)
             {
-                foreach (var produto in ViewBag.AllCarts)
+                foreach (var cart in ViewBag.AllCarts)
                 {
                     <tr>
-                        <td scope="row">@produto.Nome</td>
-                        <td class="text-center">@produto.Preco</td>
-                        <td>@produto.Descricao</td>
-                        <td class="text-center">@produto.Quantidade</td>
-                        <td>@produto.Seccao</td>
-                        <td>@produto.Tipo</td>
-                        <td><a><img height="10" width="10" src="@produto.Url" /></a></td>
+                        <td scope="row">@cart.Nome</td>
+                        <td class="text-center">@cart.Preco</td>
+                        <td>@cart.Descricao</td>
+                        <td class="text-center">@cart.Quantidade</td>
+                        <td>@cart.Seccao</td>
+                        <td>@cart.Tipo</td>
+                        <td><a><img height="10" width="10" src="@cart.Url" /></a></td>
+                        <td>@DateTime.Now</td>Hora errada
                     </tr>
                 }
             }

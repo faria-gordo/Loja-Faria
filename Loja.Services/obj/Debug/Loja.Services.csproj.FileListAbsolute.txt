@@ -269,7 +269,6 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Services\bin\Micro
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Services\bin\Microsoft.WindowsAzure.Storage.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Services\bin\Microsoft.Azure.KeyVault.Core.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Services\obj\Debug\Loja.Services.csprojAssemblyReference.cache
-C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Services\obj\Debug\Loja.Services.csproj.CoreCompileInputs.cache
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Services\obj\Debug\Loja.Services.csproj.CopyComplete
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Services\obj\Debug\Loja.Services.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Services\obj\Debug\Loja.Services.pdb

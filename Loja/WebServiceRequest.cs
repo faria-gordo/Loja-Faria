@@ -49,6 +49,7 @@ namespace Loja
                 }
                 else
                 {
+                    //return HttpError 404?
                     return null;
                 }
             }
