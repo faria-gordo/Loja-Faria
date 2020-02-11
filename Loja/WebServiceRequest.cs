@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Loja
 {
@@ -11,6 +12,9 @@ namespace Loja
     ///  Sumário serve para expor informação adicional aos comentários ou para informar todos os bugs na aplicação em causa.
     /// 
     /// TODO:
+    /// 
+    ///     //De momento este helper e usado para chamar servicos de carrinhos, produtos, users, etc. Generalizar metodo para facilitar uso.
+    ///     
     ///     
     /// </summary>
     public class WebServiceRequest
@@ -42,15 +46,26 @@ namespace Loja
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
-                        var readTask = result.Content.ReadAsAsync<List<Produto>>();
-                        readTask.Wait();
-                        produtos = readTask.Result;
-                        return produtos;
+                    var readTask = result.Content.ReadAsAsync<List<Produto>>();
+                    readTask.Wait();
+                    produtos = readTask.Result;
+                    return produtos;
                 }
                 else
                 {
-                    //return HttpError 404?
-                    return null;
+                    var content = new StringContent(identifier, Encoding.UTF8, "application/json");
+                    var responseTaskPost = client.PostAsync($"{method}", content);
+                    var resultpost = responseTaskPost.Result;
+                    if (resultpost.IsSuccessStatusCode)
+                    {
+                        var readTask = result.Content.ReadAsAsync<string>();
+                        readTask.Wait();
+                        return null;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
 

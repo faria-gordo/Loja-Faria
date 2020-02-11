@@ -30,7 +30,7 @@ namespace Loja.Data
             table.CreateIfNotExists();
         }
 
-        //ADICIONAR
+        //ADICIONAR PRODUTO
         public string AdicionarProduto(Produto produto)
         {
             try
@@ -60,6 +60,8 @@ namespace Loja.Data
             }
             return "Mensagem do helper";
         }
+
+        //ADICIONAR CARRINHO
         public string AdicionarCarrinho(Carrinho carrinho)
         {
             try
@@ -73,7 +75,20 @@ namespace Loja.Data
             return "Mensagem do helper Carrinho adicionado!! ";
         }
 
-        //RETIRAR
+        //ADICIONAR USER
+        public string AdicionarUser(User user)
+        {
+            try
+            {
+                table.Execute(TableOperation.Insert(UserToModelTableUser(user)));
+            }catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return "Mensagem do helper User adicionado";
+        }
+
+        //RETIRAR PRODUTO
         public string RetirarProduto(Produto produto)
         {
             //Pegar em todos os id presentes em produtos e apaga los da bd [QUE NAO PASSAM PELO CARRINHO DE COMPRAS] sera feito pela tabelda da bd do website
@@ -120,7 +135,7 @@ namespace Loja.Data
             return "";
         }
 
-        //SELECIONAR
+        //SELECIONAR PRODUTO
         public List<Produto> SelecionarProduto(Produto produto)
         {
 
@@ -291,6 +306,8 @@ namespace Loja.Data
             }
 
         }
+
+        //SELECIONAR CARRINHO
         public List<Carrinho> SelecionarCarrinhos()
         {
             List<ModeloTableCarrinho> modelos = table.ExecuteQuery(new TableQuery<ModeloTableCarrinho>()).ToList();
@@ -302,7 +319,7 @@ namespace Loja.Data
             return produtos;
         }
 
-        //ATUALIZAR
+        //ATUALIZAR PRODUTO
         public Produto AtualizarProduto(Produto produto)
         {
             return null;
@@ -364,6 +381,19 @@ namespace Loja.Data
             };
             return carrinho;
         }
+        public User ModelTableToUser(ModeloTableUser modeloUser)
+        {
+            User user = new User()
+            {
+                Password = modeloUser.Password,
+                Email = modeloUser.Email,
+                Nome = modeloUser.Nome,
+                Apelido = modeloUser.Apelido,
+                QuantLogins = modeloUser.QuantLogins,
+                Autenticado = modeloUser.Autenticado
+            };
+            return user;
+        }
 
         //Entity to TableEntity
         public ModeloTable ModelToModelTable(Produto prod)
@@ -397,6 +427,19 @@ namespace Loja.Data
             };
             return modelo;
         }
+        public ModeloTableUser UserToModelTableUser(User user)
+        {
+            ModeloTableUser modelo = new ModeloTableUser()
+            {
+                PartitionKey = user.Password,
+                RowKey = user.Email,
+                Nome = user.Nome,
+                Apelido = user.Apelido,
+                QuantLogins = user.QuantLogins,
+                Autenticado = user.Autenticado
+            };
+            return modelo;
+        }
         public Carrinho ProdutoToCarrinho(Produto produto)
         {
             Carrinho carrinho = new Carrinho()
@@ -414,9 +457,9 @@ namespace Loja.Data
             };
             return carrinho;
         }
+
         public Produto CarrinhoToProduto(Carrinho carrinho)
         {
-            Guid id = new Guid();
             Produto produto = new Produto()
             {
                 Id = "",

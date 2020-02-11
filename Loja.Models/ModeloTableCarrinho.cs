@@ -24,7 +24,7 @@ namespace Loja.Models
             Url = url;
         }
         public string Email => PartitionKey;
-        public string IdCompra => RowKey;
+        public string IdCompra => RowKey; 
         public string Nome { get; set; }
         public string Tipo { get; set; }
         public string Seccao { get; set; }

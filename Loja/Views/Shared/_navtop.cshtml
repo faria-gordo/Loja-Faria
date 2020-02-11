@@ -1,12 +1,17 @@
 ﻿
 <div class="row">
-    <div class="text-center col-md-offset-5 col-md-4" style="color: black; font-size:45px; font-family:Bahnschrift">
+    <div class="text-center col-md-offset-4 col-md-4" style="color: black; font-size:45px; font-family:Bahnschrift">
         A nossa loja
         <div>
             <!--IMAGEM-->
         </div>
     </div>
-    <div class="col-md-offset-2 col-md-1 shoppingcart" style="margin-top: 30px;">
-        <a href="@Url.Action("GetShoppingCart","Shop")"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a>
+
+    <div class="col-md-offset-2 col-md-1 shoppingcart">
+        <div class="row">
+            <!--IF user is authenticated, show cart and email, if not, show user fa-->
+            <a href="@Url.Action("Login","User")"><div class="col-md-4"><span id="user" class="fa fa-user fa-3x"></span></div></a>
+            <a class="col-md-offset-4 col-md-2" href="@Url.Action("GetShoppingCart","Shop")"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a>
+        </div>
     </div>
 </div>

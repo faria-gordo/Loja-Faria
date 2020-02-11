@@ -105,6 +105,7 @@ namespace Loja.Controllers
             }
             return RedirectToAction("GetShoppingCart");
         }
+        //AUTHENTICATION
         [HttpGet]
         public ActionResult AddShoppingCart()
         {

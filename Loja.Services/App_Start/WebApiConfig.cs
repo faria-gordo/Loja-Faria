@@ -26,6 +26,11 @@ namespace Loja.Services
                 routeTemplate: "{controller}/{action}/{identifier}",
                 defaults: new { identifier = RouteParameter.Optional }
             );
+            //config.Routes.MapHttpRoute(
+            //    name: "User",
+            //    routeTemplate: "{controller}/{action}/{userInfo}",
+            //    defaults: new { userInfo = RouteParameter.Optional }
+            //);
         }
     }
 }

@@ -17,12 +17,12 @@ namespace Loja.Services.Controllers
     /// </summary>
     public class DashController : ApiController
     {
-        private readonly Data.Data manager = new Data.Data("LojaFaria");
+        private readonly Data.Data lojaManager = new Data.Data("LojaFaria");
         private readonly Data.Data carrinhoManager = new Data.Data("Carrinho");
         private readonly Shared lib = new Shared();
         public IHttpActionResult GetProducts()
         {
-            List<Produto> produtos = manager.SelecionarProdutos();
+            List<Produto> produtos = lojaManager.SelecionarProdutos();
             return Ok(produtos);
         }
         [HttpGet]
@@ -36,13 +36,13 @@ namespace Loja.Services.Controllers
             switch (response.Split('-')[0].ToLower())
             {
                 case "partitionkey":
-                    produtos = manager.SelecionarProdutoPorPartitionKey(response.Split('-')[1] + "-" + response.Split('-')[2]);
+                    produtos = lojaManager.SelecionarProdutoPorPartitionKey(response.Split('-')[1] + "-" + response.Split('-')[2]);
                     break;
                 case "rowkey":
-                    produtos.Add(manager.SelecionarProdutoPorRowKey(response.Split('-')[1]));
+                    produtos.Add(lojaManager.SelecionarProdutoPorRowKey(response.Split('-')[1]));
                     break;
                 case "name":
-                    produtos = manager.SelecionarProdutoPorNome(response.Split('-')[1]);
+                    produtos = lojaManager.SelecionarProdutoPorNome(response.Split('-')[1]);
                     break;
                 default:
                     return NotFound();

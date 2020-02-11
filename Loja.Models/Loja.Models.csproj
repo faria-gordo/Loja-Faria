@@ -55,8 +55,10 @@
     <Compile Include="Carrinho.cs" />
     <Compile Include="ModeloTable.cs" />
     <Compile Include="ModeloTableCarrinho.cs" />
+    <Compile Include="ModeloTableUser.cs" />
     <Compile Include="Produto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
