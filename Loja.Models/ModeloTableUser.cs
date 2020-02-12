@@ -10,7 +10,7 @@ namespace Loja.Models
     public class ModeloTableUser: TableEntity
     {
         public ModeloTableUser() { }
-        public ModeloTableUser(string partitionKey, string rowKey, int quantLogins, string nome, string apelido, bool autenticado)
+        public ModeloTableUser(string partitionKey, string rowKey, int quantLogins, string nome, string apelido, bool autenticado,string fotoUrl)
         {
             PartitionKey = partitionKey;
             RowKey = rowKey;
@@ -18,6 +18,7 @@ namespace Loja.Models
             Nome = nome;
             Apelido = apelido;
             Autenticado = autenticado;
+            FotoUrl = fotoUrl;
         }
 
         public string Email => RowKey;
@@ -26,5 +27,6 @@ namespace Loja.Models
         public string Nome { get; set; }
         public string Apelido { get; set; }
         public bool Autenticado { get; set; }
+        public string FotoUrl { get; set; }
     }
 }

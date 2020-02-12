@@ -16,5 +16,6 @@ namespace Loja.Models
         public string Apelido { get; set; }
         //public DateTime DataNascimento { get; set; }
         public bool Autenticado { get; set; }
+        public string FotoUrl { get; set; }
     }
 }

@@ -85,19 +85,13 @@ namespace Loja.Data
                 List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
 
                 //Verifica se existe
-                if (resultado.Count == 1)
+                if (resultado.Count > 0)
                 {
-                    foreach (var userDB in resultado)
-                    {
-                        if (userDB.RowKey != user.Email)
-                        {
-                            table.Execute(TableOperation.Insert(UserToModelTableUser(user)));
-                        }
-                        else
-                        {
                             return "Já existe esse email registado.";
-                        }
-                    }
+                }
+                else
+                {
+                        table.Execute(TableOperation.Insert(UserToModelTableUser(user)));
                 }
 
             }
@@ -480,7 +474,8 @@ namespace Loja.Data
                 Nome = modeloUser.Nome,
                 Apelido = modeloUser.Apelido,
                 QuantLogins = modeloUser.QuantLogins,
-                Autenticado = modeloUser.Autenticado
+                Autenticado = modeloUser.Autenticado,
+                FotoUrl = modeloUser.FotoUrl
             };
             return user;
         }
@@ -527,7 +522,8 @@ namespace Loja.Data
                 Apelido = user.Apelido,
                 QuantLogins = user.QuantLogins,
                 ETag = "*",
-                Autenticado = user.Autenticado
+                Autenticado = user.Autenticado,
+                FotoUrl = user.FotoUrl
             };
             return modelo;
         }

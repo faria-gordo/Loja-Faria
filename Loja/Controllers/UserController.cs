@@ -99,7 +99,8 @@ namespace Loja.Controllers
                         {
                             novoUser.Password = BitConverter.ToString(sha.ComputeHash(Encoding.UTF8.GetBytes(userInfo[0]))).Replace("-", "").ToLower();
                         }
-                    }   
+                    }
+                    novoUser.FotoUrl = "https://static.fnac-static.com/multimedia/Images/PT/NR/a1/d5/0e/972193/1540-1.jpg";
                 }
             }
             var userJson = new JavaScriptSerializer().Serialize(novoUser);

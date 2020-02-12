@@ -18,7 +18,17 @@
                     {
                         <div class="dropdown col-md-4">
                             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 42px;padding:0px; border-radius: 40%;">
-                                <span id="user" class="fa fa-user-circle fa-3x" style="background-color: white; color:pink;"></span>
+                                @{
+                                    if (user.FotoUrl != null)
+                                    {
+                                        <img src="@user.FotoUrl" alt="koala" width="42" height="42" style="border-radius: 40%; padding: 0px;" />
+                                    }
+                                    else
+                                    {
+                                        <span id="user" class="fa fa-user-circle fa-3x" style="background-color: white; color:pink;"></span>
+                                    }
+                                }
+
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <div class="col-md-offset-2">
