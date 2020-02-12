@@ -4,6 +4,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -80,13 +81,34 @@ namespace Loja.Data
         {
             try
             {
-                table.Execute(TableOperation.Insert(UserToModelTableUser(user)));
-            }catch (Exception ex)
+                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
+                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
+
+                //Verifica se existe
+                if (resultado.Count == 1)
+                {
+                    foreach (var userDB in resultado)
+                    {
+                        if (userDB.RowKey != user.Email)
+                        {
+                            table.Execute(TableOperation.Insert(UserToModelTableUser(user)));
+                        }
+                        else
+                        {
+                            return "Já existe esse email registado.";
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
             {
+                //Erro conflito
                 Console.WriteLine(ex.Message);
+                return "Já existe esse email registado.";
             }
             return "Mensagem do helper User adicionado";
-        }
+         }
 
         //RETIRAR PRODUTO
         public string RetirarProduto(Produto produto)
@@ -319,6 +341,46 @@ namespace Loja.Data
             return produtos;
         }
 
+        //SELECTIONAR USER (Log in)
+        public User SelecionarUser(User user)
+        {
+            //este user tem so email e password
+            try
+            {
+                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
+                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
+
+                //Verifica se existe
+                if (resultado.Count == 1)
+                {
+                    foreach (var userDB in resultado)
+                    {
+                        if (userDB.RowKey == user.Email && userDB.PartitionKey == user.Password)
+                        {
+                            user.Nome = userDB.Nome;
+                            user.Apelido = userDB.Apelido;
+                            user.QuantLogins = userDB.QuantLogins + 1;
+                            user.Autenticado = true;
+                            
+                            //Atualiza quantidade de logins e se esta autenticado.
+                            TableOperation update = TableOperation.Replace(UserToModelTableUser(user));
+                            table.Execute(update);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if(user.Nome == null && user.Apelido == null)
+            {
+                user = null;
+            }
+            return user;
+        }
+
         //ATUALIZAR PRODUTO
         public Produto AtualizarProduto(Produto produto)
         {
@@ -347,6 +409,34 @@ namespace Loja.Data
             return null;
         }
 
+
+        //ATUALIZAR USER (dados e LogOFf)
+
+        public string LogOffUser(User user)
+        {
+            try
+            {
+                TableOperation retrieve = TableOperation.Retrieve<ModeloTableUser>(user.Password, user.Email);
+
+                TableResult result = table.Execute(retrieve);
+
+                ModeloTableUser loggedOfUser = (ModeloTableUser)result.Result;
+
+                loggedOfUser.Autenticado = false;
+
+                if (result != null)
+                {
+                    TableOperation update = TableOperation.Replace(loggedOfUser);
+
+                    table.Execute(update);
+                }
+            }catch (Exception ex)
+            {
+                return ex.Message;
+            }
+ 
+            return "Saíste da tua conta!";
+        }
 
         //MAPPINGS
         //TableEntity to Entity
@@ -436,6 +526,7 @@ namespace Loja.Data
                 Nome = user.Nome,
                 Apelido = user.Apelido,
                 QuantLogins = user.QuantLogins,
+                ETag = "*",
                 Autenticado = user.Autenticado
             };
             return modelo;

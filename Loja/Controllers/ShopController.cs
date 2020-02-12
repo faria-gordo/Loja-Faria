@@ -13,6 +13,7 @@ namespace Loja.Controllers
     /// 
     /// TODO:
     ///         
+    ///     --associar carrinho e user pelo email, associar nome do carrinho a uma propriedade a acrescentar ao user.
     /// 
     /// </summary>
     public class ShopController : Controller
@@ -67,11 +68,19 @@ namespace Loja.Controllers
             return RedirectToAction("Index", "Product", new { nomeProduto = productName, message = "Este artigo foi adicionado ao carrinho" });
         }
         [HttpGet]
-        public ActionResult GetShoppingCart()
+        public ActionResult GetShoppingCart(string message)
         {
             if (Session["Produtos"] != null)
             {
                 ViewBag.Produtos = Session["Produtos"] as List<Produto>;
+                if(message != null)
+                {
+                    ViewBag.Message = message;
+                }
+                else
+                {
+                    ViewBag.Message = "";
+                }
             }
             return View();
         }
@@ -109,11 +118,27 @@ namespace Loja.Controllers
         [HttpGet]
         public ActionResult AddShoppingCart()
         {
-            List<Produto> carrinho = Session["Produtos"] as List<Produto>;
-            //Call payment service
-            webShared.CallWebService("Cart", "PutCarrinho", JsonConvert.SerializeObject(carrinho), true);
-            Session["Produtos"] = null;
-            return RedirectToAction("GetShoppingCart","Shop",null);
+            //verificar email deste user e ver se esta autenticado
+            if (Session["User"] != null)
+            {
+                User user = Session["User"] as User;
+                if(user.Autenticado == false)
+                {
+                    return RedirectToAction("GetShoppingCart", "Shop", new { message = "Ocorreu um erro, saia da sua conta e entre outra vez" });
+                }
+                else
+                {
+                    List<Produto> carrinho = Session["Produtos"] as List<Produto>;
+                    //Call payment service
+                    webShared.CallWebService("Cart", "PutCarrinho", JsonConvert.SerializeObject(carrinho), true);
+                    Session["Produtos"] = null;
+                    return RedirectToAction("GetShoppingCart", "Shop", new { message = "Carrinho pronto pagamento" });
+                }
+            }
+            else
+            {
+                return RedirectToAction("GetShoppingCart", "Shop", new { message = "Para comprar produtos tem que ter conta no nosso site" });
+            }
         }
         // Ainda por desenvolver
         [HttpPost]

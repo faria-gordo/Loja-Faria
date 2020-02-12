@@ -28,3 +28,16 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\obj\Debug\
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\obj\Debug\Loja.Library.csproj.CopyComplete
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\obj\Debug\Loja.Library.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\obj\Debug\Loja.Library.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.Helpers.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.Mvc.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.Razor.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.WebPages.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.Helpers.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.Mvc.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.Razor.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.WebPages.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.WebPages.Razor.xml

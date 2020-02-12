@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Loja.Models
 {
+    //adicionar aqui e no tablemodel para adicionar link de foto para perfil.
     public class User
     {
         public string Email { get; set; }

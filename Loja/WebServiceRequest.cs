@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using System.Web.Script.Serialization;
 
 namespace Loja
 {
@@ -53,20 +54,9 @@ namespace Loja
                 }
                 else
                 {
-                    var content = new StringContent(identifier, Encoding.UTF8, "application/json");
-                    var responseTaskPost = client.PostAsync($"{method}", content);
-                    var resultpost = responseTaskPost.Result;
-                    if (resultpost.IsSuccessStatusCode)
-                    {
-                        var readTask = result.Content.ReadAsAsync<string>();
-                        readTask.Wait();
-                        return null;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return null;
                 }
+                
             }
 
         }

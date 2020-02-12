@@ -7,51 +7,75 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using Loja.Library;
 
 namespace Loja.Controllers
 {
-    public class UserController: Controller
+    /// <summary>
+    /// 
+    /// 
+    ///     TODO:
+    ///     
+    ///     -QuantLogins nao esta a funcionar pois a incrementacao davariavel e so feita localmente, a tabela nao e atualizada
+    ///     - De momento, ao criar um utilizador que ja existe, a pagina refresca completamente. Deve se fazer ajax asincrono para verificar db.
+    /// </summary>
+    public class UserController : Controller
     {
-        readonly private WebServiceRequest webShared = new WebServiceRequest();
-        private string urlContext;
-        public ActionResult Login()
+        readonly private WebServiceRequestPublic webShared = new WebServiceRequestPublic();
+        private string message;
+        public ActionResult Login(string message)
         {
-            urlContext = HttpContext.Request.Url.ToString();
+            if(message == null)
+            {
+                Session["User"] = "entry";
+            }
+            else
+            {
+                Session["User"] = message;
+            }
             return View();
         }
         [HttpPost]
-        public string logInUser(FormCollection form)
+        public RedirectResult logInUser(FormCollection form)
         {
             string[] userInfo = new string[2];
-            string email;
-            string password;
-            if(form.Count < 3)
+            User user = new User();
+            if (form.Count < 3)
             {
                 for (int i = 0; i < form.Count; i++)
                 {
                     userInfo = form.GetValues(form.AllKeys[i]);
-                    if (i == 0) 
+                    if (i == 0)
                     {
-                        email = userInfo[i];
+                        user.Email = userInfo[i];
                     }
                     else
                     {
                         using (SHA512 sha = new SHA512Managed())
                         {
-                            password = BitConverter.ToString(sha.ComputeHash(Encoding.UTF8.GetBytes(userInfo[0]))).Replace("-", "").ToLower();
+                            user.Password = BitConverter.ToString(sha.ComputeHash(Encoding.UTF8.GetBytes(userInfo[0]))).Replace("-", "").ToLower();
                         }
                     }
                 }
             }
-            //Verificar se existe
-            //Chamar Loja.Service
-            return "feedback";
+            var userJson = new JavaScriptSerializer().Serialize(user);
+            User userLogged = webShared.CallUserWebService("User", "logInUser", userJson, false);
+            if (userLogged != null)
+            {
+                Session["User"] = userLogged;
+                return Redirect(Url.Action("index", "home"));
+            }
+            else
+            {
+                Session["User"] = "unmanaged";
+                return Redirect(Url.Action("Login", "User", new { message = "Houve um erro ao entrar no site, tente novamente!" }));
+            }
         }
         [HttpPost]
-        public string AddNewUser(FormCollection form)
+        public RedirectResult AddNewUser(FormCollection form)
         {
             User novoUser = new User();
-            string[] userInfo = new string[4];
+            string[] userInfo;
             if (form.Count < 5)
             {
                 for (int i = 0; i < form.Count; i++)
@@ -61,11 +85,11 @@ namespace Loja.Controllers
                     {
                         novoUser.Nome = userInfo[i];
                     }
-                    if(i == 1)
+                    if (i == 1)
                     {
                         novoUser.Apelido = userInfo[0];
                     }
-                    if(i == 2)
+                    if (i == 2)
                     {
                         novoUser.Email = userInfo[0];
                     }
@@ -75,16 +99,53 @@ namespace Loja.Controllers
                         {
                             novoUser.Password = BitConverter.ToString(sha.ComputeHash(Encoding.UTF8.GetBytes(userInfo[0]))).Replace("-", "").ToLower();
                         }
-                    }
+                    }   
                 }
             }
             var userJson = new JavaScriptSerializer().Serialize(novoUser);
-            webShared.CallWebService("User", "addUser", userJson, false);
-            return "feedback";
+            message = webShared.CallWebService("User", "addUser", userJson, false);
+            if(message != "\"Já existe esse email registado.\"")
+            {
+                if(novoUser != null)
+                {
+                    novoUser.Autenticado = true;
+                    novoUser.QuantLogins = 1;
+                    Session["User"] = novoUser;
+                    Session["UserAddMessage"] = message;
+                    return Redirect(Url.Action("index", "home"));
+                }
+                else
+                {
+                    Session["User"] = null;
+                    Session["UserAddMessage"] = message;
+                    return Redirect(Url.Action("Login", "User"));
+                }
+            }
+            else
+            {
+                Session["User"] = null;
+                Session["UserAddMessage"] = message;
+                return Redirect(Url.Action("Login","User"));
+            }
+
         }
-        public RedirectResult LoggedIn()
+
+        [HttpGet]
+        public RedirectResult logOff()
         {
-            return Redirect(urlContext);
+            User user = Session["User"] as User;
+            var userJson = new JavaScriptSerializer().Serialize(user);
+            string message = webShared.CallWebService("User", "logOffUser", userJson, false);
+            if(message != null)
+            {
+                Session["User"] = null;
+                Session["UserAddMessage"] = message;
+            }
+            else
+            {
+                Session["UserAddMessage"] = message;
+            }
+            return Redirect(Url.Action("index","home"));
         }
     }
 }

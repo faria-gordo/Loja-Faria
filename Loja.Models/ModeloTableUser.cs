@@ -20,8 +20,8 @@ namespace Loja.Models
             Autenticado = autenticado;
         }
 
-        public string Email => PartitionKey;
-        public string Password => RowKey;
+        public string Email => RowKey;
+        public string Password => PartitionKey;
         public int QuantLogins { get; set; }
         public string Nome { get; set; }
         public string Apelido { get; set; }

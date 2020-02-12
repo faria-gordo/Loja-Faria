@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace Loja.Services.Controllers
 {
@@ -14,18 +15,23 @@ namespace Loja.Services.Controllers
         private readonly Data.Data userManager = new Data.Data("Users");
         private readonly Shared lib = new Shared();
         [HttpPost]
-        public IHttpActionResult addUser(string userInfo)
+        public IHttpActionResult logInUser(JObject userInfo)
         {
-            //verificar se nao existe ja um user com email igual.
-            User user = new User();
-            JObject jo = new JObject(userInfo);
-            JToken jUser = jo["user"];
-            user.Nome = (string) jUser["firstname"];
-            user.Apelido = (string)jUser["lastname"];
-            user.Email = (string)jUser["email"];
-            user.Password = (string)jUser["password"];
-            user.QuantLogins = 1;
-            user.Autenticado = true;
+            User user = new JavaScriptSerializer().Deserialize<User>(userInfo.ToString());
+            User userLogged = userManager.SelecionarUser(user);
+            if (userLogged != null)
+            {
+                return Ok(userLogged);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost]
+        public IHttpActionResult addUser(JObject userInfo)
+        {
+            User user = new JavaScriptSerializer().Deserialize<User>(userInfo.ToString());
             string message = userManager.AdicionarUser(user);
             if(message != null)
             {
@@ -40,6 +46,13 @@ namespace Loja.Services.Controllers
         public IHttpActionResult isUserRegistered()
         {
             return Ok();
+        }
+        [HttpPost]
+        public IHttpActionResult logOffUser(JObject userInfo)
+        {
+            User user = new JavaScriptSerializer().Deserialize<User>(userInfo.ToString());
+            string message = userManager.LogOffUser(user);
+            return Ok(message);
         }
     }
 }
