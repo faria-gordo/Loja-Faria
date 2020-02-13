@@ -39,7 +39,7 @@ namespace Loja.Library
             User userLogged = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/");
+                client.BaseAddress = new Uri($"http://localhost:44389/");
                 var content = new StringContent(identifier, Encoding.UTF8, "application/json");
                 var responseTaskPost = client.PostAsync($"{controller}/{method}", content);
                 var resultpost = responseTaskPost.Result;
