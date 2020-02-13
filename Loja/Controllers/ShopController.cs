@@ -37,7 +37,6 @@ namespace Loja.Controllers
                 partitionKey = PartitionKeyFormatter(product);
                 productName = product.Split('-')[0];
             }
-            Loja.Data.Data manager = new Loja.Data.Data("LojaFaria");
 
             Produto prod = (from s in webShared.CallWebService("web", "GetProduct", partitionKey, false)
                             where s.Nome == productName.Split('-')[0]

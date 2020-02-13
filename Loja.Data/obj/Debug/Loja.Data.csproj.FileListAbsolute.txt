@@ -46,11 +46,9 @@ C:\Users\Squad\Desktop\COLAB\Projects\Loja-Faria\Loja.Data\obj\Debug\Loja.Data.d
 C:\Users\Squad\Desktop\COLAB\Projects\Loja-Faria\Loja.Data\obj\Debug\Loja.Data.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Loja.Data.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Loja.Data.pdb
-C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Loja.Modelos.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Microsoft.Azure.KeyVault.Core.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Microsoft.WindowsAzure.Storage.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Loja.Modelos.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Microsoft.Azure.KeyVault.Core.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Microsoft.WindowsAzure.Storage.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Microsoft.WindowsAzure.Storage.xml
@@ -59,3 +57,5 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\obj\Debug\Loj
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\obj\Debug\Loja.Data.csproj.CopyComplete
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\obj\Debug\Loja.Data.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\obj\Debug\Loja.Data.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Loja.Modelos.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Loja.Modelos.pdb
