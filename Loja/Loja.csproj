@@ -212,6 +212,7 @@
     <None Include="Properties\PublishProfiles\Loja20190913023230 - Web Deploy.pubxml" />
     <Content Include="Views\Shop\GetShoppingCart.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <None Include="Properties\PublishProfiles\LojaFaria - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -231,10 +232,6 @@
     <Content Include="Content\Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Loja.Data\Loja.Data.csproj">
-      <Project>{fadd0fbb-6790-4c01-8543-fd1bbadee759}</Project>
-      <Name>Loja.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Loja.Library\Loja.Library.csproj">
       <Project>{e2a544fb-6bfe-4249-8800-b89ff4a2a543}</Project>
       <Name>Loja.Library</Name>

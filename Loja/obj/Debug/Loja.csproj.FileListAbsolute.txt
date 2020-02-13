@@ -510,7 +510,6 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\roslyn\VBCSCom
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Antlr3.Runtime.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\EntityFramework.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\EntityFramework.SqlServer.dll
-C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Loja.Data.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Loja.Library.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Loja.Modelos.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Microsoft.AspNet.TelemetryCorrelation.dll
@@ -530,7 +529,6 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\System.Web.Web
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\WebGrease.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Microsoft.WindowsAzure.Storage.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Microsoft.Azure.KeyVault.Core.dll
-C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Loja.Data.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Loja.Library.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\Loja.Modelos.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja\bin\EntityFramework.xml

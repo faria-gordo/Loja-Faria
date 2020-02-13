@@ -10,7 +10,6 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Release\M
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Release\Microsoft.WindowsAzure.Storage.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Release\Newtonsoft.Json.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\obj\Release\Loja.Data.csprojAssemblyReference.cache
-C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\obj\Release\Loja.Data.csproj.CoreCompileInputs.cache
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\obj\Release\Loja.Data.csproj.CopyComplete
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\obj\Release\Loja.Data.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\obj\Release\Loja.Data.pdb
