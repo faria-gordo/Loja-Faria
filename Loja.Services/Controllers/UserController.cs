@@ -13,7 +13,6 @@ namespace Loja.Services.Controllers
     public class UserController : ApiController
     {
         private readonly Data.Data userManager = new Data.Data("Users");
-        private readonly Shared lib = new Shared();
         [HttpPost]
         public IHttpActionResult logInUser(JObject userInfo)
         {
