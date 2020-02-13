@@ -23,9 +23,9 @@ namespace Loja.Library
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}");
+                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}/");
                 var content = new StringContent(identifier, Encoding.UTF8, "application/json");
-                var responseTaskPost = client.PostAsync($"/{method}", content);
+                var responseTaskPost = client.PostAsync($"{method}", content);
                 var resultpost = responseTaskPost.Result;
                 if (resultpost.IsSuccessStatusCode)
                 {
@@ -39,10 +39,10 @@ namespace Loja.Library
             User userLogged = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}");
+                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}/");
                 var identifier2 = identifier.ToString();
                 var content = new StringContent(identifier, Encoding.UTF8, "application/json");
-                var responseTaskPost = client.PostAsync($"/{method}", content);
+                var responseTaskPost = client.PostAsync($"{method}", content);
                 var resultpost = responseTaskPost.Result;
                 if (resultpost.IsSuccessStatusCode)
                 {
