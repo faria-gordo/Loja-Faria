@@ -87,11 +87,13 @@ namespace Loja.Data
                 //Verifica se existe
                 if (resultado.Count > 0)
                 {
-                            return "Já existe esse email registado.";
+                    return "Já existe esse email registado.";
                 }
                 else
                 {
-                        table.Execute(TableOperation.Insert(UserToModelTableUser(user)));
+                    user.Autenticado = true;
+                    user.QuantLogins += 1;
+                    table.Execute(TableOperation.Insert(UserToModelTableUser(user)));
                 }
 
             }
@@ -102,7 +104,7 @@ namespace Loja.Data
                 return "Já existe esse email registado.";
             }
             return "Mensagem do helper User adicionado";
-         }
+        }
 
         //RETIRAR PRODUTO
         public string RetirarProduto(Produto produto)
@@ -336,7 +338,7 @@ namespace Loja.Data
         }
 
         //SELECTIONAR USER (Log in)
-        public User SelecionarUser(User user)
+        public User LogIn(User user)
         {
             //este user tem so email e password
             try
@@ -355,7 +357,7 @@ namespace Loja.Data
                             user.Apelido = userDB.Apelido;
                             user.QuantLogins = userDB.QuantLogins + 1;
                             user.Autenticado = true;
-                            
+
                             //Atualiza quantidade de logins e se esta autenticado.
                             TableOperation update = TableOperation.Replace(UserToModelTableUser(user));
                             table.Execute(update);
@@ -368,7 +370,7 @@ namespace Loja.Data
             {
                 Console.WriteLine(ex.Message);
             }
-            if(user.Nome == null && user.Apelido == null)
+            if (user.Nome == null && user.Apelido == null)
             {
                 user = null;
             }
@@ -403,9 +405,7 @@ namespace Loja.Data
             return null;
         }
 
-
         //ATUALIZAR USER (dados e LogOFf)
-
         public string LogOffUser(User user)
         {
             try
@@ -424,11 +424,12 @@ namespace Loja.Data
 
                     table.Execute(update);
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return ex.Message;
             }
- 
+
             return "Saíste da tua conta!";
         }
 

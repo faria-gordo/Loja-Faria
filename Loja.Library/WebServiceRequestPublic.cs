@@ -14,8 +14,7 @@ namespace Loja.Library
     /// 
     /// 
     ///         TODO:
-    ///         
-    ///     -   Problema quero receber um user, nao uma string.
+    ///         f
     /// </summary>
     public class WebServiceRequestPublic
     {

@@ -18,7 +18,7 @@ namespace Loja.Services.Controllers
         public IHttpActionResult logInUser(JObject userInfo)
         {
             User user = new JavaScriptSerializer().Deserialize<User>(userInfo.ToString());
-            User userLogged = userManager.SelecionarUser(user);
+            User userLogged = userManager.LogIn(user);
             if (userLogged != null)
             {
                 return Ok(userLogged);

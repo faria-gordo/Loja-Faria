@@ -11,65 +11,73 @@
         <div class="row">
             @{
                 //sub menu e ter log off btn
+
                 if (Session["User"] != null)
                 {
                     User user = Session["User"] as User;
-                    if (user.Autenticado)
+                    if (user != null)
                     {
-                        <div class="dropdown col-md-4">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 42px;padding:0px; border-radius: 40%;">
-                                @{
-                                    if (user.FotoUrl != null)
-                                    {
-                                        <img src="@user.FotoUrl" alt="koala" width="42" height="42" style="border-radius: 40%; padding: 0px;" />
-                                    }
-                                    else
-                                    {
-                                        <span id="user" class="fa fa-user-circle fa-3x" style="background-color: white; color:pink;"></span>
-                                    }
-                                }
-
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <div class="col-md-offset-2">
-                                    <a class="dropdown-item text-justify btn btn-info" data-toggle="modal" data-target="#modal">Dados da conta</a>
-                                    <a class="dropdown-item text-justify btn btn-info" href="@Url.Action("logOff","User")" style="display: block; text-decoration:none;">Terminar Sessão</a>
-                                    <a href="#" onclick="signOut();">Usando google</a>
-                                    <script>
-                                        function signOut() {
-                                            var auth2 = gapi.auth2.getAuthInstance();
-                                            auth2.signOut().then(function () {
-                                                console.log('User signed out.');
-                                            });
+                        if (user.Autenticado)
+                        {
+                            <div class="dropdown col-md-4">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 42px;padding:0px; border-radius: 40%;">
+                                    @{
+                                        if (user.FotoUrl != null)
+                                        {
+                                            <img src="@user.FotoUrl" alt="koala" width="42" height="42" style="border-radius: 40%; padding: 0px;" />
                                         }
-                                    </script>
-                                </div>
-                            </div>
-                        </div>
-                        <!--Modal dados do utilizador-->
-                        <div id="modal" class="modal" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Dados de @user.Nome @user.Apelido</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <ul>
-                                            <li>Nome: @user.Nome</li>
-                                            <li>Apelido: @user.Apelido</li>
-                                            <li>Email: @user.Email</li>
-                                            <li>Visitas ao site: @user.QuantLogins</li>
-                                        </ul>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                        else
+                                        {
+                                            <span id="user" class="fa fa-user-circle fa-3x" style="background-color: white; color:pink;"></span>
+                                        }
+                                    }
+
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="col-md-offset-2">
+                                        <a class="dropdown-item text-justify btn btn-info" data-toggle="modal" data-target="#modal">Dados da conta</a>
+                                        <a class="dropdown-item text-justify btn btn-info" href="@Url.Action("logOff","User")" style="display: block; text-decoration:none;">Terminar Sessão</a>
+                                        <a href="#" onclick="signOut();">Usando google</a>
+                                        <script>
+                                            function signOut() {
+                                                var auth2 = gapi.auth2.getAuthInstance();
+                                                auth2.signOut().then(function () {
+                                                    console.log('User signed out.');
+                                                });
+                                            }
+                                        </script>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <!--Modal dados do utilizador-->
+                            <div id="modal" class="modal" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Dados de @user.Nome @user.Apelido</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul>
+                                                <li>Nome: @user.Nome</li>
+                                                <li>Apelido: @user.Apelido</li>
+                                                <li>Email: @user.Email</li>
+                                                <li>Visitas ao site: @user.QuantLogins</li>
+                                            </ul>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login","User")"><div class="col-md-4"><span id="user" class="fa fa-user fa-3x"></span></div></a>
                     }
                 }
                 else

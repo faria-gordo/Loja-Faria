@@ -16,16 +16,16 @@ namespace Loja.Controllers
     /// 
     ///     TODO:
     ///     
-    ///     -QuantLogins nao esta a funcionar pois a incrementacao davariavel e so feita localmente, a tabela nao e atualizada
     ///     - De momento, ao criar um utilizador que ja existe, a pagina refresca completamente. Deve se fazer ajax asincrono para verificar db.
     /// </summary>
     public class UserController : Controller
     {
+
         readonly private WebServiceRequestPublic webShared = new WebServiceRequestPublic();
         private string message;
         public ActionResult Login(string message)
         {
-            if(message == null)
+            if (message == null)
             {
                 Session["User"] = "entry";
             }
