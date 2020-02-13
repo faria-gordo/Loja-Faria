@@ -42,7 +42,7 @@ namespace Loja
             }
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}");
                 var responseTask = client.GetAsync($"{method}/{identifier}");
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)

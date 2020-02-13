@@ -201,6 +201,7 @@
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <None Include="Properties\PublishProfiles\LojaServices - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\LojaServices - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\Lojaservices - Web Deploy2.pubxml" />
     <None Include="Properties\PublishProfiles\LojaServices20200213123125 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
