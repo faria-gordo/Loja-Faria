@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Loja.Library;
+using System.Net.Mail;
 
 namespace Loja.Controllers
 {
@@ -16,13 +17,19 @@ namespace Loja.Controllers
     /// 
     ///     TODO:
     ///     
-    ///     - De momento, ao criar um utilizador que ja existe, a pagina refresca completamente. Deve se fazer ajax asincrono para verificar db.
+    ///     - De momento, ao criar um utilizador que ja existe, a pagina refresca completamente. Deve se fazer ajax assincrono para verificar db.
+    /// 
+    ///     Lista de smtp clients:
+    ///     
+    ///     pop.sapo.pt para sapo.pt
+    ///     smtp.gmail.com para gmail.com
     /// </summary>
     public class UserController : Controller
     {
 
         readonly private WebServiceRequestPublic webShared = new WebServiceRequestPublic();
         private string message;
+        bool resetPass = false;
         public ActionResult Login(string message)
         {
             if (message == null)
@@ -147,6 +154,25 @@ namespace Loja.Controllers
                 Session["UserAddMessage"] = message;
             }
             return Redirect(Url.Action("index","home"));
+        }
+        [HttpGet]
+        public RedirectResult resetPassword()
+        {
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+            mail.From = new MailAddress("testedev123123123@gmail.com");
+            //receber email do login.
+            mail.To.Add("brunagfaria7@gmail.com");
+            mail.Subject = "Loja-Faria Email de confirmação";
+            mail.Body = "";
+
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("testedev123123123@gmail.com", "123qwe,.-");
+            SmtpServer.EnableSsl = true;
+
+            SmtpServer.Send(mail);
+            return Redirect(Url.Action(""));
         }
     }
 }
