@@ -14,7 +14,8 @@ namespace Loja.Library
     /// 
     /// 
     ///         TODO:
-    ///         asd
+    ///         
+    ///     Esquecime
     /// </summary>
     public class WebServiceRequestPublic
     {
