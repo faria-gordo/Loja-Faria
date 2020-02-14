@@ -42,15 +42,32 @@ namespace Loja.Services.Controllers
             }
 
         }
-        public IHttpActionResult isUserRegistered()
+        [HttpPost]
+        public IHttpActionResult isUserRegistered(JObject userInfo)
         {
-            return Ok();
+            User user = new JavaScriptSerializer().Deserialize<User>(userInfo.ToString());
+            string message = userManager.VerificarUser(user);
+            if (message != null)
+            {
+                return Ok(message);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
         [HttpPost]
         public IHttpActionResult logOffUser(JObject userInfo)
         {
             User user = new JavaScriptSerializer().Deserialize<User>(userInfo.ToString());
             string message = userManager.LogOffUser(user);
+            return Ok(message);
+        }
+        [HttpPost]
+        public IHttpActionResult changePassword(JObject userInfo)
+        {
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            string message = userManager.MudarPassword(jss.Deserialize<User>(userInfo.ToString()));
             return Ok(message);
         }
     }

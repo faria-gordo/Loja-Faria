@@ -29,9 +29,24 @@ namespace Loja.Controllers
 
         readonly private WebServiceRequestPublic webShared = new WebServiceRequestPublic();
         private string message;
-        bool resetPass = false;
         public ActionResult Login(string message)
         {
+            bool allowCP;
+            if (Session["allowCP"] is bool)
+            {
+                allowCP = (bool)Session["allowCP"];
+                if (allowCP)
+                {
+                    ViewBag.Allow = Session["allowCP"];
+                }
+            }
+            if (Session["resetCod"] != null)
+            {
+                if (Int32.Parse(Session["resetCod"].ToString()) != null)
+                {
+                    ViewBag.Codigo = Session["resetCod"];
+                }
+            }
             if (message == null)
             {
                 Session["User"] = "entry";
@@ -40,6 +55,9 @@ namespace Loja.Controllers
             {
                 Session["User"] = message;
             }
+            string ver = Session["User"] as String;
+            string vere = Session["User"].ToString();
+            var vesr = Session["User"];
             return View();
         }
         [HttpPost]
@@ -112,9 +130,9 @@ namespace Loja.Controllers
             }
             var userJson = new JavaScriptSerializer().Serialize(novoUser);
             message = webShared.CallWebService("User", "addUser", userJson, false);
-            if(message != "\"Já existe esse email registado.\"")
+            if (message != "\"Já existe esse email registado.\"")
             {
-                if(novoUser != null)
+                if (novoUser != null)
                 {
                     novoUser.Autenticado = true;
                     novoUser.QuantLogins = 1;
@@ -133,7 +151,7 @@ namespace Loja.Controllers
             {
                 Session["User"] = null;
                 Session["UserAddMessage"] = message;
-                return Redirect(Url.Action("Login","User"));
+                return Redirect(Url.Action("Login", "User"));
             }
 
         }
@@ -144,7 +162,7 @@ namespace Loja.Controllers
             User user = Session["User"] as User;
             var userJson = new JavaScriptSerializer().Serialize(user);
             string message = webShared.CallWebService("User", "logOffUser", userJson, false);
-            if(message != null)
+            if (message != null)
             {
                 Session["User"] = null;
                 Session["UserAddMessage"] = message;
@@ -153,26 +171,104 @@ namespace Loja.Controllers
             {
                 Session["UserAddMessage"] = message;
             }
-            return Redirect(Url.Action("index","home"));
+            return Redirect(Url.Action("index", "home"));
         }
-        [HttpGet]
-        public RedirectResult resetPassword()
+        [HttpPost]
+        public RedirectResult resetPassword(FormCollection form)
         {
-            MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-
-            mail.From = new MailAddress("testedev123123123@gmail.com");
-            //receber email do login.
-            mail.To.Add("brunagfaria7@gmail.com");
-            mail.Subject = "Loja-Faria Email de confirmação";
-            mail.Body = "";
-
-            SmtpServer.Port = 587;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("testedev123123123@gmail.com", "123qwe,.-");
-            SmtpServer.EnableSsl = true;
-
-            SmtpServer.Send(mail);
-            return Redirect(Url.Action(""));
+            User user = new User();
+            string[] userInfo;
+            if (form.Count < 2)
+            {
+                for (int i = 0; i < form.Count; i++)
+                {
+                    userInfo = form.GetValues(form.AllKeys[i]);
+                    user.Email = userInfo[0];
+                }
+            }
+            var userJson = new JavaScriptSerializer().Serialize(user);
+            message = webShared.CallWebService("User", "isUserRegistered", userJson, false);
+            if (message != null)
+            {
+                DateTime date = DateTime.Now;
+                int cod = (date.Month + date.Day + ((date.Year / 100) + ((date.Hour + date.Minute) * 24)) + 366) - date.Millisecond + date.Second;
+                if (cod <= 0)
+                {
+                    cod += 6000;
+                }
+                else if (cod > 0 && cod <= 999)
+                {
+                    cod += 4000;
+                }
+                Session["resetCod"] = cod;
+                Session["resetPWEmail"] = user.Email;
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                mail.From = new MailAddress("testedev123123123@gmail.com");
+                mail.To.Add($"{user.Email}");
+                mail.Subject = "Loja-Faria Email de confirmação";
+                mail.Body = $"Copia o codigo e confirma o teu email. Codigo: {cod}\n" +
+                    "Se fechares a sessão terás que repetir este processo.\n"
+                    + "Por favor não respondes a este email.";
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("testedev123123123@gmail.com", "123qwe,.-");
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(mail);
+            }
+            else
+            {
+                Session["resetCod"] = 0000;
+            }
+            return Redirect(Url.Action("Login", "User", new { message = message }));
+        }
+        [HttpPost]
+        public RedirectResult allowChangePassword(FormCollection form)
+        {
+            string[] userInfo;
+            if (form.Count < 2)
+            {
+                for (int i = 0; i < form.Count; i++)
+                {
+                    userInfo = form.GetValues(form.AllKeys[i]);
+                    int cod = Int32.Parse(userInfo[0]);
+                    if (cod == Int32.Parse(Session["resetCod"].ToString()))
+                    {
+                        bool allowChangePassword = true;
+                        Session["allowCP"] = allowChangePassword;
+                    }
+                }
+            }
+            return Redirect(Url.Action("Login", "User", new { message = "Permissão cedida para alterar a tua palavra passe" }));
+        }
+        [HttpPost]
+        public RedirectResult changePassword(FormCollection form)
+        {
+            User newPWUser = new User();
+            string[] userInfo;
+            message = null;
+            if (form.Count < 2)
+            {
+                for (int i = 0; i < form.Count; i++)
+                {
+                    userInfo = form.GetValues(form.AllKeys[i]);
+                    newPWUser.Email = Session["resetPWEmail"].ToString();
+                    //Add encryption
+                    using (SHA512 sha = new SHA512Managed())
+                    {
+                        newPWUser.Password = BitConverter.ToString(sha.ComputeHash(Encoding.UTF8.GetBytes(userInfo[0]))).Replace("-", "").ToLower();
+                    }
+                }
+                if (newPWUser != null)
+                {
+                    var userJson = new JavaScriptSerializer().Serialize(newPWUser);
+                    message = webShared.CallWebService("User", "changePassword", userJson, false);
+                    if (message != null)
+                    {
+                        return Redirect(Url.Action("Login", "User", new { message = "Nova Palavra passe registada" }));
+                    }
+                }
+            }
+            return Redirect(Url.Action("Login", "User", new { message = "Ocorreu um erro. Tente novamente" }));
         }
     }
 }

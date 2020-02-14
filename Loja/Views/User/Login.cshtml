@@ -12,11 +12,13 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    @*<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>*@
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <!------ Include the above in your HEAD tag ---------->
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
 </head>
 <body>
     <style>
@@ -105,112 +107,217 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5 mx-auto">
-                <div id="first">
-                    <div class="myform form" style="padding-top: 5px;">
-                        <div class="col-md-12 text-right right">
-                            <a href="@Url.Action("index","home")">
-                                <span class="close">&times;</span>
-                            </a>
-                        </div>
-                        <div class="logo mb-3">
+                @{ 
+                    if (Session["User"].ToString() != "\"Encontramos o teu email, podes repor a tua palavra passe\"" && Session["User"].ToString() != "Permissão cedida para alterar a tua palavra passe")
+                    {
+                        <div id="first">
+                            <div class="myform form" style="padding-top: 5px;">
+                                <div class="col-md-12 text-right right">
+                                    <a href="@Url.Action("index", "home")">
+                                        <span class="close">&times;</span>
+                                    </a>
+                                </div>
+                                <div class="logo mb-3">
 
-                            <div class="col-md-12 text-center">
-                                <h1>Loja</h1>
-                            </div>
-                        </div>
-                        <form action="@Url.Action("logInUser","User")" method="post" name="login">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email:</label>
-                                <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Password</label>
-                                <input type="password" name="password" id="password" class="form-control" aria-describedby="emailHelp" placeholder="Password">
-                            </div>
-                            @if (Session["User"].ToString() != "entry")
-                            {
-                                <div class="alert">
-                                    <small class="alert-warning" style="color:red;">@Session["User"]</small>
+                                    <div class="col-md-12 text-center">
+                                        <h1>Loja</h1>
+                                    </div>
                                 </div>
-                            }
-                            @if (Session["UserAddMessage"] != null)
-                            {
-                                <div class="alert">
-                                    <small class="alert-warning" style="color:red;">@Session["UserAddMessage"]</small>
-                                </div>
-                                Session["UserAddMessage"] = null;
-                            }
-                            <div class="form-group">
-                                <p class="text-center">Ao registar aceita os nossos <a href="#">Termos e condições</a></p>
-                            </div>
-                            <div class="col-md-12 text-center ">
-                                <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>
-                            </div>
-                            <div class="col-md-12 ">
-                                <div class="login-or">
-                                    <hr class="hr-or">
-                                    <span class="span-or">ou</span>
-                                </div>
-                            </div>
-                            <div class="col-md-12 mb-3">
-                                <p class="text-center">
-                                    <button class="google btn mybtn" onclick="onSignIn()">
-                                        <i class="fa fa-google-plus">
-                                        </i> Faz login usando Google
-                                    </button>
-                                </p>
-                            </div>
-                            <div class="form-group">
-                                <p class="text-center">Não tens conta? <a href="#" id="signup">Regista-te aqui</a></p>
-                            </div>
-                            <div class="form-group">
-                                <p class="text-center">Esqueces te a tua palavra-passe? <a href="@Url.Action("resetPassword", "User")" id="signup">Repor palavra-passe</a></p>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-                <div id="second">
-                    <div class="myform form" style="padding-top: 5px;">
-                        <div class="col-md-12 text-right right">
-                            <a href="@Url.Action("index","home")">
-                                <span class="close">&times;</span>
-                            </a>
-                        </div>
-                        <div class="logo mb-3">
-                            <div class="col-md-11 text-center">
-                                <h1>Registar</h1>
-                            </div>
-                        </div>
-                        <form action="@Url.Action("AddNewUser","User")" name="registration" method="post">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Primeiro Nome:</label>
-                                <input type="text" name="firstname" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Primeiro Nome">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Apelido:</label>
-                                <input type="text" name="lastname" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Apelido">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email:</label>
-                                <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Password:</label>
-                                <input type="password" name="password" id="password" class="form-control" aria-describedby="emailHelp" placeholder="Password">
-                            </div>
-                            <div class="col-md-12 text-center mb-3">
-                                <button type="submit" class=" btn btn-block mybtn btn-primary">Registar</button>
-                            </div>
-                            <div class="col-md-12 ">
+                                <form action="@Url.Action("logInUser", "User")" method="post" name="login">
+                                    <div class="form-group">
+                                        <label for="emailLogIn">Email:</label>
+                                        <input type="email" name="emailLogIn" class="form-control" id="emailLogIn" aria-describedby="emailHelp" placeholder="Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="passwordLogIn">Password</label>
+                                        <input type="password" name="passwordLogIn" id="passwordLogIn" class="form-control" aria-describedby="emailHelp" placeholder="Password">
+                                    </div>
+                                    @if (Session["User"].ToString() != "entry")
+                                    {
+                                        <div class="alert">
+                                            <small class="alert-warning" style="color:red;">@Session["User"]</small>
+                                        </div>
+                                    }
+                                    @if (Session["UserAddMessage"] != null)
+                                    {
+                                        <div class="alert">
+                                            <small class="alert-warning" style="color:red;">@Session["UserAddMessage"]</small>
+                                        </div>
+                                        Session["UserAddMessage"] = null;
+                                    }
+                                    <div class="form-group">
+                                        <p class="text-center">Ao registar aceita os nossos <a href="#">Termos e condições</a></p>
+                                    </div>
+                                    <div class="col-md-12 text-center ">
+                                        <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div class="login-or">
+                                            <hr class="hr-or">
+                                            <span class="span-or">ou</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <p class="text-center">
+                                            <button class="google btn mybtn" onclick="onSignIn()">
+                                                <i class="fa fa-google-plus">
+                                                </i> Faz login usando Google
+                                            </button>
+                                        </p>
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="text-center">Não tens conta? <a href="#" id="signup">Regista-te aqui</a></p>
+                                    </div>
+                                </form>
                                 <div class="form-group">
-                                    <p class="text-center"><a href="#" id="signin">Já tens uma conta?</a></p>
+                                    <div class="text-center">Esqueceste-te da tua palavra-passe? </div>
+                                </div>
+                                <!--modal-->
+                                <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#reset">Repor palavra-passe</button>
+                                <div id="reset" class="modal fade" role="dialog" aria-labelledby="reset" aria-hidden="true" style="margin-top: 15%  ;">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel" style="margin-left: 30%;">Repor palavra passe</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <form method="post" action="@Url.Action("resetPassword", "User")" name="resetPassword">
+                                                        <div class="row">
+                                                            <div style="margin-left:3%">
+                                                                <label for="emailreset">Insere o email que usaste para te registar:</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-offset-3 col-md-6">
+                                                                <input name="resetPassword" class="form-control form-control-static" type="email" maxlength="100" placeholder="email" required />
+                                                            </div>
+                                                            <div class="col-md-offset-2 col-md-1">
+                                                                <input type="submit" class="btn btn-primary" />
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer text-center">
+                                                    <div class="text-warning small" style="margin-right: 12%;">
+                                                        Será enviado um pedido de confirmação para o teu email.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div id="second">
+                            <div class="myform form" style="padding-top: 5px;">
+                                <div class="col-md-12 text-right right">
+                                    <a href="@Url.Action("index", "home")">
+                                        <span class="close">&times;</span>
+                                    </a>
+                                </div>
+                                <div class="logo mb-3">
+                                    <div class="col-md-11 text-center">
+                                        <h1>Registar</h1>
+                                    </div>
+                                </div>
+                                <form action="@Url.Action("AddNewUser", "User")" name="registration" method="post">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Primeiro Nome:</label>
+                                        <input type="text" name="firstname" class="form-control" id="firstname" aria-describedby="emailHelp" placeholder="Primeiro Nome">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Apelido:</label>
+                                        <input type="text" name="lastname" class="form-control" id="lastname" aria-describedby="emailHelp" placeholder="Apelido">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email:</label>
+                                        <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Password:</label>
+                                        <input type="password" name="password" id="password" class="form-control" aria-describedby="emailHelp" placeholder="Password">
+                                    </div>
+                                    <div class="col-md-12 text-center mb-3">
+                                        <button type="submit" class=" btn btn-block mybtn btn-primary">Registar</button>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+                                            <p class="text-center"><a href="#" id="signin">Já tens uma conta?</a></p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-5 mx-auto">
+                    @{
+                        if (Session["User"].ToString() == "\"Encontramos o teu email, podes repor a tua palavra passe\"")
+                        {
+                            <div id="third">
+                                <div class="myform form" style="padding-top: 5px;">
+                                    <div class="col-md-12 text-right right">
+                                        <a href="@Url.Action("index", "home")">
+                                            <span class="close">&times;</span>
+                                        </a>
+                                    </div>
+                                    <div class="logo mb-3">
+                                        <div class="col-md-11 text-center">
+                                            <h1>Repor Palavra Passe</h1>
+                                        </div>
+                                    </div>
+                                    <form action="@Url.Action("allowChangePassword", "User")" method="post">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Codigo:</label>
+                                            <input type="password" name="password" id="password" class="form-control" aria-describedby="emailHelp" placeholder="Password">
+                                        </div>
+                                        <div class="col-md-12 text-center mb-3">
+                                            <button type="submit" class=" btn btn-block mybtn btn-primary">Confirmar</button>
+                                        </div>
+                                    </form>
+                                    @if (ViewBag.Cod == 0000)
+                                    {
+                                        <div class="alert">
+                                            <small class="alert-warning" style="color:red;">Não encontramos o teu email... Tenta novamente</small>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        if (Session["User"] as String == "Permissão cedida para alterar a tua palavra passe")
+                        {
+                            <div id="fourth">
+                                <div class="myform form" style="padding-top: 5px;">
+                                    <div class="col-md-12 text-right right">
+                                        <a href="@Url.Action("index", "home")">
+                                            <span class="close">&times;</span>
+                                        </a>
+                                    </div>
+                                    <div class="logo mb-3">
+                                        <div class="col-md-11 text-center">
+                                            <h1>Repor Palavra Passe</h1>
+                                        </div>
+                                    </div>
+                                    <form action="@Url.Action("changePassword", "User")" method="post">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Nova palavra passe:</label>
+                                            <input type="password" name="password" id="password" class="form-control" aria-describedby="emailHelp" placeholder="Password">
+                                        </div>
+                                        <div class="col-md-12 text-center mb-3">
+                                            <button type="submit" class=" btn btn-block mybtn btn-primary">Confirmar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    }
                 </div>
-
             </div>
         </div>
     </div>
