@@ -16,6 +16,8 @@ namespace Loja.Data
     /// 
     /// TODO:      
     /// 
+    ///     Registar nova palavra passe, elimina o correto user mas nao adiciona
+    /// 
     /// </summary>
     public class Data
     {
@@ -76,35 +78,6 @@ namespace Loja.Data
             return "Mensagem do helper Carrinho adicionado!! ";
         }
 
-        //ADICIONAR USER
-        public string AdicionarUser(User user)
-        {
-            try
-            {
-                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
-                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
-
-                //Verifica se existe
-                if (resultado.Count > 0)
-                {
-                    return "Já existe esse email registado.";
-                }
-                else
-                {
-                    user.Autenticado = true;
-                    user.QuantLogins += 1;
-                    table.Execute(TableOperation.Insert(UserToModelTableUser(user)));
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //Erro conflito
-                Console.WriteLine(ex.Message);
-                return "Já existe esse email registado.";
-            }
-            return "Mensagem do helper User adicionado";
-        }
 
         //RETIRAR PRODUTO
         public string RetirarProduto(Produto produto)
@@ -337,7 +310,36 @@ namespace Loja.Data
             return produtos;
         }
 
-        //SELECTIONAR USER (Log in)
+        //USER ACTIONS
+        public string AdicionarUser(User user)
+        {
+            try
+            {
+                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
+                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
+
+                //Verifica se existe
+                if (resultado.Count > 0)
+                {
+                    return "Já existe esse email registado.";
+                }
+                else
+                {
+                    user.Autenticado = true;
+                    user.QuantLogins += 1;
+                    table.Execute(TableOperation.Insert(UserToModelTableUser(user)));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //Erro conflito
+                Console.WriteLine(ex.Message);
+                return "Já existe esse email registado.";
+            }
+            return "Mensagem do helper User adicionado";
+        }
+
         public User LogIn(User user)
         {
             //este user tem so email e password
@@ -346,7 +348,6 @@ namespace Loja.Data
                 TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
                 List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
 
-                //Verifica se existe
                 if (resultado.Count == 1)
                 {
                     foreach (var userDB in resultado)
@@ -364,7 +365,6 @@ namespace Loja.Data
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -375,6 +375,116 @@ namespace Loja.Data
                 user = null;
             }
             return user;
+        }
+
+        public string LogOffUser(User user)
+        {
+            try
+            {
+                TableOperation retrieve = TableOperation.Retrieve<ModeloTableUser>(user.Password, user.Email);
+
+                TableResult result = table.Execute(retrieve);
+
+                ModeloTableUser loggedOfUser = (ModeloTableUser)result.Result;
+
+                loggedOfUser.Autenticado = false;
+
+                if (result != null)
+                {
+                    TableOperation update = TableOperation.Replace(loggedOfUser);
+
+                    table.Execute(update);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+            return "Saíste da tua conta!";
+        }
+
+        public string VerificarUser(User user)
+        {
+            string message = "Não encontramos o teu email. Tenta novamente";
+            try
+            {
+                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
+                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
+
+                if (resultado.Count == 1)
+                {
+                    foreach (var userDB in resultado)
+                    {
+                        if (userDB.RowKey == user.Email)
+                        {
+                            return message = "Encontramos o teu email, podes repor a tua palavra passe";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return message;
+        }
+
+        public string MudarPassword(User user)
+        {
+            User oldUser = new User();
+            string newPassword = user.Password; // nova palavra passe
+            try
+            {
+                //Procurar palavra passe antiga pelo email
+                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
+                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
+
+                if (resultado.Count == 1)
+                {
+                    foreach (var userDB in resultado)
+                    {
+                        if (userDB.RowKey == user.Email)
+                        {
+                            oldUser.Password = userDB.Password;
+                            oldUser.Email = userDB.Email;
+                            oldUser.Nome = userDB.Nome;
+                            oldUser.Apelido = userDB.Apelido;
+                            oldUser.FotoUrl = userDB.FotoUrl;
+                            oldUser.Autenticado = userDB.Autenticado;
+                            oldUser.QuantLogins = userDB.QuantLogins;
+                        }
+                    }
+                }
+
+                //Com a palavra passe antiga, encontrar na tabela o registo com o email e a passantiga, e eliminar o registo
+                TableOperation retrieve = TableOperation.Retrieve<ModeloTableUser>(oldUser.Password, oldUser.Email);
+                TableResult result = table.Execute(retrieve);
+                ModeloTableUser loggedOfUser = (ModeloTableUser)result.Result;
+                if (result != null)
+                {
+                    TableOperation delete = TableOperation.Delete(loggedOfUser);
+
+                    table.Execute(delete);
+                }
+
+                //Inserir mesmo user com palavra passe nova
+                //CHEGA AQUI MAS NAO INSERE O USER PRETENDIDO. NAO INSERE NADA
+                if (user != null)
+                {
+                    user.Nome = oldUser.Nome;
+                    user.QuantLogins = oldUser.QuantLogins;
+                    user.Apelido = oldUser.Apelido;
+                    user.FotoUrl = oldUser.FotoUrl;
+                    TableOperation insert = TableOperation.Insert(UserToModelTableUser(user));
+                    return "Nova palavra passe registada";
+                } 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return "Ocorreu um problema ao registar a nova palavra passe";
         }
 
         //ATUALIZAR PRODUTO
@@ -405,33 +515,6 @@ namespace Loja.Data
             return null;
         }
 
-        //ATUALIZAR USER (dados e LogOFf)
-        public string LogOffUser(User user)
-        {
-            try
-            {
-                TableOperation retrieve = TableOperation.Retrieve<ModeloTableUser>(user.Password, user.Email);
-
-                TableResult result = table.Execute(retrieve);
-
-                ModeloTableUser loggedOfUser = (ModeloTableUser)result.Result;
-
-                loggedOfUser.Autenticado = false;
-
-                if (result != null)
-                {
-                    TableOperation update = TableOperation.Replace(loggedOfUser);
-
-                    table.Execute(update);
-                }
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-
-            return "Saíste da tua conta!";
-        }
 
         //MAPPINGS
         //TableEntity to Entity
