@@ -433,7 +433,7 @@ namespace Loja.Data
         public string MudarPassword(User user)
         {
             User oldUser = new User();
-            string newPassword = user.Password; // nova palavra passe
+            User newUser = new User();
             try
             {
                 //Procurar palavra passe antiga pelo email
@@ -472,12 +472,25 @@ namespace Loja.Data
                 //CHEGA AQUI MAS NAO INSERE O USER PRETENDIDO. NAO INSERE NADA
                 if (user != null)
                 {
-                    user.Nome = oldUser.Nome;
-                    user.QuantLogins = oldUser.QuantLogins;
-                    user.Apelido = oldUser.Apelido;
-                    user.FotoUrl = oldUser.FotoUrl;
-                    TableOperation insert = TableOperation.Insert(UserToModelTableUser(user));
-                    return "Nova palavra passe registada";
+                    newUser.Nome = oldUser.Nome;
+                    newUser.Password = user.Password;
+                    newUser.Email = oldUser.Email;
+                    newUser.QuantLogins = oldUser.QuantLogins;
+                    newUser.Autenticado = oldUser.Autenticado;
+                    newUser.Apelido = oldUser.Apelido;
+                    newUser.FotoUrl = oldUser.FotoUrl;
+                    TableOperation insert = TableOperation.Insert(UserToModelTableUser(newUser));
+                    TableResult res = table.Execute(insert);
+                    if(res.HttpStatusCode == 204)//NO CONTENT
+                    {
+                        return "Nova palavra passe registada";
+                    }
+                    else
+                    {
+                        TableOperation insertIfProblem = TableOperation.Insert(UserToModelTableUser(oldUser));
+                        TableResult resProb = table.Execute(insertIfProblem);
+                        return $"{res.HttpStatusCode}: Ocorreu um erro a trocar a sua palavra passe";
+                    }
                 } 
             }
             catch (Exception ex)
@@ -514,7 +527,6 @@ namespace Loja.Data
         {
             return null;
         }
-
 
         //MAPPINGS
         //TableEntity to Entity
@@ -628,7 +640,6 @@ namespace Loja.Data
             };
             return carrinho;
         }
-
         public Produto CarrinhoToProduto(Carrinho carrinho)
         {
             Produto produto = new Produto()

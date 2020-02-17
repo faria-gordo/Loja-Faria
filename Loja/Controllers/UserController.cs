@@ -155,7 +155,6 @@ namespace Loja.Controllers
             }
 
         }
-
         [HttpGet]
         public RedirectResult logOff()
         {
@@ -173,6 +172,7 @@ namespace Loja.Controllers
             }
             return Redirect(Url.Action("index", "home"));
         }
+        //CHANGE PASSWORD
         [HttpPost]
         public RedirectResult resetPassword(FormCollection form)
         {
@@ -235,6 +235,10 @@ namespace Loja.Controllers
                     {
                         bool allowChangePassword = true;
                         Session["allowCP"] = allowChangePassword;
+                    }
+                    else
+                    {
+                        return Redirect(Url.Action("Login","User", new { message = "Codigo errado. Repita o processo" }));
                     }
                 }
             }
