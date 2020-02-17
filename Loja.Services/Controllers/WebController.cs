@@ -20,6 +20,7 @@ namespace Loja.Services.Controllers
     /// 
     /// TODO:
     ///           
+    ///     Modificar GetProduct.
     /// </summary>
     public class WebController : ApiController
     {   
@@ -53,8 +54,6 @@ namespace Loja.Services.Controllers
                 default:
                     return NotFound();
             }
-            //chamar servico para informar dashboard
-
             return Ok(produtos);
         }
 

@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "Tabelas";
+}
+<h3>Tabelas</h3>
+<span class="badge badge-primary col-md-12 text-center">Inventário de Produtos</span>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Preco</th>
+            <th scope="col">Descrição</th>
+            <th><a style="border-radius: 40%; text-decoration:none;" class="fa fa-plus-circle fa-2x" data-toggle="modal" data-target="#addProd"></a></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--Chamar servico e export produtos que existem na bd-->
+        @{
+            if (ViewBag.AllProducts != null)
+            {
+                foreach (var produto in ViewBag.AllProducts)
+                {
+                    <tr>
+                        <td scope="row">@produto.Nome</td>
+                        <td>@produto.Preco</td>
+                        <td>@produto.Descricao</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>Não existem produtos</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<span class="badge badge-primary col-md-12 text-center">Carrinhos de Compra</span>
+<table class="table table-hover">
+    <!--No futuro, 'Tabela dos {Nome da tabela por ViewBag}-->
+    <thead>
+        <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Preco</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Secção</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Imagem</th>
+            <th scope="col" style="text-align:center;">Data</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--Chamar servico e export produtos que existem na bd-->
+        @{
+            if (ViewBag.AllCarts != null)
+            {
+                foreach (var cart in ViewBag.AllCarts)
+                {
+                    <tr>
+                        <td scope="row">@cart.Nome</td>
+                        <td class="text-center">@cart.Preco</td>
+                        <td>@cart.Descricao</td>
+                        <td class="text-center">@cart.Quantidade</td>
+                        <td>@cart.Seccao</td>
+                        <td>@cart.Tipo</td>
+                        <td><a><img height="10" width="10" src="@cart.Url" /></a></td>
+                        <td>@DateTime.Now</td>Hora errada
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>Não existem carrinho</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<span class="badge badge-primary col-md-12 text-center">Utilizadores</span>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col" style="text-align:center">Nome</th>
+            <th scope="col" style="text-align:center">Apelido</th>
+            <th scope="col" style="text-align:center">Email</th>
+            <th scope="col" style="text-align:center">Login's</th>
+            <th scope="col" style="text-align:center">Online</th>
+            <th scope="col" style="text-align:center">Carrinhos?</th>
+            <th scope="col" style="text-align:center;">Data</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!--Chamar servico e export produtos que existem na bd-->
+        @{
+            if (ViewBag.AllUsers != null)
+            {
+                foreach (var user in ViewBag.AllUsers)
+                {
+                    <tr>
+                        <td scope="row" style="text-align:center">@user.Nome</td>
+                        <td style="text-align:center">@user.Apelido</td>
+                        <td style="text-align:center">@user.Email</td>
+                        <td style="text-align:center">@user.QuantLogins</td>
+                        <td style="text-align:center">@user.Autenticado</td>
+                        <td style="text-align:center">@DateTime.Now</td>Hora errada
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>Não existem utlizadores</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<!--MODAL-->
+<div id="addProd" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h5 class="modal-title">Adicionar Produto</h5>
+                    </div>
+                    <div class="col-md-offset-6 col-md-1">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("addProduct","Dashboard")" method="post">
+                    <div class="form-group">
+                        <label for="nome">Id do Produto:</label>
+                        <input type="text" class="form-control" id="Id" name="Id" aria-describedby="id" placeholder="Id: Ainda a designar">
+                    </div>
+                    <div class="form-group">
+                        <label for="nome">Nome do Produto:</label>
+                        <input type="text" class="form-control" id="Nome" name="Nome" aria-describedby="nome" placeholder="Nome:">
+                    </div>
+                    <div class="form-group">
+                        <label for="seccao">Secção</label><!--Definir melhor-->
+                        <input list="seccoes" name="Seccao" placeholder="Secção: " id="seccao" />
+                        <datalist id="seccoes">
+                            <option value="Bijutaria">
+                            <option value="Diversos">
+                            <option value="Religiosos">
+                            <option value="Lenbranças">
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo">Tipo</label><!--Definir melhor-->
+                        <input list="tipos" name="Tipo" id="tipo" placeholder="Tipo: " />
+                        <datalist id="tipos">
+                            <option value="Coleiras">
+                            <option value="Terços">
+                            <option value="Pulseiras">
+                            <option value="Relógios">
+                            <option value="Jóias">
+                            <option value="Malas">
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <textarea name="Descricao" id="Descricao" placeholder="Descrição: " rows="10" cols="30"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="preco">Preço</label>
+                        <input type="number" class="form-control" name="Preco" id="Preco" placeholder="Preço: ">
+                    </div>
+                    <div class="form-group">
+                        <label for="url">Foto</label>
+                        <input type="text" class="form-control" name="Url" id="url" placeholder="Foto do produto: ">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -124,7 +124,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -167,8 +167,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Tabelas.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Dashboard\Tabelas.cshtml" />
     <Content Include="Views\Shared\_navbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +189,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Loja.Library\Loja.Library.csproj">
+      <Project>{E2A544FB-6BFE-4249-8800-B89FF4A2A543}</Project>
+      <Name>Loja.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Loja.Models\Loja.Models.csproj">
       <Project>{97BE256C-05EC-4836-946E-9BAFC582DF1F}</Project>
       <Name>Loja.Models</Name>

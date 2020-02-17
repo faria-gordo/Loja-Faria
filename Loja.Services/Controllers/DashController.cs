@@ -1,11 +1,13 @@
 ﻿using Loja.Library;
 using Loja.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace Loja.Services.Controllers
 {
@@ -51,10 +53,19 @@ namespace Loja.Services.Controllers
 
             return Ok(produtos);
         }
-        public IHttpActionResult PutProduct(string id)
+        [HttpPost]
+        public IHttpActionResult addProduct(JObject json)
         {
-            //Dashboard
-            return Ok();
+            Produto produtoNovo = new JavaScriptSerializer().Deserialize<Produto>(json.ToString());
+            string message = lojaManager.AdicionarProduto(produtoNovo);
+            if(message != null)
+            {
+                return Ok(message);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }

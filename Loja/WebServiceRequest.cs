@@ -15,7 +15,7 @@ namespace Loja
     /// TODO:
     /// 
     ///     //De momento este helper e usado para chamar servicos de carrinhos, produtos, users, etc. Generalizar metodo para facilitar uso.
-    ///     
+    ///     //Por todos os callers dos servicos em Shared. 
     ///     
     /// </summary>
     public class WebServiceRequest
@@ -42,7 +42,7 @@ namespace Loja
             }
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/");
+                client.BaseAddress = new Uri($"http://localhost:44389/");
                 var responseTask = client.GetAsync($"{controller}/{method}/{identifier}");
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)

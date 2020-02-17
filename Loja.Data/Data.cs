@@ -245,9 +245,9 @@ namespace Loja.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                return ex.Message;
             }
-            return "Mensagem do helper";
+            return "Mensagem do helper, Produto adicionado";
         }
         public string AdicionarProdutos(List<Produto> produtos)
         {
@@ -623,9 +623,12 @@ namespace Loja.Data
                 RowKey = prod.Id,
                 Nome = prod.Nome,
                 Tipo = prod.Tipo,
+                Seccao = prod.Seccao,
                 Preco = prod.Preco,
                 Descricao = prod.Descricao,
-                Url = prod.Url
+                Url = prod.Url,
+                DataDeAquisicao = DateTime.Now,
+                DataDeVenda = DateTime.Now
             };
             return modelo;
         }

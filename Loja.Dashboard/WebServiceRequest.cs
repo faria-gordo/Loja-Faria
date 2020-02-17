@@ -54,5 +54,23 @@ namespace Loja.Dashboard
                 return utilizadores;
             }
         }
+        public List<Produto> CallProdutoWebService(string controller, string method, string identifier)
+        {
+            List<Produto> produtos = new List<Produto>();
+            using(var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                var response = client.GetAsync($"{method}");
+                var resultPost = response.Result;
+                if (resultPost.IsSuccessStatusCode)
+                {
+                    var users = resultPost.Content.ReadAsAsync<List<Produto>>();
+                    users.Wait();
+
+                    produtos = users.Result;
+                }
+            }
+            return produtos;
+        }
     }
 }
