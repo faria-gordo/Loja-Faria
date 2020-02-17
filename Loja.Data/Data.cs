@@ -302,12 +302,12 @@ namespace Loja.Data
         public List<Carrinho> SelecionarCarrinhos()
         {
             List<ModeloTableCarrinho> modelos = table.ExecuteQuery(new TableQuery<ModeloTableCarrinho>()).ToList();
-            List<Carrinho> produtos = new List<Carrinho>();
+            List<Carrinho> carrinhos = new List<Carrinho>();
             foreach (ModeloTableCarrinho modelo in modelos)
             {
-                produtos.Add(ModelTableToCarrinho(modelo));
+                carrinhos.Add(ModelTableToCarrinho(modelo));
             }
-            return produtos;
+            return carrinhos;
         }
 
         //USER ACTIONS
@@ -339,7 +339,6 @@ namespace Loja.Data
             }
             return "Mensagem do helper User adicionado";
         }
-
         public User LogIn(User user)
         {
             //este user tem so email e password
@@ -376,7 +375,6 @@ namespace Loja.Data
             }
             return user;
         }
-
         public string LogOffUser(User user)
         {
             try
@@ -403,7 +401,6 @@ namespace Loja.Data
 
             return "Saíste da tua conta!";
         }
-
         public string VerificarUser(User user)
         {
             string message = "Não encontramos o teu email. Tenta novamente";
@@ -429,7 +426,6 @@ namespace Loja.Data
             }
             return message;
         }
-
         public string MudarPassword(User user)
         {
             User oldUser = new User();
@@ -498,6 +494,16 @@ namespace Loja.Data
                 Console.WriteLine(ex.Message);
             }
             return "Ocorreu um problema ao registar a nova palavra passe";
+        }
+        public List<User> SelecionarUsers()
+        {
+            List<ModeloTableUser> modelos = table.ExecuteQuery(new TableQuery<ModeloTableUser>()).ToList();
+            List<User> users = new List<User>();
+            foreach (ModeloTableUser modelo in modelos)
+            {
+                users.Add(ModelTableToUser(modelo));
+            }
+            return users;
         }
 
         //ATUALIZAR PRODUTO

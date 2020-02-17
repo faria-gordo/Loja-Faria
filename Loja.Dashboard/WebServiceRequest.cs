@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace Loja.Dashboard
 {
@@ -14,7 +16,7 @@ namespace Loja.Dashboard
     /// </summary>
     public class WebServiceRequest
     {
-        public List<Carrinho> CallWebService(string controller, string method, string identifier)
+        public List<Carrinho> CallCartWebService(string controller, string method, string identifier)
         {
             List<Carrinho> carrinho = null;
 
@@ -33,6 +35,24 @@ namespace Loja.Dashboard
                 }
             }
             return carrinho;
+        }
+        public List<User> CallUserWebService(string controller, string method, string identifier)
+        {
+            List<User> utilizadores = new List<User>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                var responseTaskPost = client.GetAsync($"{method}");
+                var resultpost = responseTaskPost.Result;
+                if (resultpost.IsSuccessStatusCode)
+                {
+                    var users = resultpost.Content.ReadAsAsync<List<User>>();
+                    users.Wait();
+
+                    utilizadores = users.Result;
+                }
+                return utilizadores;
+            }
         }
     }
 }

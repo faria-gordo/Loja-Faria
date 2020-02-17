@@ -70,5 +70,12 @@ namespace Loja.Services.Controllers
             string message = userManager.MudarPassword(jss.Deserialize<User>(userInfo.ToString()));
             return Ok(message);
         }
+        [HttpGet]
+        public IHttpActionResult getAllUsers()
+        {
+            List<User> users = new List<User>();
+            users = userManager.SelecionarUsers();
+            return Ok(users);
+        }
     }
 }

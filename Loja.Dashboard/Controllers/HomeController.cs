@@ -12,6 +12,8 @@ namespace Loja.Dashboard.Controllers
     /// Sumário serve para expor informação adicional aos comentários ou para informar todos os bugs na aplicação em causa.
     ///
     /// TODO:
+    /// 
+    ///     Quando dashboard efectua alteracoes a qql bd, chama o seu proprio API. quando apenas obtem informacao, chama os outros APIs
     /// </summary>
     public class HomeController : Controller
     {
@@ -22,8 +24,10 @@ namespace Loja.Dashboard.Controllers
         }
         public ActionResult Tabelas()
         {
-            List<Carrinho> carrinhos = webShared.CallWebService("Cart","GetCarrinhos","");
+            List<Carrinho> carrinhos = webShared.CallCartWebService("Cart","GetCarrinhos","");
+            List<User> users = webShared.CallUserWebService("User", "getAllUsers", "");
             ViewBag.AllCarts = carrinhos;
+            ViewBag.AllUsers = users;
             return View();
         }
         public ActionResult Graficos()
