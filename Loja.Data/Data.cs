@@ -588,7 +588,7 @@ namespace Loja.Data
             {
                 foreach (ModeloTableSeccaoTipoProduto modelo in resultado)
                 {
-                    string tipo = ModelModelTableSTProdToSTProd(modelo).Tipo;
+                    string tipo = ModelTableSTProdToSTProd(modelo).Tipo;
                     tipos.Add(tipo);
                 }
             }
