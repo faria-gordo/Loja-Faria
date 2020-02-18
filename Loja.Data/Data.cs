@@ -17,7 +17,6 @@ namespace Loja.Data
     /// 
     /// TODO:      
     /// 
-    ///     Registar nova palavra passe, elimina o correto user mas nao adiciona
     /// 
     /// </summary>
     public class Data
@@ -269,13 +268,31 @@ namespace Loja.Data
 
             return null;
         }
-        public Produto SelecionarProdutoPorRowKey(string rowkey)
+        public List<Produto> SelecionarProdutoPorRowKey(string rowkey)
+        {
+            List<Produto> produtos = new List<Produto>();
+            try
+            {
+                TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowkey));
+                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList();
+                foreach (var prod in resultado)
+                {
+                    produtos.Add(ModelTableToModel(prod));
+                }
+            }
+            catch (Exception ex)
+            {
+                produtos = null;
+            }
+            return produtos;
+        }
+        public Produto SelecionarProdutoPorRowKeyunico(string rowkey)
         {
             Produto produto = new Produto();
             try
             {
                 TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowkey));
-                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList();
                 foreach (var prod in resultado)
                 {
                     produto = ModelTableToModel(prod);
@@ -283,13 +300,14 @@ namespace Loja.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                produto = null;
             }
             return produto;
         }
         public List<Produto> SelecionarProdutoPorPartitionKey(string partitionKey)
         {
             List<Produto> produtos = new List<Produto>();
+
             try
             {
                 TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
@@ -533,6 +551,24 @@ namespace Loja.Data
         }
 
 
+        //---------------------------VERIFICACOES DE RK's /PK's/Nome------------------------------
+        //RK's
+
+        public List<string> VerificarTipos(string request)
+        {
+            List<string> tipos = new List<string>();
+            TableQuery<ModeloTableSeccaoTipoProduto> query = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, request));
+            List<ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList<ModeloTableSeccaoTipoProduto>();
+            if (resultado != null)
+            {
+                foreach (ModeloTableSeccaoTipoProduto modelo in resultado)
+                {
+                    string tipo = ModelModelTableSTProdToSTProd(modelo).Tipo;
+                    tipos.Add(tipo);
+                }
+            }
+            return tipos;
+        }
 
         //---------------------------MAPPINGS--------------------------------------
         //TableEntity to Entity
@@ -663,6 +699,24 @@ namespace Loja.Data
                 FotoUrl = user.FotoUrl
             };
             return modelo;
+        }
+        public ModeloTableSeccaoTipoProduto STProdToModelModelTableSTProd(SeccaoTipoProduto stprod)
+        {
+            ModeloTableSeccaoTipoProduto modelo = new ModeloTableSeccaoTipoProduto()
+            {
+                PartitionKey = stprod.Seccao,
+                RowKey = stprod.Tipo
+            };
+            return modelo;
+        }
+        public SeccaoTipoProduto ModelModelTableSTProdToSTProd(ModeloTableSeccaoTipoProduto modeloSTProd)
+        {
+            SeccaoTipoProduto stprod = new SeccaoTipoProduto()
+            {
+                Seccao = modeloSTProd.PartitionKey,
+                Tipo = modeloSTProd.RowKey
+            };
+            return stprod;
         }
     }
 }
