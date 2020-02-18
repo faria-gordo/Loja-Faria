@@ -551,8 +551,33 @@ namespace Loja.Data
         }
 
 
-        //---------------------------VERIFICACOES DE RK's /PK's/Nome------------------------------
-        //RK's
+        //---------------------------SECCOES E TIPOS------------------------------
+        //ADICIONAR TIPOS OU SECCOES
+
+        public string AdicionarTipo(SeccaoTipoProduto stp)
+        {
+            try
+            {
+                table.Execute(TableOperation.InsertOrReplace(STProdToModelModelTableSTProd(stp)));
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+            return "Foi adicionado um novo tipo";
+        }
+        public string AdicionarSeccao(SeccaoTipoProduto stp)
+        {
+            try
+            {
+                table.Execute(TableOperation.InsertOrReplace(STProdToModelModelTableSTProd(stp)));
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            return "Foi adicionada uma nova secção";
+        }
 
         public List<string> VerificarTipos(string request)
         {
@@ -709,7 +734,7 @@ namespace Loja.Data
             };
             return modelo;
         }
-        public SeccaoTipoProduto ModelModelTableSTProdToSTProd(ModeloTableSeccaoTipoProduto modeloSTProd)
+        public SeccaoTipoProduto ModelTableSTProdToSTProd(ModeloTableSeccaoTipoProduto modeloSTProd)
         {
             SeccaoTipoProduto stprod = new SeccaoTipoProduto()
             {

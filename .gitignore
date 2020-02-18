@@ -1,0 +1,9 @@
+.DS_STORE
+Loja/Loja.csproj
+/bin
+/obj
+/.vs
+.vs/Loja/v16/.suo
+.vs/Loja/v16/Server/sqlite3/storage.ide
+.vs/Loja/config/applicationhost.config
+*.sln

@@ -25,7 +25,7 @@ namespace Loja.Dashboard.Controllers
         {
             return View();
         }
-        public ActionResult Tabelas()
+        public ActionResult Tabelas(string message)
         {
             List<Produto> produtos = webShared.CallProdutoWebService("Dash", "GetProducts", "");
             List<Carrinho> carrinhos = webShared.CallCartWebService("Cart", "GetCarrinhos", "");
@@ -33,6 +33,7 @@ namespace Loja.Dashboard.Controllers
             ViewBag.AllProducts = produtos;
             ViewBag.AllCarts = carrinhos;
             ViewBag.AllUsers = users;
+            ViewBag.Message = message;
             return View();
         }
         public ActionResult Graficos()
@@ -48,10 +49,23 @@ namespace Loja.Dashboard.Controllers
             return View();
         }
         [HttpPost]
-        public RedirectToRouteResult addProduct(Produto prod)
+        public RedirectToRouteResult adicionarProduto(Produto prod)
         {
-            webSharedLibrary.CallWebService("Dash", "addProduct", new JavaScriptSerializer().Serialize(prod), false);
-            return RedirectToAction("Tabelas");
+            string message = webSharedLibrary.CallWebService("Dash", "addProduct", new JavaScriptSerializer().Serialize(prod), false);
+            return RedirectToAction("Tabelas", new { message = message });
+        }
+
+        [HttpPost]
+        public RedirectToRouteResult adicionarTipo(SeccaoTipoProduto stp)
+        {
+            string message = webSharedLibrary.CallWebService("Dash", "addType", new JavaScriptSerializer().Serialize(stp), false);
+            return RedirectToAction("Tabelas", new { message });
+        }
+        [HttpPost]
+        public RedirectToRouteResult adicionarSeccao(SeccaoTipoProduto stp)
+        {
+            string message = webSharedLibrary.CallWebService("Dash", "addSection", new JavaScriptSerializer().Serialize(stp), false);
+            return RedirectToAction("Tabelas", new { message });
         }
     }
 }

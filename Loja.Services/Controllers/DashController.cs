@@ -56,5 +56,37 @@ namespace Loja.Services.Controllers
                 return BadRequest();
             }
         }
+        [HttpPost]
+        public IHttpActionResult addType(JObject json)
+        {
+            SeccaoTipoProduto tipo  = new JavaScriptSerializer().Deserialize<SeccaoTipoProduto>(json.ToString());
+            string message = lojaManager.AdicionarTipo(tipo);
+            if (message != null)
+            {
+                return Ok(message);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost]
+        public IHttpActionResult addSection(JObject json)
+        {
+            SeccaoTipoProduto seccao = new JavaScriptSerializer().Deserialize<SeccaoTipoProduto>(json.ToString());
+            if(seccao.Tipo == null && seccao.Tipo == "")
+            {
+                return BadRequest();
+            }
+            string message = lojaManager.AdicionarSeccao(seccao);
+            if (message != null)
+            {
+                return Ok(message);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

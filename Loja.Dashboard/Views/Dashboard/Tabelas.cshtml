@@ -134,7 +134,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <form action="@Url.Action("addProduct","Dashboard")" method="post">
+                <form action="@Url.Action("adicionarProduto", "Dashboard")" method="post">
                     <div class="form-group">
                         <label for="nome">Id do Produto:</label>
                         <input type="text" class="form-control" id="Id" name="Id" aria-describedby="id" placeholder="Id: Ainda a designar">
@@ -144,26 +144,28 @@
                         <input type="text" class="form-control" id="Nome" name="Nome" aria-describedby="nome" placeholder="Nome:">
                     </div>
                     <div class="form-group">
-                        <label for="seccao">Secção</label><!--Definir melhor-->
-                        <input list="seccoes" name="Seccao" placeholder="Secção: " id="seccao" />
-                        <datalist id="seccoes">
-                            <option value="Bijutaria">
-                            <option value="Diversos">
-                            <option value="Religiosos">
-                            <option value="Lenbranças">
-                        </datalist>
+                        <label for="seccao">Secção: </label><!--Definir melhor-->
+                        <select id="seccao" name="Seccao" class="form-control">
+                            <option>----</option>
+                            <option value="Bijutaria">Bijutaria</option>
+                            <option value="Diversos">Diversos</option>
+                            <option value="Religiosos">Religiosos</option>
+                            <option value="Lembranças">Lembranças</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="tipo">Tipo</label><!--Definir melhor-->
-                        <input list="tipos" name="Tipo" id="tipo" placeholder="Tipo: " />
-                        <datalist id="tipos">
-                            <option value="Coleiras">
-                            <option value="Terços">
-                            <option value="Pulseiras">
-                            <option value="Relógios">
-                            <option value="Jóias">
-                            <option value="Malas">
-                        </datalist>
+                        <label for="tipo">Tipo: </label><!--Definir melhor-->
+                        <select class="form-control" id="tipo">
+                            <option class="bij">----</option>
+                            <option class="bij" value="Pulseiras">Pulseiras</option>
+                            <option class="bij" value="Jóias">Jóias</option>
+                            <option class="div" value="Coleiras">Coleiras</option>
+                            <option class="div" value="Relógios">Relógios</option>
+                            <option class="div" value="Malas">Malas</option>
+                            <option class="rel" value="Terços">Terços</option>
+                            <option class="lem" value="Postais">Postais</option>
+                        </select>
+                        <a class="btn btn-primary" style="border-radius: 40%;" data-target="#addTipo" data-toggle="modal"><span class="fa fa-upload fa-upload-2x"></span></a>
                     </div>
                     <div class="form-group">
                         <label for="descricao">Descrição</label>
@@ -176,15 +178,108 @@
                     <div class="form-group">
                         <label for="url">Foto</label>
                         <input type="text" class="form-control" name="Url" id="url" placeholder="Foto do produto: ">
+                        @*<input type="file" class="form-control" name="File" id="url" placeholder="Foto do produto: ">*@
                     </div>
                     <button type="submit" class="btn btn-primary">Guardar</button>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             </div>
         </div>
     </div>
 </div>
-
-
+<!--END MODAL-->
+<!--MODAL TIPO-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Adicionar Tipo de Produto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div class="form-control">
+                            <label for="seccao">Secção: </label><!--Definir melhor-->
+                            <select id="seccao" name="Seccao" class="form-control">
+                                <option>----</option>
+                                <option value="Bijutaria">Bijutaria</option>
+                                <option value="Diversos">Diversos</option>
+                                <option value="Religiosos">Religiosos</option>
+                                <option value="Lembranças">Lembranças</option>
+                            </select>
+                        </div>
+                        <div class="form-control">
+                            <input type="text" name="Tipo" placeholder="Escreva o tipo"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END OF MODAL TIPO-->
+@if (ViewBag.Message != null)
+{
+    <div class="text-warning">
+        <small class="warning">@ViewBag.Message</small>
+    </div>
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    $("select[id='seccao']").on('input', function () {
+        if ($(this).val() == "" || $(this).val() == undefined) {
+            $(".bij").attr("hidden", "hidden");
+            $(".div").attr("hidden", "hidden");
+            $(".rel").attr("hidden", "hidden");
+            $(".lem").attr("hidden", "hidden");
+        }
+        if ($(this).val() == 'Bijutaria') {
+            console.log($(this).val());
+            $(".bij").removeAttr("hidden");
+            $(".div").attr("hidden", "hidden");
+            $(".rel").attr("hidden", "hidden");
+            $(".lem").attr("hidden", "hidden");
+        }
+        if ($(this).val() == 'Diversos') {
+            console.log($(this).val());
+            $(".div").removeAttr("hidden");
+            $(".bij").attr("hidden", "hidden");
+            $(".rel").attr("hidden", "hidden");
+            $(".lem").attr("hidden", "hidden");
+        }
+        if ($(this).val() == 'Religiosos') {
+            console.log($(this).val());
+            $(".rel").removeAttr("hidden");
+            $(".bij").attr("hidden", "hidden");
+            $(".div").attr("hidden", "hidden");
+            $(".lem").attr("hidden", "hidden");
+        }
+        if ($(this).val() == 'Lembranças') {
+            console.log($(this).val());
+            $(".lem").removeAttr("hidden");
+            $(".bij").attr("hidden", "hidden");
+            $(".rel").attr("hidden", "hidden");
+            $(".div").attr("hidden", "hidden");
+        }
+    })
+</script>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.readAsDataURL(input.files[0]);
+            input.value = reader.result;
+            console.log(input.value);
+        }
+    }
+    $("#url").change(function () {
+        readURL(this);
+    });
+</script>
