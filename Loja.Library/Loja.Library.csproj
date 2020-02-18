@@ -65,11 +65,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shared.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebServiceRequestPublic.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Loja.Data\Loja.Data.csproj">
+      <Project>{fadd0fbb-6790-4c01-8543-fd1bbadee759}</Project>
+      <Name>Loja.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Loja.Models\Loja.Models.csproj">
       <Project>{97BE256C-05EC-4836-946E-9BAFC582DF1F}</Project>
       <Name>Loja.Models</Name>

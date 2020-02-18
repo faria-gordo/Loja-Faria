@@ -15,7 +15,7 @@ namespace Loja
     /// TODO:
     /// 
     ///     //De momento este helper e usado para chamar servicos de carrinhos, produtos, users, etc. Generalizar metodo para facilitar uso.
-    ///     
+    ///     //Por todos os callers dos servicos em Shared. 
     ///     
     /// </summary>
     public class WebServiceRequest

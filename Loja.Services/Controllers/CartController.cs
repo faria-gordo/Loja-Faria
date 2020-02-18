@@ -21,11 +21,11 @@ namespace Loja.Services.Controllers
     public class CartController : ApiController
     {
         private readonly Data.Data manager = new Data.Data("Carrinho");
-        private readonly Data.Data managere = new Data.Data("LojaFaria");
+        private readonly Data.Data managerLoja = new Data.Data("LojaFaria");
         [HttpGet]
         public IHttpActionResult GetCarrinhos()
         {
-            List<Carrinho> carrinhos = new List<Carrinho>();
+            List<Carrinho> carrinhos;
             carrinhos = manager.SelecionarCarrinhos();
             return Ok(carrinhos);
         }
@@ -38,7 +38,7 @@ namespace Loja.Services.Controllers
             foreach (string id in identifier.Split(','))
             {
                 Carrinho carrinho = new Carrinho();
-                Produto produto = managere.SelecionarProdutoPorRowKey(id.Split('_')[0]);
+                Produto produto = managerLoja.SelecionarProdutoPorRowKeyunico(id.Split('_')[0]);
                 carrinho = manager.ProdutoToCarrinho(produto);
                 carrinho.Quantidade = Int32.Parse(id.Split('_')[1]);
                 message += manager.AdicionarCarrinho(carrinho);

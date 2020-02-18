@@ -41,3 +41,5 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.WebPages.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Loja.Data.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Loja.Data.pdb

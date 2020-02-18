@@ -241,3 +241,5 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\obj\Debu
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\obj\Debug\Loja.Dashboard.csproj.CopyComplete
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\obj\Debug\Loja.Dashboard.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\obj\Debug\Loja.Dashboard.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\Loja.Library.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\Loja.Library.pdb

@@ -13,8 +13,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     @*<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>*@
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <!------ Include the above in your HEAD tag ---------->
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
@@ -107,7 +107,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-5 mx-auto">
-                @{ 
+                @{
                     if (Session["User"].ToString() != "\"Encontramos o teu email, podes repor a tua palavra passe\"" && Session["User"].ToString() != "Permissão cedida para alterar a tua palavra passe")
                     {
                         <div id="first">
@@ -292,6 +292,10 @@
                         }
                         if (Session["User"] as String == "Permissão cedida para alterar a tua palavra passe")
                         {
+                            if (Session["allowCP"] != null)
+                            {
+                                if ((bool)Session["allowCP"])
+                                {
                             <div id="fourth">
                                 <div class="myform form" style="padding-top: 5px;">
                                     <div class="col-md-12 text-right right">
@@ -315,8 +319,10 @@
                                     </form>
                                 </div>
                             </div>
+                                    }
+                                }
+                            }
                         }
-                    }
                 </div>
             </div>
         </div>

@@ -20,11 +20,12 @@ namespace Loja.Services.Controllers
     /// 
     /// TODO:
     ///           
+    ///     Modificar GetProduct.
     /// </summary>
     public class WebController : ApiController
-    {   
+    {
         private readonly Data.Data manager = new Data.Data("LojaFaria");
-        private readonly Shared lib = new Shared();
+        private readonly Data.Data managerST = new Data.Data("SeccaoTipoProduto");
         [HttpGet]
         public IHttpActionResult GetProducts()
         {
@@ -35,26 +36,24 @@ namespace Loja.Services.Controllers
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public IHttpActionResult GetProduct(string data)
         {
-            // 1 verificar pelo qual se quer obter o produto (RK/PK/Nome)
-            // 2 verificar identifier, saber se é PK ou RK ou Nome
-            string response = lib.WebServiceRequestFormatData(data);
             List<Produto> produtos = new List<Produto>();
-            switch (response.Split('-')[0].ToLower())
+            List<string> tipos = managerST.VerificarTipos(data);
+            if (tipos != null)
             {
-                case "partitionkey":
-                    produtos = manager.SelecionarProdutoPorPartitionKey(response.Split('-')[1] + "-" + response.Split('-')[2]);
-                    break;
-                case "rowkey":
-                    produtos.Add(manager.SelecionarProdutoPorRowKey(response.Split('-')[1]));
-                    break;
-                case "name":
-                    produtos = manager.SelecionarProdutoPorNome(response.Split('-')[1]);
-                    break;
-                default:
-                    return NotFound();
+                foreach (string tipo in tipos)
+                {
+                    string partitionKey = data + "-" + tipo;
+                    produtos = manager.SelecionarProdutoPorPartitionKey(partitionKey);
+                    if (produtos == null)
+                    {
+                        produtos = manager.SelecionarProdutoPorRowKey(partitionKey);
+                        if (produtos == null)
+                        {
+                            produtos = manager.SelecionarProdutoPorNome(partitionKey);
+                        }
+                    }
+                }
             }
-            //chamar servico para informar dashboard
-
             return Ok(produtos);
         }
 
@@ -66,7 +65,6 @@ namespace Loja.Services.Controllers
             return Ok();
         }
         //ONLY USING THE DASHBOARD (use authentication)
-
         //Create
         [HttpPost]
         public IHttpActionResult PostProduct(string data)
@@ -82,11 +80,6 @@ namespace Loja.Services.Controllers
         //Method only used when the admin deletes the product from the bd using the dashboard
         [HttpDelete]
         public IHttpActionResult DeleteProduct(string data)
-        {
-            return Ok();
-        }
-        [HttpDelete]
-        public IHttpActionResult DeleteProducts(string data)
         {
             return Ok();
         }

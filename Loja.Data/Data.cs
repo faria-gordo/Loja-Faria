@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -16,7 +17,6 @@ namespace Loja.Data
     /// 
     /// TODO:      
     /// 
-    ///     Registar nova palavra passe, elimina o correto user mas nao adiciona
     /// 
     /// </summary>
     public class Data
@@ -26,12 +26,212 @@ namespace Loja.Data
         private readonly CloudTable table;
         public Data(string nomeTabela)
         {
-            string ConnectionString = "DefaultEndpointsProtocol=https;AccountName=lojafariastorage;AccountKey=RzxcaNCnheT4HKh7ym8KaML3J1FSXKXUS0HaIHvw7diyood7Ekk9D8ki7szjnfO6X9drbGaZIE6gHlbcXQUWaA==;EndpointSuffix=core.windows.net";
+            string ConnectionString = ConfigurationManager.ConnectionStrings["azureConnectionString"].ConnectionString;
             storageAccount = CloudStorageAccount.Parse(ConnectionString);
             tableClient = storageAccount.CreateCloudTableClient();
             table = tableClient.GetTableReference(nomeTabela);
             table.CreateIfNotExists();
         }
+
+        //---------------------------USER ACTIONS--------------------------------------
+
+        //ADICIONAR PRODUTO
+        public string AdicionarUser(User user)
+        {
+            try
+            {
+                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
+                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
+
+                //Verifica se existe
+                if (resultado.Count > 0)
+                {
+                    return "Já existe esse email registado.";
+                }
+                else
+                {
+                    user.Autenticado = true;
+                    user.QuantLogins += 1;
+                    table.Execute(TableOperation.Insert(UserToModelTableUser(user)));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //Erro conflito
+                Console.WriteLine(ex.Message);
+                return "Já existe esse email registado.";
+            }
+            return "Mensagem do helper User adicionado";
+        }
+        public User LogIn(User user)
+        {
+            //este user tem so email e password
+            try
+            {
+                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
+                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
+
+                if (resultado.Count == 1)
+                {
+                    foreach (var userDB in resultado)
+                    {
+                        if (userDB.RowKey == user.Email && userDB.PartitionKey == user.Password)
+                        {
+                            user.Nome = userDB.Nome;
+                            user.Apelido = userDB.Apelido;
+                            user.QuantLogins = userDB.QuantLogins + 1;
+                            user.Autenticado = true;
+
+                            //Atualiza quantidade de logins e se esta autenticado.
+                            TableOperation update = TableOperation.Replace(UserToModelTableUser(user));
+                            table.Execute(update);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (user.Nome == null && user.Apelido == null)
+            {
+                user = null;
+            }
+            return user;
+        }
+        public string LogOffUser(User user)
+        {
+            try
+            {
+                TableOperation retrieve = TableOperation.Retrieve<ModeloTableUser>(user.Password, user.Email);
+
+                TableResult result = table.Execute(retrieve);
+
+                ModeloTableUser loggedOfUser = (ModeloTableUser)result.Result;
+
+                loggedOfUser.Autenticado = false;
+
+                if (result != null)
+                {
+                    TableOperation update = TableOperation.Replace(loggedOfUser);
+
+                    table.Execute(update);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+            return "Saíste da tua conta!";
+        }
+        public string VerificarUser(User user)
+        {
+            string message = "Não encontramos o teu email. Tenta novamente";
+            try
+            {
+                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
+                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
+
+                if (resultado.Count == 1)
+                {
+                    foreach (var userDB in resultado)
+                    {
+                        if (userDB.RowKey == user.Email)
+                        {
+                            return message = "Encontramos o teu email, podes repor a tua palavra passe";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return message;
+        }
+        public string MudarPassword(User user)
+        {
+            User oldUser = new User();
+            User newUser = new User();
+            try
+            {
+                //Procurar palavra passe antiga pelo email
+                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
+                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
+
+                if (resultado.Count == 1)
+                {
+                    foreach (var userDB in resultado)
+                    {
+                        if (userDB.RowKey == user.Email)
+                        {
+                            oldUser.Password = userDB.Password;
+                            oldUser.Email = userDB.Email;
+                            oldUser.Nome = userDB.Nome;
+                            oldUser.Apelido = userDB.Apelido;
+                            oldUser.FotoUrl = userDB.FotoUrl;
+                            oldUser.Autenticado = userDB.Autenticado;
+                            oldUser.QuantLogins = userDB.QuantLogins;
+                        }
+                    }
+                }
+
+                //Com a palavra passe antiga, encontrar na tabela o registo com o email e a passantiga, e eliminar o registo
+                TableOperation retrieve = TableOperation.Retrieve<ModeloTableUser>(oldUser.Password, oldUser.Email);
+                TableResult result = table.Execute(retrieve);
+                ModeloTableUser loggedOfUser = (ModeloTableUser)result.Result;
+                if (result != null)
+                {
+                    TableOperation delete = TableOperation.Delete(loggedOfUser);
+
+                    table.Execute(delete);
+                }
+
+                //Inserir mesmo user com palavra passe nova
+                //CHEGA AQUI MAS NAO INSERE O USER PRETENDIDO. NAO INSERE NADA
+                if (user != null)
+                {
+                    newUser.Nome = oldUser.Nome;
+                    newUser.Password = user.Password;
+                    newUser.Email = oldUser.Email;
+                    newUser.QuantLogins = oldUser.QuantLogins;
+                    newUser.Autenticado = oldUser.Autenticado;
+                    newUser.Apelido = oldUser.Apelido;
+                    newUser.FotoUrl = oldUser.FotoUrl;
+                    TableOperation insert = TableOperation.Insert(UserToModelTableUser(newUser));
+                    TableResult res = table.Execute(insert);
+                    if (res.HttpStatusCode == 204)//NO CONTENT
+                    {
+                        return "Nova palavra passe registada";
+                    }
+                    else
+                    {
+                        TableOperation insertIfProblem = TableOperation.Insert(UserToModelTableUser(oldUser));
+                        TableResult resProb = table.Execute(insertIfProblem);
+                        return $"{res.HttpStatusCode}: Ocorreu um erro a trocar a sua palavra passe";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return "Ocorreu um problema ao registar a nova palavra passe";
+        }
+        public List<User> SelecionarUsers()
+        {
+            List<ModeloTableUser> modelos = table.ExecuteQuery(new TableQuery<ModeloTableUser>()).ToList();
+            List<User> users = new List<User>();
+            foreach (ModeloTableUser modelo in modelos)
+            {
+                users.Add(ModelTableToUser(modelo));
+            }
+            return users;
+        }
+
+        //---------------------------PRODUTOS ACTIONS--------------------------------------
 
         //ADICIONAR PRODUTO
         public string AdicionarProduto(Produto produto)
@@ -44,9 +244,9 @@ namespace Loja.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                return ex.Message;
             }
-            return "Mensagem do helper";
+            return "Mensagem do helper, Produto adicionado";
         }
         public string AdicionarProdutos(List<Produto> produtos)
         {
@@ -63,82 +263,36 @@ namespace Loja.Data
             }
             return "Mensagem do helper";
         }
-
-        //ADICIONAR CARRINHO
-        public string AdicionarCarrinho(Carrinho carrinho)
-        {
-            try
-            {
-                table.Execute(TableOperation.Insert(CarrinhoToModelTable(carrinho)));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return "Mensagem do helper Carrinho adicionado!! ";
-        }
-
-
-        //RETIRAR PRODUTO
-        public string RetirarProduto(Produto produto)
-        {
-            //Pegar em todos os id presentes em produtos e apaga los da bd [QUE NAO PASSAM PELO CARRINHO DE COMPRAS] sera feito pela tabelda da bd do website
-            try
-            {
-                table.Execute(TableOperation.Delete(ModelToModelTable(produto)));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return "";
-        }
-        public string RetirarProdutoPorRowKey(string rowKey)
-        {
-            return "";
-        }
-        public string RetirarProdutoPorPartitionKey(string partitionKey)
-        {
-            return "";
-        }
-        public string RetirarProdutoPorNome(string nome)
-        {
-            return "";
-        }
-        public string RetirarProdutos(List<Produto> produtos)
-        {
-            //Pegar em todos os id presentes em produtos e apaga los da bd [QUE NAO PASSAM PELO CARRINHO DE COMPRAS] sera feito pela tabelda da bd do website
-            try
-            {
-                foreach (Produto prod in produtos)
-                {
-                    table.Execute(TableOperation.Delete(ModelToModelTable(prod)));
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return "Mensagem do helper";
-        }
-        public string RetirarProdutosPorPartitionKey(string[] partitionKey)
-        {
-            return "";
-        }
-
-        //SELECIONAR PRODUTO
         public List<Produto> SelecionarProduto(Produto produto)
         {
 
             return null;
         }
-        public Produto SelecionarProdutoPorRowKey(string rowkey)
+        public List<Produto> SelecionarProdutoPorRowKey(string rowkey)
+        {
+            List<Produto> produtos = new List<Produto>();
+            try
+            {
+                TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowkey));
+                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList();
+                foreach (var prod in resultado)
+                {
+                    produtos.Add(ModelTableToModel(prod));
+                }
+            }
+            catch (Exception ex)
+            {
+                produtos = null;
+            }
+            return produtos;
+        }
+        public Produto SelecionarProdutoPorRowKeyunico(string rowkey)
         {
             Produto produto = new Produto();
             try
             {
                 TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, rowkey));
-                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList<ModeloTable>();
+                List<ModeloTable> resultado = table.ExecuteQuery(query).ToList();
                 foreach (var prod in resultado)
                 {
                     produto = ModelTableToModel(prod);
@@ -146,13 +300,14 @@ namespace Loja.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                produto = null;
             }
             return produto;
         }
         public List<Produto> SelecionarProdutoPorPartitionKey(string partitionKey)
         {
             List<Produto> produtos = new List<Produto>();
+
             try
             {
                 TableQuery<ModeloTable> query = new TableQuery<ModeloTable>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey));
@@ -297,197 +452,6 @@ namespace Loja.Data
             }
 
         }
-
-        //SELECIONAR CARRINHO
-        public List<Carrinho> SelecionarCarrinhos()
-        {
-            List<ModeloTableCarrinho> modelos = table.ExecuteQuery(new TableQuery<ModeloTableCarrinho>()).ToList();
-            List<Carrinho> produtos = new List<Carrinho>();
-            foreach (ModeloTableCarrinho modelo in modelos)
-            {
-                produtos.Add(ModelTableToCarrinho(modelo));
-            }
-            return produtos;
-        }
-
-        //USER ACTIONS
-        public string AdicionarUser(User user)
-        {
-            try
-            {
-                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
-                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
-
-                //Verifica se existe
-                if (resultado.Count > 0)
-                {
-                    return "Já existe esse email registado.";
-                }
-                else
-                {
-                    user.Autenticado = true;
-                    user.QuantLogins += 1;
-                    table.Execute(TableOperation.Insert(UserToModelTableUser(user)));
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //Erro conflito
-                Console.WriteLine(ex.Message);
-                return "Já existe esse email registado.";
-            }
-            return "Mensagem do helper User adicionado";
-        }
-
-        public User LogIn(User user)
-        {
-            //este user tem so email e password
-            try
-            {
-                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
-                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
-
-                if (resultado.Count == 1)
-                {
-                    foreach (var userDB in resultado)
-                    {
-                        if (userDB.RowKey == user.Email && userDB.PartitionKey == user.Password)
-                        {
-                            user.Nome = userDB.Nome;
-                            user.Apelido = userDB.Apelido;
-                            user.QuantLogins = userDB.QuantLogins + 1;
-                            user.Autenticado = true;
-
-                            //Atualiza quantidade de logins e se esta autenticado.
-                            TableOperation update = TableOperation.Replace(UserToModelTableUser(user));
-                            table.Execute(update);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            if (user.Nome == null && user.Apelido == null)
-            {
-                user = null;
-            }
-            return user;
-        }
-
-        public string LogOffUser(User user)
-        {
-            try
-            {
-                TableOperation retrieve = TableOperation.Retrieve<ModeloTableUser>(user.Password, user.Email);
-
-                TableResult result = table.Execute(retrieve);
-
-                ModeloTableUser loggedOfUser = (ModeloTableUser)result.Result;
-
-                loggedOfUser.Autenticado = false;
-
-                if (result != null)
-                {
-                    TableOperation update = TableOperation.Replace(loggedOfUser);
-
-                    table.Execute(update);
-                }
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-
-            return "Saíste da tua conta!";
-        }
-
-        public string VerificarUser(User user)
-        {
-            string message = "Não encontramos o teu email. Tenta novamente";
-            try
-            {
-                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
-                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
-
-                if (resultado.Count == 1)
-                {
-                    foreach (var userDB in resultado)
-                    {
-                        if (userDB.RowKey == user.Email)
-                        {
-                            return message = "Encontramos o teu email, podes repor a tua palavra passe";
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return message;
-        }
-
-        public string MudarPassword(User user)
-        {
-            User oldUser = new User();
-            string newPassword = user.Password; // nova palavra passe
-            try
-            {
-                //Procurar palavra passe antiga pelo email
-                TableQuery<ModeloTableUser> query = new TableQuery<ModeloTableUser>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, user.Email));
-                List<ModeloTableUser> resultado = table.ExecuteQuery(query).ToList<ModeloTableUser>();
-
-                if (resultado.Count == 1)
-                {
-                    foreach (var userDB in resultado)
-                    {
-                        if (userDB.RowKey == user.Email)
-                        {
-                            oldUser.Password = userDB.Password;
-                            oldUser.Email = userDB.Email;
-                            oldUser.Nome = userDB.Nome;
-                            oldUser.Apelido = userDB.Apelido;
-                            oldUser.FotoUrl = userDB.FotoUrl;
-                            oldUser.Autenticado = userDB.Autenticado;
-                            oldUser.QuantLogins = userDB.QuantLogins;
-                        }
-                    }
-                }
-
-                //Com a palavra passe antiga, encontrar na tabela o registo com o email e a passantiga, e eliminar o registo
-                TableOperation retrieve = TableOperation.Retrieve<ModeloTableUser>(oldUser.Password, oldUser.Email);
-                TableResult result = table.Execute(retrieve);
-                ModeloTableUser loggedOfUser = (ModeloTableUser)result.Result;
-                if (result != null)
-                {
-                    TableOperation delete = TableOperation.Delete(loggedOfUser);
-
-                    table.Execute(delete);
-                }
-
-                //Inserir mesmo user com palavra passe nova
-                //CHEGA AQUI MAS NAO INSERE O USER PRETENDIDO. NAO INSERE NADA
-                if (user != null)
-                {
-                    user.Nome = oldUser.Nome;
-                    user.QuantLogins = oldUser.QuantLogins;
-                    user.Apelido = oldUser.Apelido;
-                    user.FotoUrl = oldUser.FotoUrl;
-                    TableOperation insert = TableOperation.Insert(UserToModelTableUser(user));
-                    return "Nova palavra passe registada";
-                } 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return "Ocorreu um problema ao registar a nova palavra passe";
-        }
-
-        //ATUALIZAR PRODUTO
         public Produto AtualizarProduto(Produto produto)
         {
             return null;
@@ -514,9 +478,124 @@ namespace Loja.Data
         {
             return null;
         }
+        public string RetirarProduto(Produto produto)
+        {
+            //Pegar em todos os id presentes em produtos e apaga los da bd [QUE NAO PASSAM PELO CARRINHO DE COMPRAS] sera feito pela tabelda da bd do website
+            try
+            {
+                table.Execute(TableOperation.Delete(ModelToModelTable(produto)));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return "";
+        }
+        public string RetirarProdutoPorRowKey(string rowKey)
+        {
+            return "";
+        }
+        public string RetirarProdutoPorPartitionKey(string partitionKey)
+        {
+            return "";
+        }
+        public string RetirarProdutoPorNome(string nome)
+        {
+            return "";
+        }
+        public string RetirarProdutos(List<Produto> produtos)
+        {
+            //Pegar em todos os id presentes em produtos e apaga los da bd [QUE NAO PASSAM PELO CARRINHO DE COMPRAS] sera feito pela tabelda da bd do website
+            try
+            {
+                foreach (Produto prod in produtos)
+                {
+                    table.Execute(TableOperation.Delete(ModelToModelTable(prod)));
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return "Mensagem do helper";
+        }
+        public string RetirarProdutosPorPartitionKey(string[] partitionKey)
+        {
+            return "";
+        }
+
+        //---------------------------CARRINHO ACTIONS--------------------------------------
+
+        //ADICIONAR CARRINHO
+        public string AdicionarCarrinho(Carrinho carrinho)
+        {
+            try
+            {
+                table.Execute(TableOperation.Insert(CarrinhoToModelTable(carrinho)));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return "Mensagem do helper Carrinho adicionado!! ";
+        }
+        public List<Carrinho> SelecionarCarrinhos()
+        {
+            List<ModeloTableCarrinho> modelos = table.ExecuteQuery(new TableQuery<ModeloTableCarrinho>()).ToList();
+            List<Carrinho> carrinhos = new List<Carrinho>();
+            foreach (ModeloTableCarrinho modelo in modelos)
+            {
+                carrinhos.Add(ModelTableToCarrinho(modelo));
+            }
+            return carrinhos;
+        }
 
 
-        //MAPPINGS
+        //---------------------------SECCOES E TIPOS------------------------------
+        //ADICIONAR TIPOS OU SECCOES
+
+        public string AdicionarTipo(SeccaoTipoProduto stp)
+        {
+            try
+            {
+                table.Execute(TableOperation.InsertOrReplace(STProdToModelModelTableSTProd(stp)));
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
+            return "Foi adicionado um novo tipo";
+        }
+        public string AdicionarSeccao(SeccaoTipoProduto stp)
+        {
+            try
+            {
+                table.Execute(TableOperation.InsertOrReplace(STProdToModelModelTableSTProd(stp)));
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            return "Foi adicionada uma nova secção";
+        }
+
+        public List<string> VerificarTipos(string request)
+        {
+            List<string> tipos = new List<string>();
+            TableQuery<ModeloTableSeccaoTipoProduto> query = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, request));
+            List<ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList<ModeloTableSeccaoTipoProduto>();
+            if (resultado != null)
+            {
+                foreach (ModeloTableSeccaoTipoProduto modelo in resultado)
+                {
+                    string tipo = ModelTableSTProdToSTProd(modelo).Tipo;
+                    tipos.Add(tipo);
+                }
+            }
+            return tipos;
+        }
+
+        //---------------------------MAPPINGS--------------------------------------
         //TableEntity to Entity
         public Produto ModelTableToModel(ModeloTable modeloTable)
         {
@@ -563,8 +642,40 @@ namespace Loja.Data
             };
             return user;
         }
-
-        //Entity to TableEntity
+        public Carrinho ProdutoToCarrinho(Produto produto)
+        {
+            Carrinho carrinho = new Carrinho()
+            {
+                IdCompra = Guid.NewGuid().ToString(), //Rk
+                Email = "test@gmail.com", //PK
+                Nome = "asd",
+                Tipo = produto.Tipo,
+                Seccao = produto.Seccao,
+                Descricao = produto.Descricao,
+                Preco = produto.Preco,
+                Quantidade = produto.Quantidade,
+                //DataDeCompra = produto.DataDeVenda,
+                Url = produto.Url
+            };
+            return carrinho;
+        }
+        public Produto CarrinhoToProduto(Carrinho carrinho)
+        {
+            Produto produto = new Produto()
+            {
+                Id = "",
+                Nome = carrinho.Nome,
+                //Email = "",
+                Tipo = carrinho.Tipo,
+                Seccao = carrinho.Seccao,
+                Descricao = carrinho.Descricao,
+                Preco = carrinho.Preco,
+                Quantidade = carrinho.Quantidade,
+                //DataDeVenda = carrinho.DataDeCompra,
+                Url = carrinho.Url
+            };
+            return produto;
+        }
         public ModeloTable ModelToModelTable(Produto prod)
         {
             ModeloTable modelo = new ModeloTable()
@@ -573,9 +684,12 @@ namespace Loja.Data
                 RowKey = prod.Id,
                 Nome = prod.Nome,
                 Tipo = prod.Tipo,
+                Seccao = prod.Seccao,
                 Preco = prod.Preco,
                 Descricao = prod.Descricao,
-                Url = prod.Url
+                Url = prod.Url,
+                DataDeAquisicao = DateTime.Now,
+                DataDeVenda = DateTime.Now
             };
             return modelo;
         }
@@ -611,40 +725,23 @@ namespace Loja.Data
             };
             return modelo;
         }
-        public Carrinho ProdutoToCarrinho(Produto produto)
+        public ModeloTableSeccaoTipoProduto STProdToModelModelTableSTProd(SeccaoTipoProduto stprod)
         {
-            Carrinho carrinho = new Carrinho()
+            ModeloTableSeccaoTipoProduto modelo = new ModeloTableSeccaoTipoProduto()
             {
-                IdCompra = Guid.NewGuid().ToString(), //Rk
-                Email = "test@gmail.com", //PK
-                Nome = "asd",
-                Tipo = produto.Tipo,
-                Seccao = produto.Seccao,
-                Descricao = produto.Descricao,
-                Preco = produto.Preco,
-                Quantidade = produto.Quantidade,
-                //DataDeCompra = produto.DataDeVenda,
-                Url = produto.Url
+                PartitionKey = stprod.Seccao,
+                RowKey = stprod.Tipo
             };
-            return carrinho;
+            return modelo;
         }
-
-        public Produto CarrinhoToProduto(Carrinho carrinho)
+        public SeccaoTipoProduto ModelTableSTProdToSTProd(ModeloTableSeccaoTipoProduto modeloSTProd)
         {
-            Produto produto = new Produto()
+            SeccaoTipoProduto stprod = new SeccaoTipoProduto()
             {
-                Id = "",
-                Nome = carrinho.Nome,
-                //Email = "",
-                Tipo = carrinho.Tipo,
-                Seccao = carrinho.Seccao,
-                Descricao = carrinho.Descricao,
-                Preco = carrinho.Preco,
-                Quantidade = carrinho.Quantidade,
-                //DataDeVenda = carrinho.DataDeCompra,
-                Url = carrinho.Url
+                Seccao = modeloSTProd.PartitionKey,
+                Tipo = modeloSTProd.RowKey
             };
-            return produto;
+            return stprod;
         }
     }
 }
