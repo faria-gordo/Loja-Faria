@@ -243,3 +243,13 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\obj\Debu
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\obj\Debug\Loja.Dashboard.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\Loja.Library.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\Loja.Library.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\roslyn\System.Globalization.Calendars.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\roslyn\System.IO.Compression.ZipFile.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\roslyn\System.Net.Http.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\roslyn\System.Net.Sockets.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\roslyn\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\roslyn\System.Threading.Tasks.Extensions.dll
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\Loja.Library.dll.config
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Dashboard\bin\Loja.Modelos.dll.config

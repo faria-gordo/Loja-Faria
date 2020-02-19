@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Loja.Services.Controllers
 {
-    public class HomeController : Controller
+    public class MainController : Controller
     {
         /// <summary>
         /// 

@@ -59,3 +59,4 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\obj\Debug\Loj
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\obj\Debug\Loja.Data.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Loja.Modelos.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Loja.Modelos.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Data\bin\Debug\Loja.Modelos.dll.config
