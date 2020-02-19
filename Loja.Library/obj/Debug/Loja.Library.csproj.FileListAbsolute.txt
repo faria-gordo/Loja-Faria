@@ -22,7 +22,6 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Loja.Modelos.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Microsoft.WindowsAzure.Storage.pdb
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Microsoft.WindowsAzure.Storage.xml
-C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Microsoft.Azure.KeyVault.Core.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\obj\Debug\Loja.Library.csprojAssemblyReference.cache
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\obj\Debug\Loja.Library.csproj.CopyComplete
@@ -43,3 +42,6 @@ C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\System.Web.WebPages.Razor.xml
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Loja.Data.dll
 C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Loja.Data.pdb
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Loja.Library.dll.config
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Loja.Data.dll.config
+C:\Users\Ricardo\Desktop\Ricardo\Web Projects\Loja-Faria\Loja.Library\bin\Debug\Loja.Modelos.dll.config
