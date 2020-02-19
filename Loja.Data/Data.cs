@@ -554,7 +554,7 @@ namespace Loja.Data
         //---------------------------SECCOES E TIPOS------------------------------
         //ADICIONAR TIPOS OU SECCOES
 
-        public string AdicionarTipo(Loja.Models.SeccaoTipoProduto stp)
+        public string AdicionarTipo(SeccaoTipoProduto stp)
         {
             try
             {
@@ -566,7 +566,7 @@ namespace Loja.Data
             }
             return "Foi adicionado um novo tipo";
         }
-        public string AdicionarSeccao(Loja.Models.SeccaoTipoProduto stp)
+        public string AdicionarSeccao(SeccaoTipoProduto stp)
         {
             try
             {
