@@ -14,10 +14,11 @@ namespace Loja.Services
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Main",
-                url: "Main/{action}/{id}",
-                defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional }
-            );
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "Loja.Services.Controllers" }
+                );
         }
     }
 }
