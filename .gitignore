@@ -48,6 +48,7 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
+.vs/
 .vs/Loja/v16/.suo
 .vs/Loja/v16/Server/sqlite3/storage.ide
 .vs/Loja/config/applicationhost.config
