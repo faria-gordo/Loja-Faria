@@ -1,5 +1,4 @@
-﻿using Loja.Models;
-using Microsoft.WindowsAzure.Storage;
+﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Configuration;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Loja.Models;
 
 namespace Loja.Data
 {
@@ -554,7 +554,7 @@ namespace Loja.Data
         //---------------------------SECCOES E TIPOS------------------------------
         //ADICIONAR TIPOS OU SECCOES
 
-        public string AdicionarTipo(SeccaoTipoProduto stp)
+        public string AdicionarTipo(Loja.Models.SeccaoTipoProduto stp)
         {
             try
             {
@@ -566,7 +566,7 @@ namespace Loja.Data
             }
             return "Foi adicionado um novo tipo";
         }
-        public string AdicionarSeccao(SeccaoTipoProduto stp)
+        public string AdicionarSeccao(Loja.Models.SeccaoTipoProduto stp)
         {
             try
             {
@@ -582,11 +582,11 @@ namespace Loja.Data
         public List<string> VerificarTipos(string request)
         {
             List<string> tipos = new List<string>();
-            TableQuery<ModeloTableSeccaoTipoProduto> query = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, request));
-            List<ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList<ModeloTableSeccaoTipoProduto>();
+            TableQuery<Loja.Models.ModeloTableSeccaoTipoProduto> query = new TableQuery<Loja.Models.ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, request));
+            List<Loja.Models.ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList<Loja.Models.ModeloTableSeccaoTipoProduto>();
             if (resultado != null)
             {
-                foreach (ModeloTableSeccaoTipoProduto modelo in resultado)
+                foreach (Loja.Models.ModeloTableSeccaoTipoProduto modelo in resultado)
                 {
                     string tipo = ModelTableSTProdToSTProd(modelo).Tipo;
                     tipos.Add(tipo);
@@ -725,7 +725,7 @@ namespace Loja.Data
             };
             return modelo;
         }
-        public ModeloTableSeccaoTipoProduto STProdToModelModelTableSTProd(SeccaoTipoProduto stprod)
+        public Loja.Models.ModeloTableSeccaoTipoProduto STProdToModelModelTableSTProd(Loja.Models.SeccaoTipoProduto stprod)
         {
             ModeloTableSeccaoTipoProduto modelo = new ModeloTableSeccaoTipoProduto()
             {
@@ -734,7 +734,7 @@ namespace Loja.Data
             };
             return modelo;
         }
-        public SeccaoTipoProduto ModelTableSTProdToSTProd(ModeloTableSeccaoTipoProduto modeloSTProd)
+        public Loja.Models.SeccaoTipoProduto ModelTableSTProdToSTProd(Loja.Models.ModeloTableSeccaoTipoProduto modeloSTProd)
         {
             SeccaoTipoProduto stprod = new SeccaoTipoProduto()
             {
