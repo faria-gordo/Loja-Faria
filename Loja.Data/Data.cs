@@ -584,13 +584,27 @@ namespace Loja.Data
             List<string> tipos = new List<string>();
             TableQuery<ModeloTableSeccaoTipoProduto> query = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, request));
             List<ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList<ModeloTableSeccaoTipoProduto>();
-            if (resultado != null)
+            if (resultado.Count > 0)
             {
                 foreach (ModeloTableSeccaoTipoProduto modelo in resultado)
                 {
                     string tipo = ModelTableSTProdToSTProd(modelo).Tipo;
                     tipos.Add(tipo);
                 }
+            }
+            else
+            {
+                TableQuery<ModeloTableSeccaoTipoProduto> prodQuery = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, request.Split('-')[1]));
+                List<ModeloTableSeccaoTipoProduto> prodResultado = table.ExecuteQuery(prodQuery).ToList<ModeloTableSeccaoTipoProduto>();
+                if(prodResultado.Count() > 0 && prodResultado.Count() < 2)
+                {
+                    foreach (ModeloTableSeccaoTipoProduto modelo in prodResultado)
+                    {
+                        string tipo = ModelTableSTProdToSTProd(modelo).Tipo;
+                        tipos.Add(tipo);
+                    }
+                }
+
             }
             return tipos;
         }

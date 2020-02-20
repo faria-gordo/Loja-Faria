@@ -1,4 +1,5 @@
 ﻿@using Loja.Models;
+@using System.Web.Script.Serialization;
 <div class="container">
     <div class="row">
         <div class="col-sm-2" style="position:center; border-bottom:groove;border-top:groove; border-right:groove; border-left:groove">
@@ -13,9 +14,8 @@
             {
                 foreach (Produto produto in ViewBag.Produtos)
                 {
-                    string nomeProduto = produto.Seccao.First() + "_" + produto.Tipo.Substring(0, 3) + "-" + produto.Nome.Replace(" ", "_");
                     <div class="col-sm-3 img1">
-                        <a class="produto" href="@Url.Action("Index", "Product", new { nomeProduto = nomeProduto })">
+                        <a class="produto" href="@Url.Action("Index", "Product", new { prodName = produto.Nome, prodSecc = produto.Seccao, prodTipo = produto.Tipo })">
                             <div>
                                 <img alt="@produto.Descricao" width="200" height="100" src="@produto.Url" />
                                 <div class="overlay">@produto.Preco</div>

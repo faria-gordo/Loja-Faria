@@ -15,7 +15,7 @@ namespace Loja.Services.Controllers
     /// 
     /// Sumário serve para expor informação adicional aos comentários ou para informar todos os bugs na aplicação em causa.
     /// 
-    /// TODO:         
+    /// TODO:      
     /// 
     /// </summary>
     public class CartController : ApiController
