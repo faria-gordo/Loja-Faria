@@ -22,7 +22,7 @@ namespace Loja.Dashboard
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}/");
                 //HTTP GET
                 var responseTask = client.GetAsync($"{method}/" + $"{identifier}");
                 var result = responseTask.Result;
