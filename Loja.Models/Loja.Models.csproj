@@ -66,8 +66,10 @@
     <Compile Include="Carrinho.cs" />
     <Compile Include="ModeloTable.cs" />
     <Compile Include="ModeloTableCarrinho.cs" />
+    <Compile Include="ModeloTableNotificacoes.cs" />
     <Compile Include="ModeloTableSeccaoTipoProduto.cs" />
     <Compile Include="ModeloTableUser.cs" />
+    <Compile Include="Notificacoes.cs" />
     <Compile Include="Produto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeccaoTipoProduto.cs" />

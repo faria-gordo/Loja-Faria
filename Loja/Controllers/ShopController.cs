@@ -29,12 +29,12 @@ namespace Loja.Controllers
             if (product == null)
             {
                 productName = Request.Form["productName"].Split('-')[0];
-                partitionKey = PartitionKeyFormatter(Request.Form["productName"]);
+                partitionKey = Request.Form["productName"].Split('-')[1] + "-" + Request.Form["productName"].Split('-')[2];
                 quantity = Int32.Parse(Request.Form["quantity"]);
             }
             else
             {
-                partitionKey = PartitionKeyFormatter(product);
+                partitionKey = product;
                 productName = product.Split('-')[0];
             }
 
@@ -64,7 +64,7 @@ namespace Loja.Controllers
                 }
             }
             Session["Produtos"] = produtosNoCarrinho;
-            return RedirectToAction("Index", "Product", new { nomeProduto = productName, message = "Este artigo foi adicionado ao carrinho" });
+            return RedirectToAction("Index", "Product", new { prodName = productName,prodSecc = partitionKey.Split('-')[0], prodTipo = partitionKey.Split('-')[1], message = "Este artigo foi adicionado ao carrinho" });
         }
         [HttpGet]
         public ActionResult GetShoppingCart(string message)
@@ -72,7 +72,7 @@ namespace Loja.Controllers
             if (Session["Produtos"] != null)
             {
                 ViewBag.Produtos = Session["Produtos"] as List<Produto>;
-                if(message != null)
+                if (message != null)
                 {
                     ViewBag.Message = message;
                 }
@@ -118,10 +118,10 @@ namespace Loja.Controllers
         public ActionResult AddShoppingCart()
         {
             //verificar email deste user e ver se esta autenticado
-            if (Session["User"] != null)
+            User user = Session["User"] as User;
+            if (user != null)
             {
-                User user = Session["User"] as User;
-                if(user.Autenticado == false)
+                if (user.Autenticado == false)
                 {
                     return RedirectToAction("GetShoppingCart", "Shop", new { message = "Ocorreu um erro, saia da sua conta e entre outra vez" });
                 }
@@ -131,7 +131,7 @@ namespace Loja.Controllers
                     //Call payment service
                     webShared.CallWebService("Cart", "PutCarrinho", JsonConvert.SerializeObject(carrinho), true);
                     Session["Produtos"] = null;
-                    return RedirectToAction("GetShoppingCart", "Shop", new { message = "Carrinho pronto pagamento" });
+                    return RedirectToAction("GetShoppingCart", "Shop", new { message = "Carrinho pronto para pagamento" });
                 }
             }
             else
@@ -145,11 +145,6 @@ namespace Loja.Controllers
         {
             //chamar servico externo de Loja.Services chamado Cart
             return RedirectToAction("");
-        }
-        private string PartitionKeyFormatter(string uneditedPK)
-        {
-            string editedPK = uneditedPK.Split('-')[1].First() + "-" + uneditedPK.Split('-')[2].Substring(0, 3);
-            return editedPK;
         }
     }
 }

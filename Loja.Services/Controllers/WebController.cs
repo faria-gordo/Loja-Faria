@@ -27,14 +27,9 @@ namespace Loja.Services.Controllers
         private readonly Data.Data manager = new Data.Data("LojaFaria");
         private readonly Data.Data managerST = new Data.Data("SeccaoTipoProduto");
         [HttpGet]
-        public IHttpActionResult GetProducts()
-        {
-            return Ok();
-        }
-        [HttpGet]
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public IHttpActionResult GetProduct(string data)
+        public IHttpActionResult GetProducts(string data)
         {
             List<Produto> produtos = new List<Produto>();
             List<string> tipos = managerST.VerificarTipos(data);
@@ -43,18 +38,48 @@ namespace Loja.Services.Controllers
                 foreach (string tipo in tipos)
                 {
                     string partitionKey = data + "-" + tipo;
-                    produtos = manager.SelecionarProdutoPorPartitionKey(partitionKey);
-                    if (produtos == null)
+                    List<Produto> searchedProds = manager.SelecionarProdutoPorPartitionKey(partitionKey);
+                    if (searchedProds != null && searchedProds.Count() > 0)
                     {
-                        produtos = manager.SelecionarProdutoPorRowKey(partitionKey);
-                        if (produtos == null)
+                        foreach (Produto prod in searchedProds)
                         {
-                            produtos = manager.SelecionarProdutoPorNome(partitionKey);
+                            produtos.Add(prod);
                         }
                     }
                 }
             }
-            return Ok(produtos);
+            if (produtos.Count() > 0)
+            {
+                return Ok(produtos);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        [HttpGet]
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public IHttpActionResult GetProduct(string data)
+        {
+            //data is the name of the product
+            List<Produto> produtos = manager.SelecionarProdutoPorPartitionKey(data);
+            if (produtos.Count() == 0)
+            {
+                produtos = manager.SelecionarProdutoPorRowKey(data);
+                if (produtos.Count() == 0)
+                {
+                    produtos = manager.SelecionarProdutoPorNome(data);
+                }
+            }
+            if (produtos.Count() > 0)
+            {
+                return Ok(produtos);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         //Update

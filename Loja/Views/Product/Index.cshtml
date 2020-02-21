@@ -54,7 +54,7 @@
                         <div class="panel-footer">
                             <form action="Shop/Index" method="post" id="productShop" name="productShop">
                                 <input id="productName" name="productName" class="regbutton" style="width: 80px; display:none;" type="text" value="@Model.Nome-@Model.Seccao-@Model.Tipo" />
-                                <input id="num" name="quantity" class="regbutton" style="width: 60px" type="number" width="200" maxlength="7"/>
+                                <input id="num" name="quantity" class="regbutton" style="width: 60px" type="number" width="200" maxlength="7" />
                                 <input id="add" class="inputbutton" type="submit" value="Adicionar" style="margin-left: 20px;" />
                             </form>
                         </div>
@@ -72,7 +72,12 @@
 </div>
 <div class="container">
     <div class="row">
-
+        @{
+            if(ViewBag.Message != null)
+            {
+                <small class="warning" style="color:red;">@ViewBag.Message</small>
+            }
+        }
     </div>
 </div>
 @section scripts
@@ -107,6 +112,8 @@
         })
     </script>
     <script>
-        $("#productShop").ajaxSubmit({ url: 'http://localhost:54841/Shop/Index', type: 'post' });
+        $("#productShop").submit(function () {
+            $.post("http://localhost:54841/Shop/Index", $("#productShop").serialize() );
+        });
     </script>
 }

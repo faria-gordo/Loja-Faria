@@ -537,7 +537,7 @@ namespace Loja.Data
             {
                 Console.WriteLine(ex.Message);
             }
-            return "Mensagem do helper Carrinho adicionado!! ";
+            return "Novo carrinho adicionado!";
         }
         public List<Carrinho> SelecionarCarrinhos()
         {
@@ -560,7 +560,7 @@ namespace Loja.Data
             {
                 table.Execute(TableOperation.InsertOrReplace(STProdToModelModelTableSTProd(stp)));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return ex.Message;
             }
@@ -582,9 +582,15 @@ namespace Loja.Data
         public List<string> VerificarTipos(string request)
         {
             List<string> tipos = new List<string>();
+<<<<<<< HEAD
             TableQuery<Loja.Models.ModeloTableSeccaoTipoProduto> query = new TableQuery<Loja.Models.ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, request));
             List<Loja.Models.ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList<Loja.Models.ModeloTableSeccaoTipoProduto>();
             if (resultado != null)
+=======
+            TableQuery<ModeloTableSeccaoTipoProduto> query = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, request));
+            List<ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList<ModeloTableSeccaoTipoProduto>();
+            if (resultado.Count > 0)
+>>>>>>> dev
             {
                 foreach (Loja.Models.ModeloTableSeccaoTipoProduto modelo in resultado)
                 {
@@ -592,7 +598,52 @@ namespace Loja.Data
                     tipos.Add(tipo);
                 }
             }
+            else
+            {
+                TableQuery<ModeloTableSeccaoTipoProduto> prodQuery = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, request.Split('-')[1]));
+                List<ModeloTableSeccaoTipoProduto> prodResultado = table.ExecuteQuery(prodQuery).ToList<ModeloTableSeccaoTipoProduto>();
+                if (prodResultado.Count() > 0 && prodResultado.Count() < 2)
+                {
+                    foreach (ModeloTableSeccaoTipoProduto modelo in prodResultado)
+                    {
+                        string tipo = ModelTableSTProdToSTProd(modelo).Tipo;
+                        tipos.Add(tipo);
+                    }
+                }
+
+            }
             return tipos;
+        }
+
+
+        //---------------------------NOTIFICACOES----------------------------------
+
+        public void AdicionarNotificao(string message)
+        {
+            Notificacoes not = new Notificacoes()
+            {
+                Mensagem = message,
+                Data = "bla"
+            };
+            try
+            {
+                table.Execute(TableOperation.InsertOrReplace(NotificacoesToModelTable(not)));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<Notificacoes> SelecionarApagarNotificacoes()
+        {
+            List<ModeloTableNotificacoes> modelos = table.ExecuteQuery(new TableQuery<ModeloTableNotificacoes>()).ToList();
+            List<Notificacoes> notificacoes = new List<Notificacoes>();
+            foreach (ModeloTableNotificacoes modelo in modelos)
+            {
+                notificacoes.Add(ModeloTableToNotificacoes(modelo));
+                //table.Execute(TableOperation.Delete(modelo)); YET TO DECIDE TO DELETE OR NOT
+            }
+            return notificacoes;
         }
 
         //---------------------------MAPPINGS--------------------------------------
@@ -658,6 +709,15 @@ namespace Loja.Data
                 Url = produto.Url
             };
             return carrinho;
+        }
+        public Notificacoes ModeloTableToNotificacoes(ModeloTableNotificacoes notificacoes)
+        {
+            Notificacoes n = new Notificacoes()
+            {
+                Mensagem = notificacoes.PartitionKey,
+                Data = notificacoes.RowKey
+            };
+            return n;
         }
         public Produto CarrinhoToProduto(Carrinho carrinho)
         {
@@ -742,6 +802,15 @@ namespace Loja.Data
                 Tipo = modeloSTProd.RowKey
             };
             return stprod;
+        }
+        public ModeloTableNotificacoes NotificacoesToModelTable(Notificacoes not)
+        {
+            ModeloTableNotificacoes mtn = new ModeloTableNotificacoes()
+            {
+                PartitionKey = not.Mensagem,
+                RowKey = not.Data
+            };
+            return mtn;
         }
     }
 }

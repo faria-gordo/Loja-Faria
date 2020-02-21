@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using Loja.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Loja.Controllers
 {
@@ -16,25 +18,25 @@ namespace Loja.Controllers
     {
         readonly private WebServiceRequest webShared = new WebServiceRequest();
         [HttpGet]
-        public ActionResult Index(string nomeProduto, string message)
-         {
-            string partitionKey = nomeProduto.Split('-')[0].Replace("_", "-");
-            Produto produto;
-            if (message == null)
+        public ActionResult Index(string prodName, string prodSecc, string prodTipo, string message)
+        {
+            Produto produto = new Produto();
+            string partitionKey = prodSecc + "-" + prodTipo;
+            //Validation on nomeProduto
+            List<Produto> produtos = webShared.CallWebService("web", "GetProduct", partitionKey, false);
+            if(produtos.Count() > 0)
             {
-                //Validation on nomeProduto
-                List<Produto> produtos = webShared.CallWebService("web","GetProduct",partitionKey,false);
                 produto = (from p in produtos
-                                   where p.Nome == nomeProduto.Split('-')[1].Replace("_", " ")
+                                   where p.Nome == prodName
                                    select p).First();
             }
             else
             {
-                //Validation on nomeProduto
-                List<Produto> produtos = webShared.CallWebService("web","GetProduct",partitionKey,false);
-                produto = (from p in produtos
-                           where p.Nome == nomeProduto.Split('-')[0].Replace("_", " ")
-                           select p).First();
+                produto = null;
+            }
+            if(message != null)
+            {
+                ViewBag.Message = message;
             }
             return View(produto);
         }

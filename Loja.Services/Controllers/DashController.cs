@@ -21,6 +21,7 @@ namespace Loja.Services.Controllers
     {
         private readonly Data.Data lojaManager = new Data.Data("LojaFaria");
         private readonly Data.Data carrinhoManager = new Data.Data("Carrinho");
+        private readonly Data.Data notificacoesManager = new Data.Data("Notificacoes");
         public IHttpActionResult GetProducts()
         {
             List<Produto> produtos = lojaManager.SelecionarProdutos();
@@ -87,6 +88,14 @@ namespace Loja.Services.Controllers
             {
                 return BadRequest();
             }
+        }
+        [HttpPost]
+        public List<Notificacoes> Notifications()
+        {
+            //Gets notifications and deletes them!! if picked none, none exists!!
+            List<Notificacoes> noti = null;
+            noti = notificacoesManager.SelecionarApagarNotificacoes();
+            return noti;
         }
     }
 }
