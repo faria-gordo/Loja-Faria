@@ -617,7 +617,7 @@ namespace Loja.Data
             Notificacoes not = new Notificacoes()
             {
                 Mensagem = message,
-                Data = "bla"
+                Data = Guid.NewGuid().ToString()
             };
             try
             {
