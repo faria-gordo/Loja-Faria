@@ -16,14 +16,8 @@ namespace Loja.Services
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-<<<<<<< HEAD
-                defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional },
-                namespaces: new[] { "Loja.Services.Controllers" }
-                );
-=======
                 defaults: new { controller = "Main", action = "Index", id = UrlParameter.Optional }
             );
->>>>>>> dev
         }
     }
 }

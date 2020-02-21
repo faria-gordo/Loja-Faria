@@ -582,15 +582,9 @@ namespace Loja.Data
         public List<string> VerificarTipos(string request)
         {
             List<string> tipos = new List<string>();
-<<<<<<< HEAD
-            TableQuery<Loja.Models.ModeloTableSeccaoTipoProduto> query = new TableQuery<Loja.Models.ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, request));
-            List<Loja.Models.ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList<Loja.Models.ModeloTableSeccaoTipoProduto>();
-            if (resultado != null)
-=======
             TableQuery<ModeloTableSeccaoTipoProduto> query = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, request));
             List<ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList<ModeloTableSeccaoTipoProduto>();
             if (resultado.Count > 0)
->>>>>>> dev
             {
                 foreach (Loja.Models.ModeloTableSeccaoTipoProduto modelo in resultado)
                 {
