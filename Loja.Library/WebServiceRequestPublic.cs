@@ -71,5 +71,23 @@ namespace Loja.Library
                 return notificacoes;
             }
         }
+        public async Task<int> CallNotificationNumberWebService(string controller, string method, string identifier, bool inCart)
+        {
+            using (var client = new HttpClient())
+            {
+                int notificacoes = 0;
+                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                var identifier2 = identifier.ToString();
+                var content = new StringContent(identifier, Encoding.UTF8, "application/json");
+                var responseTaskPost = await client.PostAsync($"{method}", content);
+                var resultpost = responseTaskPost;
+                if (resultpost.IsSuccessStatusCode)
+                {
+                    string user = resultpost.Content.ReadAsStringAsync().Result;
+                    notificacoes = new JavaScriptSerializer().Deserialize<int>(user);
+                }
+                return 0;
+            }
+        }
     }
 }

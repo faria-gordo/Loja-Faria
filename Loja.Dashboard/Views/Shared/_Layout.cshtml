@@ -267,5 +267,19 @@
             }, 10000);
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            setInterval(function () {
+                $.ajax({
+                    url: "@Url.Action("NumberOfNotifications", "Dashboard")",
+                    type: "POST",
+                    async: true,
+                    cache: true
+                }).done(function (result) {
+                    $("#numberNotifications").html(result);
+                });
+            }, 10000);
+        });
+    </script>
 </body>
 </html>

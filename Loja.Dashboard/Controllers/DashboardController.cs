@@ -95,5 +95,10 @@ namespace Loja.Dashboard.Controllers
             }
             else { return MvcHtmlString.Create(""); }
         }
+        public async Task<int> NumberOfNotifications()
+        {
+            int numb = await webSharedLibrary.CallNotificationNumberWebService("Dash", "TotalNotifications", "", false);
+            return numb;
+        }
     }
 }
