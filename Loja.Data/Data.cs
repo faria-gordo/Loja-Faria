@@ -616,8 +616,9 @@ namespace Loja.Data
         {
             Notificacoes not = new Notificacoes()
             {
+                
                 Mensagem = message,
-                Data = "bla"
+                Data = Guid.NewGuid().ToString()
             };
             try
             {
@@ -640,6 +641,16 @@ namespace Loja.Data
             return notificacoes;
         }
 
+        public int TotalNotificacoes()
+        {
+            int cont = 0;
+            List<ModeloTableNotificacoes> modelos = table.ExecuteQuery(new TableQuery<ModeloTableNotificacoes>()).ToList();
+            foreach(ModeloTableNotificacoes modelo in modelos)
+            {
+                cont++;
+            }
+            return cont;
+        }
         //---------------------------MAPPINGS--------------------------------------
         //TableEntity to Entity
         public Produto ModelTableToModel(ModeloTable modeloTable)

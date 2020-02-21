@@ -97,5 +97,10 @@ namespace Loja.Services.Controllers
             noti = notificacoesManager.SelecionarApagarNotificacoes();
             return noti;
         }
+        public int TotalNotifications()
+        {
+            int total = notificacoesManager.TotalNotificacoes();
+            return total;
+        }
     }
 }
