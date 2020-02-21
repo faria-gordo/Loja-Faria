@@ -58,7 +58,7 @@ namespace Loja.Library
             List<Notificacoes> notificacoes = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}/");
                 var identifier2 = identifier.ToString();
                 var content = new StringContent(identifier, Encoding.UTF8, "application/json");
                 var responseTaskPost = await client.PostAsync($"{method}", content);

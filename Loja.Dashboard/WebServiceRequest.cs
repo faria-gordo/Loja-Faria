@@ -41,7 +41,7 @@ namespace Loja.Dashboard
             List<User> utilizadores = new List<User>();
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}/");
                 var responseTaskPost = client.GetAsync($"{method}");
                 var resultpost = responseTaskPost.Result;
                 if (resultpost.IsSuccessStatusCode)
@@ -59,7 +59,7 @@ namespace Loja.Dashboard
             List<Produto> produtos = new List<Produto>();
             using(var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}/");
                 var response = client.GetAsync($"{method}");
                 var resultPost = response.Result;
                 if (resultPost.IsSuccessStatusCode)
