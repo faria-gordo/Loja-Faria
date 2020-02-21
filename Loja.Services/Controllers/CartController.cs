@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Loja.Models;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Loja.Services.Controllers
 {
@@ -22,6 +23,7 @@ namespace Loja.Services.Controllers
     {
         private readonly Data.Data manager = new Data.Data("Carrinho");
         private readonly Data.Data managerLoja = new Data.Data("LojaFaria");
+        private readonly Data.Data managerNoti = new Data.Data("Notificacoes");
         [HttpGet]
         public IHttpActionResult GetCarrinhos()
         {
@@ -42,6 +44,10 @@ namespace Loja.Services.Controllers
                 carrinho = manager.ProdutoToCarrinho(produto);
                 carrinho.Quantidade = Int32.Parse(id.Split('_')[1]);
                 message += manager.AdicionarCarrinho(carrinho);
+                if(message == "Novo carrinho adicionado!")
+                {
+                    managerNoti.AdicionarNotificao(message);
+                }
             }
             return Ok();
         }

@@ -1,136 +1,175 @@
 ﻿@{
     ViewBag.Title = "Tabelas";
 }
+
+
 <h3>Tabelas</h3>
-<span class="badge badge-primary col-md-12 text-center">Inventário de Produtos</span>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">Nome</th>
-            <th scope="col">Preco</th>
-            <th scope="col">Descrição</th>
-            <th><a style="border-radius: 40%; text-decoration:none;" class="fa fa-plus-circle fa-2x" data-toggle="modal" data-target="#addProd"></a></th>
-        </tr>
-    </thead>
-    <tbody>
-        <!--Chamar servico e export produtos que existem na bd-->
-        @{
-            if (ViewBag.AllProducts != null)
-            {
-                foreach (var produto in ViewBag.AllProducts)
-                {
-                    <tr>
-                        <td scope="row">@produto.Nome</td>
-                        <td>@produto.Preco</td>
-                        <td>@produto.Descricao</td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td>Não existem produtos</td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
-<span class="badge badge-primary col-md-12 text-center">Carrinhos de Compra</span>
-<table class="table table-hover">
-    <!--No futuro, 'Tabela dos {Nome da tabela por ViewBag}-->
-    <thead>
-        <tr>
-            <th scope="col">Nome</th>
-            <th scope="col">Preco</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Quantidade</th>
-            <th scope="col">Secção</th>
-            <th scope="col">Tipo</th>
-            <th scope="col">Imagem</th>
-            <th scope="col" style="text-align:center;">Data</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!--Chamar servico e export produtos que existem na bd-->
-        @{
-            if (ViewBag.AllCarts != null)
-            {
-                foreach (var cart in ViewBag.AllCarts)
-                {
-                    <tr>
-                        <td scope="row">@cart.Nome</td>
-                        <td class="text-center">@cart.Preco</td>
-                        <td>@cart.Descricao</td>
-                        <td class="text-center">@cart.Quantidade</td>
-                        <td>@cart.Seccao</td>
-                        <td>@cart.Tipo</td>
-                        <td><a><img height="10" width="10" src="@cart.Url" /></a></td>
-                        <td>@DateTime.Now</td>Hora errada
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td>Não existem carrinho</td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
-<span class="badge badge-primary col-md-12 text-center">Utilizadores</span>
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col" style="text-align:center">Nome</th>
-            <th scope="col" style="text-align:center">Apelido</th>
-            <th scope="col" style="text-align:center">Email</th>
-            <th scope="col" style="text-align:center">Login's</th>
-            <th scope="col" style="text-align:center">Online</th>
-            <th scope="col" style="text-align:center">Carrinhos?</th>
-            <th scope="col" style="text-align:center;">Data</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!--Chamar servico e export produtos que existem na bd-->
-        @{
-            if (ViewBag.AllUsers != null)
-            {
-                foreach (var user in ViewBag.AllUsers)
-                {
-                    <tr>
-                        <td scope="row" style="text-align:center">@user.Nome</td>
-                        <td style="text-align:center">@user.Apelido</td>
-                        <td style="text-align:center">@user.Email</td>
-                        <td style="text-align:center">@user.QuantLogins</td>
-                        <td style="text-align:center">@user.Autenticado</td>
-                        <td style="text-align:center">@DateTime.Now</td>Hora errada
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td>Não existem utlizadores</td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
+
+
+<!--TABELA DOS PRODUTOS-->
+<div class="col-md-12">
+    <div class="card card-plain">
+        <div class="card-header card-header-primary">
+            <div class="row">
+                <h4 class="card-title mt-0 col-md-3"> Inventário</h4>
+                <div class="offset-md-8">
+                    <a style="border-radius: 40%; text-decoration:none; cursor:pointer;" class="fa fa-plus-circle fa-2x" data-toggle="modal" data-target="#addProd"></a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Preco</th>
+                            <th scope="col">Descrição</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (ViewBag.AllProducts != null)
+                            {
+                                foreach (var produto in ViewBag.AllProducts)
+                                {
+                                    <tr>
+                                        <td scope="row">@produto.Nome</td>
+                                        <td>@produto.Preco</td>
+                                        <td>@produto.Descricao</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>Não existem produtos</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--TABELA DOS PRODUTOS-->
+<!--TABELA DOS CARRINHOS-->
+<div class="col-md-12">
+    <div class="card card-plain">
+        <div class="card-header card-header-primary">
+            <h4 class="card-title mt-0"> Lista de Carrinhos</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Preco</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Secção</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Imagem</th>
+                            <th scope="col" style="text-align:center;">Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (ViewBag.AllCarts != null)
+                            {
+                                foreach (var cart in ViewBag.AllCarts)
+                                {
+                                    <tr>
+                                        <td scope="row">@cart.Nome</td>
+                                        <td class="text-center">@cart.Preco</td>
+                                        <td>@cart.Descricao</td>
+                                        <td class="text-center">@cart.Quantidade</td>
+                                        <td>@cart.Seccao</td>
+                                        <td>@cart.Tipo</td>
+                                        <td><a><img height="10" width="10" src="@cart.Url" /></a></td>
+                                        <td>@DateTime.Now</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>Não existem carrinho</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--TABELA DOS CARRINHOS-->
+<!--TABELA DOS USERS-->
+<div class="col-md-12">
+    <div class="card card-plain">
+        <div class="card-header card-header-primary">
+            <h4 class="card-title mt-0"> Lista de Carrinhos</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="text-align:center">Nome</th>
+                            <th scope="col" style="text-align:center">Apelido</th>
+                            <th scope="col" style="text-align:center">Email</th>
+                            <th scope="col" style="text-align:center">Logins</th>
+                            <th scope="col" style="text-align:center">Online</th>
+                            <th scope="col" style="text-align:center">Carrinhos?</th>
+                            <th scope="col" style="text-align:center;">Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (ViewBag.AllUsers != null)
+                            {
+                                foreach (var user in ViewBag.AllUsers)
+                                {
+                                    <tr>
+                                        <td scope="row" style="text-align:center">@user.Nome</td>
+                                        <td style="text-align:center">@user.Apelido</td>
+                                        <td style="text-align:center">@user.Email</td>
+                                        <td style="text-align:center">@user.QuantLogins</td>
+                                        <td style="text-align:center">@user.Autenticado</td>
+                                        <td style="text-align:center">@DateTime.Now</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>Não existem utlizadores</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--TABELA DOS USERS-->
 <!--MODAL-->
-<div id="addProd" class="modal" tabindex="-1" role="dialog">
+<div id="addProd" class="modal" tabindex="-1" role="dialog" style="height: auto;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="row">
-                    <div class="col-md-5">
-                        <h5 class="modal-title">Adicionar Produto</h5>
-                    </div>
-                    <div class="col-md-offset-6 col-md-1">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                <div class="offset-md-3 col-md-5 text-center text-capitalize">
+                    <h5 class="modal-title text-center">Adicionar Produto</h5>
+                </div>
+                <div class="offset-md-3 col-md-1">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             </div>
             <div class="modal-body">
@@ -156,7 +195,7 @@
                     <div class="form-group">
                         <label for="tipo">Tipo: </label><!--Definir melhor-->
                         <select class="form-control" id="tipo">
-                            <option class="bij">----</option>
+                            <option>----</option>
                             <option class="bij" value="Pulseiras">Pulseiras</option>
                             <option class="bij" value="Jóias">Jóias</option>
                             <option class="div" value="Coleiras">Coleiras</option>
@@ -165,11 +204,11 @@
                             <option class="rel" value="Terços">Terços</option>
                             <option class="lem" value="Postais">Postais</option>
                         </select>
-                        <a class="btn btn-primary" style="border-radius: 40%;" data-target="#addTipo" data-toggle="modal"><span class="fa fa-upload fa-upload-2x"></span></a>
+                        <a class="btn btn-primary" data-target="#addTipo" data-toggle="modal">Criar Tipo</a>
                     </div>
                     <div class="form-group">
                         <label for="descricao">Descrição</label>
-                        <textarea name="Descricao" id="Descricao" placeholder="Descrição: " rows="10" cols="30"></textarea>
+                        <input name="Descricao" type="text" id="Descricao" placeholder="Descrição: " style="font-size: 8px;" />
                     </div>
                     <div class="form-group">
                         <label for="preco">Preço</label>
@@ -180,17 +219,17 @@
                         <input type="text" class="form-control" name="Url" id="url" placeholder="Foto do produto: ">
                         @*<input type="file" class="form-control" name="File" id="url" placeholder="Foto do produto: ">*@
                     </div>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="submit" class="btn btn-primary offset-md-4">Guardar</button>
             </div>
         </div>
     </div>
 </div>
 <!--END MODAL-->
 <!--MODAL TIPO-->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addTipo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -201,20 +240,20 @@
             </div>
             <div class="modal-body">
                 <form>
+                    <!--Adicionar action para adicionar tipo-->
                     <div class="form-group">
-                        <div class="form-control">
-                            <label for="seccao">Secção: </label><!--Definir melhor-->
-                            <select id="seccao" name="Seccao" class="form-control">
-                                <option>----</option>
-                                <option value="Bijutaria">Bijutaria</option>
-                                <option value="Diversos">Diversos</option>
-                                <option value="Religiosos">Religiosos</option>
-                                <option value="Lembranças">Lembranças</option>
-                            </select>
-                        </div>
-                        <div class="form-control">
-                            <input type="text" name="Tipo" placeholder="Escreva o tipo"/>
-                        </div>
+                        <label for="seccaoAdd">Secção: </label><!--Definir melhor-->
+                        <select id="seccaoAdd" name="Seccao" class="form-control form-check">
+                            <option>----</option>
+                            <option value="Bijutaria">Bijutaria</option>
+                            <option value="Diversos">Diversos</option>
+                            <option value="Religiosos">Religiosos</option>
+                            <option value="Lembranças">Lembranças</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoAdd">Tipo: </label>
+                        <input type="text" class="form-control" id="tipoAdd" name="Tipo" placeholder="Escreva o tipo" />
                     </div>
                 </form>
             </div>
@@ -225,13 +264,15 @@
     </div>
 </div>
 <!--END OF MODAL TIPO-->
+<!--WARNING MESSAGE-->
 @if (ViewBag.Message != null)
 {
     <div class="text-warning">
         <small class="warning">@ViewBag.Message</small>
     </div>
 }
-<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<!--WARNING MESSAGE-->
+<script src="~/Scripts/jquery-3.4.1.js"></script>
 <script>
     $("select[id='seccao']").on('input', function () {
         if ($(this).val() == "" || $(this).val() == undefined) {
@@ -283,3 +324,5 @@
         readURL(this);
     });
 </script>
+
+

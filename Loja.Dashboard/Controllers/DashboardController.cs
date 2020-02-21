@@ -3,8 +3,10 @@ using Loja.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Script.Serialization;
 
 namespace Loja.Dashboard.Controllers
@@ -54,7 +56,6 @@ namespace Loja.Dashboard.Controllers
             string message = webSharedLibrary.CallWebService("Dash", "addProduct", new JavaScriptSerializer().Serialize(prod), false);
             return RedirectToAction("Tabelas", new { message = message });
         }
-
         [HttpPost]
         public RedirectToRouteResult adicionarTipo(SeccaoTipoProduto stp)
         {
@@ -66,6 +67,33 @@ namespace Loja.Dashboard.Controllers
         {
             string message = webSharedLibrary.CallWebService("Dash", "addSection", new JavaScriptSerializer().Serialize(stp), false);
             return RedirectToAction("Tabelas", new { message });
+        }
+        public async Task<MvcHtmlString> Notify()
+        {
+            List<Notificacoes> notificacoes = null;
+            notificacoes = await webSharedLibrary.CallNotificationsWebService("Dash", "Notifications", "", false);
+            if (notificacoes != null)
+            {
+                if (notificacoes.Count > 0)
+                {
+                    //Criar container para conter a's
+                    TagBuilder div = new TagBuilder("div");
+                    foreach (Notificacoes not in notificacoes)
+                    {
+                        //selecionar a's e dar os atributos
+                        TagBuilder a = new TagBuilder("a");
+                        a.MergeAttribute("class", "dropdown-item");
+                        a.MergeAttribute("href", "#");
+                        a.InnerHtml = $"{not.Mensagem}";
+                        a.ToString(TagRenderMode.SelfClosing);
+                        //colocar a's dentro da div.
+                        div.InnerHtml += a.ToString();
+                    }
+                    return MvcHtmlString.Create(div.ToString());
+                }
+                else { return MvcHtmlString.Create(""); }
+            }
+            else { return MvcHtmlString.Create(""); }
         }
     }
 }

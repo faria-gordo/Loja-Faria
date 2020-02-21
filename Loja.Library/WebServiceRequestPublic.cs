@@ -52,5 +52,23 @@ namespace Loja.Library
                 return userLogged;
             }
         }
+        public async Task<List<Notificacoes>> CallNotificationsWebService(string controller, string method, string identifier, bool inCart)
+        {
+            List<Notificacoes> notificacoes = null;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                var identifier2 = identifier.ToString();
+                var content = new StringContent(identifier, Encoding.UTF8, "application/json");
+                var responseTaskPost = await client.PostAsync($"{method}", content);
+                var resultpost = responseTaskPost;
+                if (resultpost.IsSuccessStatusCode)
+                {
+                    string user = resultpost.Content.ReadAsStringAsync().Result;
+                    notificacoes = new JavaScriptSerializer().Deserialize<List<Notificacoes>>(user);
+                }
+                return notificacoes;
+            }
+        }
     }
 }
