@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Loja.Data
 {
@@ -23,6 +24,8 @@ namespace Loja.Data
     {
         private readonly CloudStorageAccount storageAccount;
         private readonly CloudTableClient tableClient;
+        private readonly CloudBlobClient cloudBlobClient;
+        private readonly CloudBlobContainer container;
         private readonly CloudTable table;
         public Data(string nomeTabela)
         {
@@ -30,7 +33,10 @@ namespace Loja.Data
             storageAccount = CloudStorageAccount.Parse(ConnectionString);
             tableClient = storageAccount.CreateCloudTableClient();
             table = tableClient.GetTableReference(nomeTabela);
-            table.CreateIfNotExists();
+
+            cloudBlobClient = storageAccount.CreateCloudBlobClient();
+            container = cloudBlobClient.GetContainerReference("imagensprodutos");
+            //Criar blob
         }
 
         //---------------------------USER ACTIONS--------------------------------------
@@ -241,6 +247,12 @@ namespace Loja.Data
                 table.Execute(TableOperation.Insert(ModelToModelTable(produto)));
                 //Chamar ação de update que existe(ou ira existir) em Home da Loja para avisar á loja que foi adicionado um produto, caso já exista o produto, é so adicionado
                 // o numero da quantia de produtos, se for um produto que nao exista na loja, é criado um produto novo chamando uma ação ainda por existir em Home da Loja.
+                //CRIA BLOB E FAZ STREAM DO FICHEIRO PARA O BLOB.
+                //var blockBlob = container.GetBlockBlobReference($"{produto.NomeImagem}"); //nome dado ao ficheiro dentro do blob no container em azure
+                //using (var fileStream = System.IO.File.OpenRead($@"{produto.PathImagem}")) //filepath introduzido no adicionar produto em dash
+                //{
+                //    blockBlob.UploadFromStream(fileStream);
+                //}
             }
             catch (Exception ex)
             {
@@ -550,7 +562,6 @@ namespace Loja.Data
             return carrinhos;
         }
 
-
         //---------------------------SECCOES E TIPOS------------------------------
         //ADICIONAR TIPOS OU SECCOES
 
@@ -578,7 +589,6 @@ namespace Loja.Data
             }
             return "Foi adicionada uma nova secção";
         }
-
         public List<string> VerificarTipos(string request)
         {
             List<string> tipos = new List<string>();
@@ -608,10 +618,7 @@ namespace Loja.Data
             }
             return tipos;
         }
-
-
         //---------------------------NOTIFICACOES----------------------------------
-
         public void AdicionarNotificao(string message)
         {
             Notificacoes not = new Notificacoes()
@@ -640,7 +647,6 @@ namespace Loja.Data
             }
             return notificacoes;
         }
-
         public int TotalNotificacoes()
         {
             int cont = 0;
@@ -663,6 +669,9 @@ namespace Loja.Data
                 Tipo = modeloTable.Tipo,
                 Preco = modeloTable.Preco,
                 Seccao = modeloTable.Seccao,
+                //NomeImagem = modeloTable.NomeImagem,
+                //PathImagem = modeloTable.PathImagem,
+                Imagem = modeloTable.Imagem,
                 Url = modeloTable.Url
             };
             return produto;
@@ -754,7 +763,10 @@ namespace Loja.Data
                 Descricao = prod.Descricao,
                 Url = prod.Url,
                 DataDeAquisicao = DateTime.Now,
-                DataDeVenda = DateTime.Now
+                DataDeVenda = DateTime.Now,
+                //NomeImagem = prod.NomeImagem,
+                //PathImagem = prod.PathImagem
+                Imagem = prod.Imagem
             };
             return modelo;
         }

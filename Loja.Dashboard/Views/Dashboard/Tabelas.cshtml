@@ -112,7 +112,7 @@
 <div class="col-md-12">
     <div class="card card-plain">
         <div class="card-header card-header-primary">
-            <h4 class="card-title mt-0"> Lista de Carrinhos</h4>
+            <h4 class="card-title mt-0"> Lista de Utilizadores</h4>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -194,7 +194,7 @@
                     </div>
                     <div class="form-group">
                         <label for="tipo">Tipo: </label><!--Definir melhor-->
-                        <select class="form-control" id="tipo">
+                        <select class="form-control" id="tipo" name="Tipo">
                             <option>----</option>
                             <option class="bij" value="Pulseiras">Pulseiras</option>
                             <option class="bij" value="Jóias">Jóias</option>
@@ -212,17 +212,20 @@
                     </div>
                     <div class="form-group">
                         <label for="preco">Preço</label>
-                        <input type="number" class="form-control" name="Preco" id="Preco" placeholder="Preço: ">
+                        <input type="number" class="form-control" name="Preco" id="Preco" placeholder="Preço: " />
                     </div>
                     <div class="form-group">
-                        <label for="url">Foto</label>
-                        <input type="text" class="form-control" name="Url" id="url" placeholder="Foto do produto: ">
-                        @*<input type="file" class="form-control" name="File" id="url" placeholder="Foto do produto: ">*@
+                        <label for="file">Foto do Produto: </label>
+                        @*<button type="button" class="form-control btn btn-primary" data-target="#addFicheiro" data-toggle="modal" />*@
+                        <input id="image" name="Imagem" type="file" class="custom-file-input" style=" position:relative; z-index:2; opacity:1;" />
+                        @*<input type="text" class="form-control" id="imagepath" name="PathImagem" />
+                        <input type="text" class="form-control" id="imagename" name="NomeImagem" />*@
                     </div>
+                    <button type="submit" class="btn btn-primary offset-md-4" onclick="readFile()">Guardar</button>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary offset-md-4">Guardar</button>
+
             </div>
         </div>
     </div>
@@ -264,6 +267,29 @@
     </div>
 </div>
 <!--END OF MODAL TIPO-->
+<!--MODAL FICHEIRO-->
+<div class="modal fade" id="addFicheiro" tabindex="-1" role="dialog" aria-labelledby="modalFicheiro" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalFicheiro">Adicionar Imagem</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="img">Imagem: </label>
+                    <input id="image" type="file" class="custom-file-input" style=" position:relative; z-index:2; opacity:1;" />
+                </div>
+                <div class="form-group">
+                    <button onclick="readFile(this)" data-dismiss="modal">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END OF MODAL FICHEIRO-->
 <!--WARNING MESSAGE-->
 @if (ViewBag.Message != null)
 {
@@ -282,28 +308,24 @@
             $(".lem").attr("hidden", "hidden");
         }
         if ($(this).val() == 'Bijutaria') {
-            console.log($(this).val());
             $(".bij").removeAttr("hidden");
             $(".div").attr("hidden", "hidden");
             $(".rel").attr("hidden", "hidden");
             $(".lem").attr("hidden", "hidden");
         }
         if ($(this).val() == 'Diversos') {
-            console.log($(this).val());
             $(".div").removeAttr("hidden");
             $(".bij").attr("hidden", "hidden");
             $(".rel").attr("hidden", "hidden");
             $(".lem").attr("hidden", "hidden");
         }
         if ($(this).val() == 'Religiosos') {
-            console.log($(this).val());
             $(".rel").removeAttr("hidden");
             $(".bij").attr("hidden", "hidden");
             $(".div").attr("hidden", "hidden");
             $(".lem").attr("hidden", "hidden");
         }
         if ($(this).val() == 'Lembranças') {
-            console.log($(this).val());
             $(".lem").removeAttr("hidden");
             $(".bij").attr("hidden", "hidden");
             $(".rel").attr("hidden", "hidden");
@@ -312,17 +334,17 @@
     })
 </script>
 <script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.readAsDataURL(input.files[0]);
-            input.value = reader.result;
-            console.log(input.value);
-        }
+    function readFile() {
+        var image = document.getElementById("image");
+        var path = image.value;
+
+        var file = image.files[0];
+        var filename = file.name;
+
+        //document.getElementById("imagepath").setAttribute("value", path);
+        //document.getElementById("imagename").setAttribute("value", filename);
+        return false
     }
-    $("#url").change(function () {
-        readURL(this);
-    });
 </script>
 
 

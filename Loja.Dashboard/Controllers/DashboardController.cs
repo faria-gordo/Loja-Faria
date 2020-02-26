@@ -2,6 +2,7 @@
 using Loja.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,7 +18,6 @@ namespace Loja.Dashboard.Controllers
     ///
     /// TODO:
     /// 
-    ///     Quando dashboard efectua alteracoes a qql bd, chama o seu proprio API. quando apenas obtem informacao, chama os outros APIs
     /// </summary>
     public class DashboardController : Controller
     {
@@ -53,8 +53,13 @@ namespace Loja.Dashboard.Controllers
         [HttpPost]
         public RedirectToRouteResult adicionarProduto(Produto prod)
         {
+            foreach (string file in Request.Files)
+            {
+                
+            }
+
             string message = webSharedLibrary.CallWebService("Dash", "addProduct", new JavaScriptSerializer().Serialize(prod), false);
-            return RedirectToAction("Tabelas", new { message = message });
+            return RedirectToAction("Tabelas", new { message });
         }
         [HttpPost]
         public RedirectToRouteResult adicionarTipo(SeccaoTipoProduto stp)

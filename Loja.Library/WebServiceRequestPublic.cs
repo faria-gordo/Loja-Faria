@@ -23,7 +23,7 @@ namespace Loja.Library
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}/");
+                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
                 var content = new StringContent(identifier, Encoding.UTF8, "application/json");
                 var responseTaskPost = client.PostAsync($"{method}/", content);
                 var resultpost = responseTaskPost.Result;
@@ -39,7 +39,7 @@ namespace Loja.Library
             User userLogged = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}/");
+                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
                 var identifier2 = identifier.ToString();
                 var content = new StringContent(identifier, Encoding.UTF8, "application/json");
                 var responseTaskPost = client.PostAsync($"{method}", content);
@@ -85,7 +85,7 @@ namespace Loja.Library
                     string user = resultpost.Content.ReadAsStringAsync().Result;
                     notificacoes = new JavaScriptSerializer().Deserialize<int>(user);
                 }
-                return 0;
+                return notificacoes;
             }
         }
     }
