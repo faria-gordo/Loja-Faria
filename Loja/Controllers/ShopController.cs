@@ -11,10 +11,6 @@ namespace Loja.Controllers
     /// 
     /// Sumário serve para expor informação adicional aos comentários ou para informar todos os bugs na aplicação em causa.
     /// 
-    /// TODO:
-    ///         
-    ///     --associar carrinho e user pelo email, associar nome do carrinho a uma propriedade a acrescentar ao user.
-    /// 
     /// </summary>
     public class ShopController : Controller
     {
@@ -37,7 +33,6 @@ namespace Loja.Controllers
                 partitionKey = product;
                 productName = product.Split('-')[0];
             }
-
             Produto prod = (from s in webShared.CallWebService("web", "GetProduct", partitionKey, false)
                             where s.Nome == productName.Split('-')[0]
                             select s).FirstOrDefault();
@@ -88,7 +83,7 @@ namespace Loja.Controllers
         {
             string[] urlParams = HttpContext.Request.Url.ToString().Split('/');
 
-            ///verificao se session produtos tem mais que um produto, se nao, nao mostrar nada.
+            ///verificar se session produtos tem mais que um produto, se nao, nao mostrar nada.
             List<Produto> lista = Session["Produtos"] as List<Produto>;
             Produto prodRemover = new Produto();
             foreach (Produto prod in lista)
@@ -115,9 +110,8 @@ namespace Loja.Controllers
         }
         //AUTHENTICATION
         [HttpGet]
-        public ActionResult AddShoppingCart()
+        public RedirectToRouteResult AddShoppingCart()
         {
-            //verificar email deste user e ver se esta autenticado
             User user = Session["User"] as User;
             if (user != null)
             {
@@ -127,11 +121,8 @@ namespace Loja.Controllers
                 }
                 else
                 {
-                    List<Produto> carrinho = Session["Produtos"] as List<Produto>;
                     //Call payment service
-                    webShared.CallWebService("Cart", "PutCarrinho", JsonConvert.SerializeObject(carrinho), true);
-                    Session["Produtos"] = null;
-                    return RedirectToAction("GetShoppingCart", "Shop", new { message = "Carrinho pronto para pagamento" });
+                    return RedirectToAction("PayShoppingCart");
                 }
             }
             else
@@ -139,12 +130,36 @@ namespace Loja.Controllers
                 return RedirectToAction("GetShoppingCart", "Shop", new { message = "Para comprar produtos tem que ter conta no nosso site" });
             }
         }
-        // Ainda por desenvolver
-        [HttpPost]
-        public ActionResult PayShoppingCart(FormCollection carrinho)
+        [HttpGet]
+        public ActionResult PayShoppingCart()
         {
-            //chamar servico externo de Loja.Services chamado Cart
-            return RedirectToAction("");
+            List<Produto> produtos = Session["Produtos"] as List<Produto>;
+            Carrinho carro = new Carrinho();
+            double preco = 0;
+            carro.Produtos = produtos;
+            carro.IdCompra = Guid.NewGuid().ToString();
+            carro.Nome = "";
+            if(Session["User"] == null)
+            {
+                return RedirectToAction("Login","User",new { message = "Não está autenticado, por favor lige á sua conta" });
+            }
+            carro.Email = (Session["User"] as User).Email;
+            carro.Descricao = "";
+            foreach(Produto prod in produtos)
+            {
+                if(prod == produtos.Last())
+                {
+                    preco += prod.Preco;
+                    carro.Preco = preco;
+                }
+                else
+                {
+                    preco += prod.Preco;
+                }
+            }
+            ViewBag.Carrinho = carro;
+            Session["Carrinho"] = carro;
+            return View("PayShoppingCart", carro);
         }
     }
 }

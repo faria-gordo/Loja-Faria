@@ -15,9 +15,6 @@ namespace Loja.Services.Controllers
     /// <summary>
     /// 
     /// Sumário serve para expor informação adicional aos comentários ou para informar todos os bugs na aplicação em causa.
-    /// 
-    /// TODO:      
-    /// 
     /// </summary>
     public class CartController : ApiController
     {
@@ -42,7 +39,6 @@ namespace Loja.Services.Controllers
                 Carrinho carrinho = new Carrinho();
                 Produto produto = managerLoja.SelecionarProdutoPorRowKeyunico(id.Split('_')[0]);
                 carrinho = manager.ProdutoToCarrinho(produto);
-                carrinho.Quantidade = Int32.Parse(id.Split('_')[1]);
                 message += manager.AdicionarCarrinho(carrinho);
                 if(message == "Novo carrinho adicionado!")
                 {
@@ -50,6 +46,11 @@ namespace Loja.Services.Controllers
                 }
             }
             return Ok();
+        }
+        public bool Checkout(Carrinho carrinho, string payform, string userInfo)
+        {
+            //Recebe formulario de pagamento e adiciona carrinho para o dashboard
+            return false;
         }
     }
 }

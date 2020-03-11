@@ -1,4 +1,5 @@
 ﻿using Loja.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,6 @@ using System.Web.Script.Serialization;
 
 namespace Loja.Library
 {
-    /// <summary>
-    /// 
-    /// 
-    ///         TODO:
-    ///         
-    /// </summary>
     public class WebServiceRequestPublic
     {
         private string message;
@@ -86,6 +81,26 @@ namespace Loja.Library
                     notificacoes = new JavaScriptSerializer().Deserialize<int>(user);
                 }
                 return notificacoes;
+            }
+        }
+        static public bool CallCheckoutWebService(string controller, string method, string identifier, bool inCart)
+        {
+            bool message;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                var content = new StringContent(identifier, Encoding.UTF8, "application/json");
+                var responseTaskPost = client.PostAsync($"{method}/", content);
+                var resultpost = responseTaskPost.Result;
+                if (resultpost.IsSuccessStatusCode)
+                {
+                    message = true;
+                }
+                else
+                {
+                    message = false;
+                }
+                return message;
             }
         }
     }

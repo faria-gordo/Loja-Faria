@@ -4,8 +4,6 @@
 
 
 <h3>Tabelas</h3>
-
-
 <!--TABELA DOS PRODUTOS-->
 <div class="col-md-12">
     <div class="card card-plain">
@@ -66,12 +64,9 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">Nome</th>
+                            <th scope="col">Email</th>
                             <th scope="col">Preco</th>
                             <th scope="col">Descrição</th>
-                            <th scope="col">Quantidade</th>
-                            <th scope="col">Secção</th>
-                            <th scope="col">Tipo</th>
                             <th scope="col">Imagem</th>
                             <th scope="col" style="text-align:center;">Data</th>
                         </tr>
@@ -83,12 +78,9 @@
                                 foreach (var cart in ViewBag.AllCarts)
                                 {
                                     <tr>
-                                        <td scope="row">@cart.Nome</td>
+                                        <td scope="row">@cart.Email</td>
                                         <td class="text-center">@cart.Preco</td>
                                         <td>@cart.Descricao</td>
-                                        <td class="text-center">@cart.Quantidade</td>
-                                        <td>@cart.Seccao</td>
-                                        <td>@cart.Tipo</td>
                                         <td><a><img height="10" width="10" src="@cart.Url" /></a></td>
                                         <td>@DateTime.Now</td>
                                     </tr>

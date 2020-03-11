@@ -18,6 +18,8 @@ namespace Loja.Dashboard.Controllers
     ///
     /// TODO:
     /// 
+    /// --Upload product image
+    /// 
     /// </summary>
     public class DashboardController : Controller
     {
@@ -55,7 +57,7 @@ namespace Loja.Dashboard.Controllers
         {
             foreach (string file in Request.Files)
             {
-                
+                //upload to azure blob
             }
 
             string message = webSharedLibrary.CallWebService("Dash", "addProduct", new JavaScriptSerializer().Serialize(prod), false);

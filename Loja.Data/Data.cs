@@ -683,13 +683,11 @@ namespace Loja.Data
                 IdCompra = modeloCarrinho.IdCompra,
                 Nome = modeloCarrinho.Nome,
                 Email = modeloCarrinho.PartitionKey,
-                Tipo = modeloCarrinho.Tipo,
-                Seccao = modeloCarrinho.Seccao,
                 Descricao = modeloCarrinho.Descricao,
                 Preco = modeloCarrinho.Preco,
-                Quantidade = modeloCarrinho.Quantidade,
+                Produtos = modeloCarrinho.Produtos,
+                Pay = modeloCarrinho.FormaPagamento
                 //DataDeCompra = modeloCarrinho.DataDeCompra,
-                Url = modeloCarrinho.Url
             };
             return carrinho;
         }
@@ -714,13 +712,9 @@ namespace Loja.Data
                 IdCompra = Guid.NewGuid().ToString(), //Rk
                 Email = "test@gmail.com", //PK
                 Nome = "asd",
-                Tipo = produto.Tipo,
-                Seccao = produto.Seccao,
                 Descricao = produto.Descricao,
-                Preco = produto.Preco,
-                Quantidade = produto.Quantidade,
+                Preco = produto.Preco
                 //DataDeCompra = produto.DataDeVenda,
-                Url = produto.Url
             };
             return carrinho;
         }
@@ -740,13 +734,9 @@ namespace Loja.Data
                 Id = "",
                 Nome = carrinho.Nome,
                 //Email = "",
-                Tipo = carrinho.Tipo,
-                Seccao = carrinho.Seccao,
                 Descricao = carrinho.Descricao,
-                Preco = carrinho.Preco,
-                Quantidade = carrinho.Quantidade,
+                Preco = carrinho.Preco
                 //DataDeVenda = carrinho.DataDeCompra,
-                Url = carrinho.Url
             };
             return produto;
         }
@@ -777,13 +767,11 @@ namespace Loja.Data
                 PartitionKey = carrinho.Email,
                 RowKey = carrinho.IdCompra,
                 Nome = carrinho.Nome,
-                Tipo = carrinho.Tipo,
-                Seccao = carrinho.Seccao,
+                Produtos = carrinho.Produtos,
                 Descricao = carrinho.Descricao,
                 Preco = carrinho.Preco,
-                Quantidade = carrinho.Quantidade,
+                FormaPagamento = carrinho.Pay
                 //DataDeCompra = carrinho.DataDeCompra,
-                Url = carrinho.Url
             };
             return modelo;
         }
