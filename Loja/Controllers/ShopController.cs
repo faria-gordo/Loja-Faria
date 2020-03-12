@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json.Linq;
 
 namespace Loja.Controllers
 {
@@ -133,21 +134,21 @@ namespace Loja.Controllers
         [HttpGet]
         public ActionResult PayShoppingCart()
         {
-            List<Produto> produtos = Session["Produtos"] as List<Produto>;
-            Carrinho carro = new Carrinho();
-            double preco = 0;
-            carro.Produtos = produtos;
-            carro.IdCompra = Guid.NewGuid().ToString();
-            carro.Nome = "";
-            if(Session["User"] == null)
+            if (Session["User"] == null)
             {
-                return RedirectToAction("Login","User",new { message = "Não está autenticado, por favor lige á sua conta" });
+                return RedirectToAction("Login", "User", new { message = "Não está autenticado, por favor lige á sua conta" });
             }
+            double preco = 0;
+            Carrinho carro = new Carrinho();
+            carro.Produtos = Session["Produtos"] as List<Produto>;
+            carro.IdCompra = Guid.NewGuid().ToString();
+            carro.User = Session["User"] as User;
+            carro.Nome = (Session["User"] as User).Nome;
             carro.Email = (Session["User"] as User).Email;
             carro.Descricao = "";
-            foreach(Produto prod in produtos)
+            foreach(Produto prod in carro.Produtos)
             {
-                if(prod == produtos.Last())
+                if(prod == carro.Produtos.Last())
                 {
                     preco += prod.Preco;
                     carro.Preco = preco;
@@ -158,8 +159,13 @@ namespace Loja.Controllers
                 }
             }
             ViewBag.Carrinho = carro;
-            Session["Carrinho"] = carro;
+            webShared.PayCartWebService("Cart", "PutCarrinho", JsonConvert.SerializeObject(carro), true); //ESTE CALL VAI FICAR NO METODO CHECKOUT
             return View("PayShoppingCart", carro);
+        }
+        [HttpPost]
+        public ActionResult Checkout(Carrinho carro, string userInfo ,string payInfo) /*criar modelo para informacao do user e metodo de pagemento na fase de pagamento*/
+        {
+            return RedirectToAction("Index","Home");
         }
     }
 }

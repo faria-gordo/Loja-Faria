@@ -9,6 +9,8 @@ using System.Web.Http;
 using Loja.Models;
 using Newtonsoft.Json;
 using System.Text;
+using Newtonsoft.Json.Linq;
+using System.Web.Script.Serialization;
 
 namespace Loja.Services.Controllers
 {
@@ -28,22 +30,15 @@ namespace Loja.Services.Controllers
             carrinhos = manager.SelecionarCarrinhos();
             return Ok(carrinhos);
         }
-        [HttpGet]
-        [Route ("Cart/PutCarrinho/{identifier}")]
-        public IHttpActionResult PutCarrinho(string identifier)
+        [HttpPost]
+        public IHttpActionResult PutCarrinho(JObject identifier)
         {
             string message = "";
-            List<Carrinho> carro = new List<Carrinho>();
-            foreach (string id in identifier.Split(','))
+            Carrinho carrinho = new JavaScriptSerializer().Deserialize<Carrinho>(identifier.ToString());
+            message = manager.AdicionarCarrinho(carrinho);
+            if (message == "Novo carrinho adicionado!")
             {
-                Carrinho carrinho = new Carrinho();
-                Produto produto = managerLoja.SelecionarProdutoPorRowKeyunico(id.Split('_')[0]);
-                carrinho = manager.ProdutoToCarrinho(produto);
-                message += manager.AdicionarCarrinho(carrinho);
-                if(message == "Novo carrinho adicionado!")
-                {
-                    managerNoti.AdicionarNotificao(message);
-                }
+                managerNoti.AdicionarNotificao(message);
             }
             return Ok();
         }

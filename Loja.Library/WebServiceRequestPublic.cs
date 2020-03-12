@@ -35,7 +35,6 @@ namespace Loja.Library
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
-                var identifier2 = identifier.ToString();
                 var content = new StringContent(identifier, Encoding.UTF8, "application/json");
                 var responseTaskPost = client.PostAsync($"{method}", content);
                 var resultpost = responseTaskPost.Result;

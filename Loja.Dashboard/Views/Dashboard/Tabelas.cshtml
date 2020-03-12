@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Tabelas";
 }
-
+@using Loja.Models;
 
 <h3>Tabelas</h3>
 <!--TABELA DOS PRODUTOS-->
@@ -66,9 +66,8 @@
                         <tr>
                             <th scope="col">Email</th>
                             <th scope="col">Preco</th>
-                            <th scope="col">Descrição</th>
                             <th scope="col">Imagem</th>
-                            <th scope="col" style="text-align:center;">Data</th>
+                            <th scope="col">Produtos</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,11 +77,12 @@
                                 foreach (var cart in ViewBag.AllCarts)
                                 {
                                     <tr>
-                                        <td scope="row">@cart.Email</td>
-                                        <td class="text-center">@cart.Preco</td>
-                                        <td>@cart.Descricao</td>
-                                        <td><a><img height="10" width="10" src="@cart.Url" /></a></td>
+                                        <td data-email="@cart.Email" scope="row">@cart.Email</td>
+                                        <td data-preco="@cart.Preco">@cart.Preco</td>
+                                        <td data-id="@cart.IdCompra" hidden></td>
+                                        @*<td><a><img height="10" width="10" src="@cart.Url" /></a></td>*@
                                         <td>@DateTime.Now</td>
+                                        <td data-toggle="modal" data-target="#seeProd" style="text-align:left;"><span class="fa fa-shopping-cart"></span></td>
                                     </tr>
                                 }
                             }
@@ -165,7 +165,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <form action="@Url.Action("adicionarProduto", "Dashboard")" method="post">
+                <form action="@Url.Action("AdicionarProduto", "Dashboard")" method="post">
                     <div class="form-group">
                         <label for="nome">Id do Produto:</label>
                         <input type="text" class="form-control" id="Id" name="Id" aria-describedby="id" placeholder="Id: Ainda a designar">
@@ -211,7 +211,7 @@
                         @*<button type="button" class="form-control btn btn-primary" data-target="#addFicheiro" data-toggle="modal" />*@
                         <input id="image" name="Imagem" type="file" class="custom-file-input" style=" position:relative; z-index:2; opacity:1;" />
                         @*<input type="text" class="form-control" id="imagepath" name="PathImagem" />
-                        <input type="text" class="form-control" id="imagename" name="NomeImagem" />*@
+                            <input type="text" class="form-control" id="imagename" name="NomeImagem" />*@
                     </div>
                     <button type="submit" class="btn btn-primary offset-md-4" onclick="readFile()">Guardar</button>
                 </form>
@@ -282,6 +282,27 @@
     </div>
 </div>
 <!--END OF MODAL FICHEIRO-->
+<!--MODAL VER PRODUTOS DO CARRINHO-->
+<div class="modal fade" id="seeProd" tabindex="-1" role="dialog" aria-labelledby="seeProd" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Produtos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="showProduto">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END OF MODAL VER PRODUTOS DO CARRINHO-->
 <!--WARNING MESSAGE-->
 @if (ViewBag.Message != null)
 {
@@ -338,5 +359,22 @@
         return false
     }
 </script>
+<script>
+    $(function () {
+        $('#seeProd').modal({
+            keyboard: true,
+            backdrop: "static",
+            show: false,
 
+        }).on('show', function () {
+            console.log("Im in");
+            var getDataFromRow = $(event.target).closest('tr').data('id');
+            $.post("@Url.Action("FindCarrinho","Dsahboard")").done(function (carrinho) {
+                var carrinho = JSON.parse(carrinho);
+                $(this).find('#showProduto').html($('<div class="row">: ' + getDataFromRow + '</div>'));
+            })
+
+        });
+    });
+</script>
 

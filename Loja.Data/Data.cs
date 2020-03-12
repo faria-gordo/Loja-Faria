@@ -593,7 +593,7 @@ namespace Loja.Data
         {
             List<string> tipos = new List<string>();
             TableQuery<ModeloTableSeccaoTipoProduto> query = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, request));
-            List<ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList<ModeloTableSeccaoTipoProduto>();
+            List<ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList();
             if (resultado.Count > 0)
             {
                 foreach (ModeloTableSeccaoTipoProduto modelo in resultado)
@@ -605,7 +605,7 @@ namespace Loja.Data
             else
             {
                 TableQuery<ModeloTableSeccaoTipoProduto> prodQuery = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, request.Split('-')[1]));
-                List<ModeloTableSeccaoTipoProduto> prodResultado = table.ExecuteQuery(prodQuery).ToList<ModeloTableSeccaoTipoProduto>();
+                List<ModeloTableSeccaoTipoProduto> prodResultado = table.ExecuteQuery(prodQuery).ToList();
                 if (prodResultado.Count() > 0 && prodResultado.Count() < 2)
                 {
                     foreach (ModeloTableSeccaoTipoProduto modelo in prodResultado)

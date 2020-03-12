@@ -42,7 +42,9 @@ namespace Loja.Dashboard
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
-                var responseTaskPost = client.GetAsync($"{method}");
+                StringContent sc = new StringContent(null);
+
+                var responseTaskPost = client.PostAsync($"{method}", sc);
                 var resultpost = responseTaskPost.Result;
                 if (resultpost.IsSuccessStatusCode)
                 {
