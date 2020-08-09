@@ -19,6 +19,7 @@ namespace Loja.Controllers
         const string seccoes = "Bijutaria;Lembrancas;Religiosos;Diversos";
         public ActionResult Index()
         {
+            ViewBag.Produtos = webShared.CallWebService("web", "GetProducts", "Bijutaria", false);
             ViewBag.Seccoes = seccoes;
             return View();
         }

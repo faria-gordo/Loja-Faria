@@ -1,3 +1,13 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<style>
+    .carousel-inner > .item > img {
+        min-height: 300px;
+        max-height: 300px;
+        width: 100%;
+    }
+</style>
+<div>
+    @Html.Partial("_carousel")
+</div>
