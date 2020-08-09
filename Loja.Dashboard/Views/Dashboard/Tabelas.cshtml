@@ -1,11 +1,9 @@
 ﻿@{
     ViewBag.Title = "Tabelas";
 }
-
+@using Loja.Models;
 
 <h3>Tabelas</h3>
-
-
 <!--TABELA DOS PRODUTOS-->
 <div class="col-md-12">
     <div class="card card-plain">
@@ -66,14 +64,10 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">Nome</th>
+                            <th scope="col">Email</th>
                             <th scope="col">Preco</th>
-                            <th scope="col">Descrição</th>
-                            <th scope="col">Quantidade</th>
-                            <th scope="col">Secção</th>
-                            <th scope="col">Tipo</th>
                             <th scope="col">Imagem</th>
-                            <th scope="col" style="text-align:center;">Data</th>
+                            <th scope="col">Produtos</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,14 +77,12 @@
                                 foreach (var cart in ViewBag.AllCarts)
                                 {
                                     <tr>
-                                        <td scope="row">@cart.Nome</td>
-                                        <td class="text-center">@cart.Preco</td>
-                                        <td>@cart.Descricao</td>
-                                        <td class="text-center">@cart.Quantidade</td>
-                                        <td>@cart.Seccao</td>
-                                        <td>@cart.Tipo</td>
-                                        <td><a><img height="10" width="10" src="@cart.Url" /></a></td>
+                                        <td data-email="@cart.Email" scope="row">@cart.Email</td>
+                                        <td data-preco="@cart.Preco">@cart.Preco</td>
+                                        <td data-id="@cart.IdCompra" hidden></td>
+                                        @*<td><a><img height="10" width="10" src="@cart.Url" /></a></td>*@
                                         <td>@DateTime.Now</td>
+                                        <td data-toggle="modal" data-target="#seeProd" style="text-align:left;"><span class="fa fa-shopping-cart"></span></td>
                                     </tr>
                                 }
                             }
@@ -112,7 +104,7 @@
 <div class="col-md-12">
     <div class="card card-plain">
         <div class="card-header card-header-primary">
-            <h4 class="card-title mt-0"> Lista de Carrinhos</h4>
+            <h4 class="card-title mt-0"> Lista de Utilizadores</h4>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -173,7 +165,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <form action="@Url.Action("adicionarProduto", "Dashboard")" method="post">
+                <form action="@Url.Action("AdicionarProduto", "Dashboard")" method="post">
                     <div class="form-group">
                         <label for="nome">Id do Produto:</label>
                         <input type="text" class="form-control" id="Id" name="Id" aria-describedby="id" placeholder="Id: Ainda a designar">
@@ -212,15 +204,21 @@
                     </div>
                     <div class="form-group">
                         <label for="preco">Preço</label>
-                        <input type="number" class="form-control" name="Preco" id="Preco" placeholder="Preço: ">
+                        <input type="number" class="form-control" name="Preco" id="Preco" placeholder="Preço: " />
                     </div>
 
                     <div class="form-group">
-                        <label for="url">Foto</label>
+                        @*<label for="url">Foto</label>
                         <input type="text" class="form-control" name="Url" id="url" placeholder="Foto do produto: ">
-                        <button type="submit" class="btn btn-primary offset-md-4">Guardar</button>
+                        <button type="submit" class="btn btn-primary offset-md-4">Guardar</button>*@
                         @*<input type="file" class="form-control" name="File" id="url" placeholder="Foto do produto: ">*@
+                        <label for="file">Foto do Produto: </label>
+                        @*<button type="button" class="form-control btn btn-primary" data-target="#addFicheiro" data-toggle="modal" />*@
+                        <input id="image" name="Imagem" type="file" class="custom-file-input" style=" position:relative; z-index:2; opacity:1;" />
+                        @*<input type="text" class="form-control" id="imagepath" name="PathImagem" />
+                            <input type="text" class="form-control" id="imagename" name="NomeImagem" />*@
                     </div>
+                    <button type="submit" class="btn btn-primary offset-md-4" onclick="readFile()">Guardar</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -266,6 +264,50 @@
     </div>
 </div>
 <!--END OF MODAL TIPO-->
+<!--MODAL FICHEIRO-->
+<div class="modal fade" id="addFicheiro" tabindex="-1" role="dialog" aria-labelledby="modalFicheiro" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalFicheiro">Adicionar Imagem</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="img">Imagem: </label>
+                    <input id="image" type="file" class="custom-file-input" style=" position:relative; z-index:2; opacity:1;" />
+                </div>
+                <div class="form-group">
+                    <button onclick="readFile(this)" data-dismiss="modal">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END OF MODAL FICHEIRO-->
+<!--MODAL VER PRODUTOS DO CARRINHO-->
+<div class="modal fade" id="seeProd" tabindex="-1" role="dialog" aria-labelledby="seeProd" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Produtos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="showProduto">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END OF MODAL VER PRODUTOS DO CARRINHO-->
 <!--WARNING MESSAGE-->
 @if (ViewBag.Message != null)
 {
@@ -284,28 +326,24 @@
             $(".lem").attr("hidden", "hidden");
         }
         if ($(this).val() == 'Bijutaria') {
-            console.log($(this).val());
             $(".bij").removeAttr("hidden");
             $(".div").attr("hidden", "hidden");
             $(".rel").attr("hidden", "hidden");
             $(".lem").attr("hidden", "hidden");
         }
         if ($(this).val() == 'Diversos') {
-            console.log($(this).val());
             $(".div").removeAttr("hidden");
             $(".bij").attr("hidden", "hidden");
             $(".rel").attr("hidden", "hidden");
             $(".lem").attr("hidden", "hidden");
         }
         if ($(this).val() == 'Religiosos') {
-            console.log($(this).val());
             $(".rel").removeAttr("hidden");
             $(".bij").attr("hidden", "hidden");
             $(".div").attr("hidden", "hidden");
             $(".lem").attr("hidden", "hidden");
         }
         if ($(this).val() == 'Lembranças') {
-            console.log($(this).val());
             $(".lem").removeAttr("hidden");
             $(".bij").attr("hidden", "hidden");
             $(".rel").attr("hidden", "hidden");
@@ -314,17 +352,34 @@
     })
 </script>
 <script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.readAsDataURL(input.files[0]);
-            input.value = reader.result;
-            console.log(input.value);
-        }
+    function readFile() {
+        var image = document.getElementById("image");
+        var path = image.value;
+
+        var file = image.files[0];
+        var filename = file.name;
+
+        //document.getElementById("imagepath").setAttribute("value", path);
+        //document.getElementById("imagename").setAttribute("value", filename);
+        return false
     }
-    $("#url").change(function () {
-        readURL(this);
+</script>
+<script>
+    $(function () {
+        $('#seeProd').modal({
+            keyboard: true,
+            backdrop: "static",
+            show: false,
+
+        }).on('show', function () {
+            console.log("Im in");
+            var getDataFromRow = $(event.target).closest('tr').data('id');
+            $.post("@Url.Action("FindCarrinho","Dsahboard")").done(function (carrinho) {
+                var carrinho = JSON.parse(carrinho);
+                $(this).find('#showProduto').html($('<div class="row">: ' + getDataFromRow + '</div>'));
+            })
+
+        });
     });
 </script>
-
 

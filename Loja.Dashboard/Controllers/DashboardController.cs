@@ -2,6 +2,7 @@
 using Loja.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,7 +18,8 @@ namespace Loja.Dashboard.Controllers
     ///
     /// TODO:
     /// 
-    ///     Quando dashboard efectua alteracoes a qql bd, chama o seu proprio API. quando apenas obtem informacao, chama os outros APIs
+    /// --Upload product image
+    /// 
     /// </summary>
     public class DashboardController : Controller
     {
@@ -31,7 +33,7 @@ namespace Loja.Dashboard.Controllers
         {
             List<Produto> produtos = webShared.CallProdutoWebService("Dash", "GetProducts", "");
             List<Carrinho> carrinhos = webShared.CallCartWebService("Cart", "GetCarrinhos", "");
-            List<User> users = webShared.CallUserWebService("User", "getAllUsers", "");
+            List<User> users = webShared.CallUserWebService("User", "GetAllUsers", "");
             ViewBag.AllProducts = produtos;
             ViewBag.AllCarts = carrinhos;
             ViewBag.AllUsers = users;
@@ -51,19 +53,24 @@ namespace Loja.Dashboard.Controllers
             return View();
         }
         [HttpPost]
-        public RedirectToRouteResult adicionarProduto(Produto prod)
+        public RedirectToRouteResult AdicionarProduto(Produto prod)
         {
+            foreach (string file in Request.Files)
+            {
+                //upload to azure blob
+            }
+
             string message = webSharedLibrary.CallWebService("Dash", "addProduct", new JavaScriptSerializer().Serialize(prod), false);
-            return RedirectToAction("Tabelas", new { message = message });
+            return RedirectToAction("Tabelas", new { message });
         }
         [HttpPost]
-        public RedirectToRouteResult adicionarTipo(SeccaoTipoProduto stp)
+        public RedirectToRouteResult AdicionarTipo(SeccaoTipoProduto stp)
         {
             string message = webSharedLibrary.CallWebService("Dash", "addType", new JavaScriptSerializer().Serialize(stp), false);
             return RedirectToAction("Tabelas", new { message });
         }
         [HttpPost]
-        public RedirectToRouteResult adicionarSeccao(SeccaoTipoProduto stp)
+        public RedirectToRouteResult AdicionarSeccao(SeccaoTipoProduto stp)
         {
             string message = webSharedLibrary.CallWebService("Dash", "addSection", new JavaScriptSerializer().Serialize(stp), false);
             return RedirectToAction("Tabelas", new { message });
@@ -99,6 +106,11 @@ namespace Loja.Dashboard.Controllers
         {
             int numb = await webSharedLibrary.CallNotificationNumberWebService("Dash", "TotalNotifications", "", false);
             return numb;
+        }
+        public Carrinho FindCarrinho(string id)
+        {
+            List<Carrinho> carrinhos = webShared.CallCartWebService("Cart", "GetCarrinhos", id);
+            return carrinhos.First();
         }
     }
 }

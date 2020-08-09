@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Loja.Models;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace Loja.Data
 {
@@ -23,6 +24,8 @@ namespace Loja.Data
     {
         private readonly CloudStorageAccount storageAccount;
         private readonly CloudTableClient tableClient;
+        private readonly CloudBlobClient cloudBlobClient;
+        private readonly CloudBlobContainer container;
         private readonly CloudTable table;
         public Data(string nomeTabela)
         {
@@ -30,7 +33,10 @@ namespace Loja.Data
             storageAccount = CloudStorageAccount.Parse(ConnectionString);
             tableClient = storageAccount.CreateCloudTableClient();
             table = tableClient.GetTableReference(nomeTabela);
-            table.CreateIfNotExists();
+
+            cloudBlobClient = storageAccount.CreateCloudBlobClient();
+            container = cloudBlobClient.GetContainerReference("imagensprodutos");
+            //Criar blob
         }
 
         //---------------------------USER ACTIONS--------------------------------------
@@ -241,6 +247,12 @@ namespace Loja.Data
                 table.Execute(TableOperation.Insert(ModelToModelTable(produto)));
                 //Chamar ação de update que existe(ou ira existir) em Home da Loja para avisar á loja que foi adicionado um produto, caso já exista o produto, é so adicionado
                 // o numero da quantia de produtos, se for um produto que nao exista na loja, é criado um produto novo chamando uma ação ainda por existir em Home da Loja.
+                //CRIA BLOB E FAZ STREAM DO FICHEIRO PARA O BLOB.
+                //var blockBlob = container.GetBlockBlobReference($"{produto.NomeImagem}"); //nome dado ao ficheiro dentro do blob no container em azure
+                //using (var fileStream = System.IO.File.OpenRead($@"{produto.PathImagem}")) //filepath introduzido no adicionar produto em dash
+                //{
+                //    blockBlob.UploadFromStream(fileStream);
+                //}
             }
             catch (Exception ex)
             {
@@ -550,7 +562,6 @@ namespace Loja.Data
             return carrinhos;
         }
 
-
         //---------------------------SECCOES E TIPOS------------------------------
         //ADICIONAR TIPOS OU SECCOES
 
@@ -578,12 +589,11 @@ namespace Loja.Data
             }
             return "Foi adicionada uma nova secção";
         }
-
         public List<string> VerificarTipos(string request)
         {
             List<string> tipos = new List<string>();
             TableQuery<ModeloTableSeccaoTipoProduto> query = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, request));
-            List<ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList<ModeloTableSeccaoTipoProduto>();
+            List<ModeloTableSeccaoTipoProduto> resultado = table.ExecuteQuery(query).ToList();
             if (resultado.Count > 0)
             {
                 foreach (Loja.Models.ModeloTableSeccaoTipoProduto modelo in resultado)
@@ -595,7 +605,7 @@ namespace Loja.Data
             else
             {
                 TableQuery<ModeloTableSeccaoTipoProduto> prodQuery = new TableQuery<ModeloTableSeccaoTipoProduto>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, request.Split('-')[1]));
-                List<ModeloTableSeccaoTipoProduto> prodResultado = table.ExecuteQuery(prodQuery).ToList<ModeloTableSeccaoTipoProduto>();
+                List<ModeloTableSeccaoTipoProduto> prodResultado = table.ExecuteQuery(prodQuery).ToList();
                 if (prodResultado.Count() > 0 && prodResultado.Count() < 2)
                 {
                     foreach (ModeloTableSeccaoTipoProduto modelo in prodResultado)
@@ -608,10 +618,7 @@ namespace Loja.Data
             }
             return tipos;
         }
-
-
         //---------------------------NOTIFICACOES----------------------------------
-
         public void AdicionarNotificao(string message)
         {
             Notificacoes not = new Notificacoes()
@@ -640,7 +647,6 @@ namespace Loja.Data
             }
             return notificacoes;
         }
-
         public int TotalNotificacoes()
         {
             int cont = 0;
@@ -663,6 +669,9 @@ namespace Loja.Data
                 Tipo = modeloTable.Tipo,
                 Preco = modeloTable.Preco,
                 Seccao = modeloTable.Seccao,
+                //NomeImagem = modeloTable.NomeImagem,
+                //PathImagem = modeloTable.PathImagem,
+                Imagem = modeloTable.Imagem,
                 Url = modeloTable.Url
             };
             return produto;
@@ -674,13 +683,11 @@ namespace Loja.Data
                 IdCompra = modeloCarrinho.IdCompra,
                 Nome = modeloCarrinho.Nome,
                 Email = modeloCarrinho.PartitionKey,
-                Tipo = modeloCarrinho.Tipo,
-                Seccao = modeloCarrinho.Seccao,
                 Descricao = modeloCarrinho.Descricao,
                 Preco = modeloCarrinho.Preco,
-                Quantidade = modeloCarrinho.Quantidade,
+                Produtos = modeloCarrinho.Produtos,
+                Pay = modeloCarrinho.FormaPagamento
                 //DataDeCompra = modeloCarrinho.DataDeCompra,
-                Url = modeloCarrinho.Url
             };
             return carrinho;
         }
@@ -705,13 +712,9 @@ namespace Loja.Data
                 IdCompra = Guid.NewGuid().ToString(), //Rk
                 Email = "test@gmail.com", //PK
                 Nome = "asd",
-                Tipo = produto.Tipo,
-                Seccao = produto.Seccao,
                 Descricao = produto.Descricao,
-                Preco = produto.Preco,
-                Quantidade = produto.Quantidade,
+                Preco = produto.Preco
                 //DataDeCompra = produto.DataDeVenda,
-                Url = produto.Url
             };
             return carrinho;
         }
@@ -731,13 +734,9 @@ namespace Loja.Data
                 Id = "",
                 Nome = carrinho.Nome,
                 //Email = "",
-                Tipo = carrinho.Tipo,
-                Seccao = carrinho.Seccao,
                 Descricao = carrinho.Descricao,
-                Preco = carrinho.Preco,
-                Quantidade = carrinho.Quantidade,
+                Preco = carrinho.Preco
                 //DataDeVenda = carrinho.DataDeCompra,
-                Url = carrinho.Url
             };
             return produto;
         }
@@ -754,7 +753,10 @@ namespace Loja.Data
                 Descricao = prod.Descricao,
                 Url = prod.Url,
                 DataDeAquisicao = DateTime.Now,
-                DataDeVenda = DateTime.Now
+                DataDeVenda = DateTime.Now,
+                //NomeImagem = prod.NomeImagem,
+                //PathImagem = prod.PathImagem
+                Imagem = prod.Imagem
             };
             return modelo;
         }
@@ -765,13 +767,11 @@ namespace Loja.Data
                 PartitionKey = carrinho.Email,
                 RowKey = carrinho.IdCompra,
                 Nome = carrinho.Nome,
-                Tipo = carrinho.Tipo,
-                Seccao = carrinho.Seccao,
+                Produtos = carrinho.Produtos,
                 Descricao = carrinho.Descricao,
                 Preco = carrinho.Preco,
-                Quantidade = carrinho.Quantidade,
+                FormaPagamento = carrinho.Pay
                 //DataDeCompra = carrinho.DataDeCompra,
-                Url = carrinho.Url
             };
             return modelo;
         }

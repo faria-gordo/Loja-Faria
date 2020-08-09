@@ -1,4 +1,5 @@
 ﻿using Loja.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,6 @@ using System.Web.Script.Serialization;
 
 namespace Loja.Library
 {
-    /// <summary>
-    /// 
-    /// 
-    ///         TODO:
-    ///         
-    ///     Esquecime
-    /// </summary>
     public class WebServiceRequestPublic
     {
         private string message;
@@ -24,7 +18,7 @@ namespace Loja.Library
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}/");
+                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
                 var content = new StringContent(identifier, Encoding.UTF8, "application/json");
                 var responseTaskPost = client.PostAsync($"{method}/", content);
                 var resultpost = responseTaskPost.Result;
@@ -40,8 +34,7 @@ namespace Loja.Library
             User userLogged = null;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}/");
-                var identifier2 = identifier.ToString();
+                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
                 var content = new StringContent(identifier, Encoding.UTF8, "application/json");
                 var responseTaskPost = client.PostAsync($"{method}", content);
                 var resultpost = responseTaskPost.Result;
@@ -86,7 +79,27 @@ namespace Loja.Library
                     string user = resultpost.Content.ReadAsStringAsync().Result;
                     notificacoes = new JavaScriptSerializer().Deserialize<int>(user);
                 }
-                return 0;
+                return notificacoes;
+            }
+        }
+        static public bool CallCheckoutWebService(string controller, string method, string identifier, bool inCart)
+        {
+            bool message;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                var content = new StringContent(identifier, Encoding.UTF8, "application/json");
+                var responseTaskPost = client.PostAsync($"{method}/", content);
+                var resultpost = responseTaskPost.Result;
+                if (resultpost.IsSuccessStatusCode)
+                {
+                    message = true;
+                }
+                else
+                {
+                    message = false;
+                }
+                return message;
             }
         }
     }

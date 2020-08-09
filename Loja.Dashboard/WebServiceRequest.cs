@@ -41,8 +41,10 @@ namespace Loja.Dashboard
             List<User> utilizadores = new List<User>();
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri($"https://lojaservices.azurewebsites.net/{controller}/");
-                var responseTaskPost = client.GetAsync($"{method}");
+                client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                StringContent sc = new StringContent(null);
+
+                var responseTaskPost = client.PostAsync($"{method}", sc);
                 var resultpost = responseTaskPost.Result;
                 if (resultpost.IsSuccessStatusCode)
                 {

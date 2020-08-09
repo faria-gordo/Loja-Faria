@@ -44,7 +44,7 @@ namespace Loja.Services.Controllers
             return Ok(produtos);
         }
         [HttpPost]
-        public IHttpActionResult addProduct(JObject json)
+        public IHttpActionResult AddProduct(JObject json)
         {
             Produto produtoNovo = new JavaScriptSerializer().Deserialize<Produto>(json.ToString());
             string message = lojaManager.AdicionarProduto(produtoNovo);
@@ -58,7 +58,7 @@ namespace Loja.Services.Controllers
             }
         }
         [HttpPost]
-        public IHttpActionResult addType(JObject json)
+        public IHttpActionResult AddType(JObject json)
         {
             SeccaoTipoProduto tipo  = new JavaScriptSerializer().Deserialize<SeccaoTipoProduto>(json.ToString());
             string message = lojaManager.AdicionarTipo(tipo);
@@ -72,7 +72,7 @@ namespace Loja.Services.Controllers
             }
         }
         [HttpPost]
-        public IHttpActionResult addSection(JObject json)
+        public IHttpActionResult AddSection(JObject json)
         {
             SeccaoTipoProduto seccao = new JavaScriptSerializer().Deserialize<SeccaoTipoProduto>(json.ToString());
             if(seccao.Tipo == null && seccao.Tipo == "")

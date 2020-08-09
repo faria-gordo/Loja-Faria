@@ -14,7 +14,7 @@ namespace Loja.Services.Controllers
     {
         private readonly Data.Data userManager = new Data.Data("Users");
         [HttpPost]
-        public IHttpActionResult logInUser(JObject userInfo)
+        public IHttpActionResult LogInUser(JObject userInfo)
         {
             User user = new JavaScriptSerializer().Deserialize<User>(userInfo.ToString());
             User userLogged = userManager.LogIn(user);
@@ -28,7 +28,7 @@ namespace Loja.Services.Controllers
             }
         }
         [HttpPost]
-        public IHttpActionResult addUser(JObject userInfo)
+        public IHttpActionResult AddUser(JObject userInfo)
         {
             User user = new JavaScriptSerializer().Deserialize<User>(userInfo.ToString());
             string message = userManager.AdicionarUser(user);
@@ -43,7 +43,7 @@ namespace Loja.Services.Controllers
 
         }
         [HttpPost]
-        public IHttpActionResult isUserRegistered(JObject userInfo)
+        public IHttpActionResult IsUserRegistered(JObject userInfo)
         {
             User user = new JavaScriptSerializer().Deserialize<User>(userInfo.ToString());
             string message = userManager.VerificarUser(user);
@@ -57,21 +57,21 @@ namespace Loja.Services.Controllers
             }
         }
         [HttpPost]
-        public IHttpActionResult logOffUser(JObject userInfo)
+        public IHttpActionResult LogOffUser(JObject userInfo)
         {
             User user = new JavaScriptSerializer().Deserialize<User>(userInfo.ToString());
             string message = userManager.LogOffUser(user);
             return Ok(message);
         }
         [HttpPost]
-        public IHttpActionResult changePassword(JObject userInfo)
+        public IHttpActionResult ChangePassword(JObject userInfo)
         {
             JavaScriptSerializer jss = new JavaScriptSerializer();
             string message = userManager.MudarPassword(jss.Deserialize<User>(userInfo.ToString()));
             return Ok(message);
         }
-        [HttpGet]
-        public IHttpActionResult getAllUsers()
+        [HttpPost]
+        public IHttpActionResult GetAllUsers()
         {
             List<User> users = new List<User>();
             users = userManager.SelecionarUsers();

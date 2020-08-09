@@ -56,9 +56,33 @@ namespace Loja
                 {
                     return null;
                 }
-                
             }
-
+        }
+        public string PayCartWebService(string controller, string method, string identifier, bool inCart)
+        {
+            string message = "Ocorreu um erro ao proceder ao pagamento do seu carrinho, tente outra vez.";
+            if (inCart)
+            {
+                Carrinho carrinho = JsonConvert.DeserializeObject<Carrinho>(identifier);
+                int max = carrinho.Produtos.Count;
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri($"http://localhost:44389/{controller}/");
+                    var content = new StringContent(identifier, Encoding.UTF8, "application/json");
+                    var responseTask = client.PostAsync($"{method}", content);
+                    var result = responseTask.Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        message = result.Content.ReadAsStringAsync().Result;
+                        return message;
+                    }
+                    else
+                    {
+                        return result.StatusCode.ToString() + ":" + message;
+                    }
+                }
+            }
+            return message;
         }
     }
 }

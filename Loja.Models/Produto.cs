@@ -18,6 +18,9 @@ namespace Loja.Models
         public DateTime DataDeVenda { get; set; }
         public string Seccao { get; set; }
         public int Quantidade { get; set; }
+        //public string NomeImagem { get; set; }
+        //public string PathImagem { get; set; }
+        public HttpPostedFileBase Imagem { get; set; }
         public string Url { get; set; }
     }
 }

@@ -84,7 +84,7 @@ namespace Loja.Controllers
                 }
             }
             var userJson = new JavaScriptSerializer().Serialize(user);
-            User userLogged = webShared.CallUserWebService("User", "logInUser", userJson, false);
+            User userLogged = webShared.CallUserWebService("User", "LogInUser", userJson, false);
             if (userLogged != null)
             {
                 Session["User"] = userLogged;
@@ -129,7 +129,7 @@ namespace Loja.Controllers
                 }
             }
             var userJson = new JavaScriptSerializer().Serialize(novoUser);
-            message = webShared.CallWebService("User", "addUser", userJson, false);
+            message = webShared.CallWebService("User", "AddUser", userJson, false);
             if (message != "\"Já existe esse email registado.\"")
             {
                 if (novoUser != null)
@@ -160,7 +160,7 @@ namespace Loja.Controllers
         {
             User user = Session["User"] as User;
             var userJson = new JavaScriptSerializer().Serialize(user);
-            string message = webShared.CallWebService("User", "logOffUser", userJson, false);
+            string message = webShared.CallWebService("User", "LogOffUser", userJson, false);
             if (message != null)
             {
                 Session["User"] = null;
@@ -187,7 +187,7 @@ namespace Loja.Controllers
                 }
             }
             var userJson = new JavaScriptSerializer().Serialize(user);
-            message = webShared.CallWebService("User", "isUserRegistered", userJson, false);
+            message = webShared.CallWebService("User", "IsUserRegistered", userJson, false);
             if (message != null)
             {
                 DateTime date = DateTime.Now;
@@ -265,7 +265,7 @@ namespace Loja.Controllers
                 if (newPWUser != null)
                 {
                     var userJson = new JavaScriptSerializer().Serialize(newPWUser);
-                    message = webShared.CallWebService("User", "changePassword", userJson, false);
+                    message = webShared.CallWebService("User", "ChangePassword", userJson, false);
                     if (message != null)
                     {
                         return Redirect(Url.Action("Login", "User", new { message = "Nova Palavra passe registada" }));
