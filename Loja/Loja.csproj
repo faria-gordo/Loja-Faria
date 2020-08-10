@@ -153,9 +153,6 @@
     <Compile Include="WebServiceRequest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Images\Sem Título.png" />
-    <Content Include="Content\Images\sg.png" />
-    <Content Include="Content\Images\Transferência.jpg" />
     <Content Include="Content\Styles\bootstrap-theme.css" />
     <Content Include="Content\Styles\bootstrap-theme.min.css" />
     <Content Include="Content\Styles\bootstrap.css" />
